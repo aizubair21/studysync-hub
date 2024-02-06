@@ -13,7 +13,7 @@ use Livewire\Attributes\On;
 class EditPermissionForm extends Component
 {
     //component received a data by url 
-    public $role, $roles, $name, $permissions, $select_role, $permission_id, $roleParamId;
+    public $role, $roles, $name, $permissions, $select_role, $permission_id = [], $DP_id = [], $roleParamId;
 
     public function render()
     {
@@ -24,36 +24,41 @@ class EditPermissionForm extends Component
     public function refreshData()
     {
 
-        $r = Role::with("permissions")->get();
-        $this->role = $r[$this->select_role ? $this->select_role-1 : ""];
+        // $this->role = $r[$this->select_role];
+        $this->role = Role::where("id", "=", $this->select_role)->with("permissions")->first();
         $this->permissions  = Permission::all();
         $this->roles = Role::all();
     }
     public function mount($id)
     {
-        $r = Role::find($id)->with("permissions")->get();
-        $this->role = $r[$id - 1];
+        $this->select_role = $id;
+        $this->role = Role::where("id", "=", $this->select_role)->with("permissions")->first();
         $this->permissions  = Permission::all();
         $this->roles = Role::all();
         //refresh the components
     }
 
     //deletePermissionFromRole
-    public function deletePermissionFromRole($rle, $perms)
+    public function deletePermissionFromRole()
     {
-        $this->role->revokePermissionTo($perms);
+        foreach ($this->DP_id as $key => $value) {
+            DB::table("role_has_permissions")->where(["permission_id" => $value, "role_id" => $this->role->id])->delete();
+        }
         $this->dispatch("success", message: "Permission removed");
-        $this->refreshData(request()->route()->parameter("id"));
         $this->dispatch("refresh-data");
+        $this->reset("DP_id");
         // $this->emit("refresh-data", $this->select_role);
     }
 
     //select another role
     public function  selectAnotherRole()
     {
-        $Ar = Role::find($this->select_role)->with("permissions")->get();
-        $this->role = $Ar[$this->select_role - 1];
-        $this->dispatch("warning", message: "Editing permissions for " . $this->role->name . " role");
+
+        // dd(Role::where("id", "=", $this->select_role)->with("permissions")->first());
+        // $Ar = Role::with("permissions")->get(); //return all role table with permission
+        $this->role = Role::where("id", "=", $this->select_role)->with("permissions")->first(); //define targeted role from role array
+        $this->dispatch("warning", message: "Editing permissions for " . $this->role->name . " role"); //toaster message event
+        // $this->refreshData(request()->route()->parameter($this->select_role));
         // dd($this->role);
         // request()->route()->parameter("id", $this->select_role);
     }
@@ -61,15 +66,24 @@ class EditPermissionForm extends Component
     //add permissions to role
     public function addPermissionToRole()
     {
+        // dd($this->role->id, $this->permission_id);
         foreach ($this->permission_id as $key => $value) {
             # code...
-            DB::table("role_has_permissions")->insert([
-                "permission_id" => $value,
-                "role_id" => $this->role->id,
-            ]);
+            //check if already have this permission to role
+            $isAlreadyPermit = DB::table("role_has_permissions")->where(["permission_id" => $value, "role_id" => $this->role->id])->count();
+            if (!$isAlreadyPermit) {
+
+                DB::table("role_has_permissions")->insert([
+                    "permission_id" => $value,
+                    "role_id" => $this->role->id,
+                ]);
+            } else {
+                $this->dispatch("warning", message: "Permission already exists");
+            }
         }
         $this->dispatch("refresh-data");
         $this->dispatch("succcess", message: "Permission Inserted !");
+        // $this->reset($this->permission_id);
         // $this->role = $this->role[];
     }
 }

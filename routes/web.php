@@ -9,6 +9,8 @@ use App\Http\Controllers\admin\adminController;
 use App\Livewire\Admin\Role\PermissionIndex;
 use App\Livewire\Admin\Role\RoleIndex;
 use App\Livewire\Admin\Role\EditPermissionForm;
+use App\Livewire\Vendor\ExamsSchedule\ScheduleIndex;
+use App\Livewire\Vendor\ExamsSchedule\Schedulendex;
 use App\Livewire\Vendor\Group\Groupcreate;
 use App\Livewire\Vendor\Group\GroupIndex;
 use App\Livewire\Vendor\Group\GroupUpdate;
@@ -46,24 +48,15 @@ Route::get('/', function () {
 // dashboard route can access anyone, but to do anything permission must be needed 
 Route::get("/dashboard", function () {
 
-    //
-    if ("role:admin") {
-        return redirect()->route('administrator-dashboard');
-    }
-
     // if role has instructor, return to instructor dashboard
     if ("role:instructor") {
         return redirect()->route("instructor-dashboard");
-    }
-
-    // if role has student,  then go to student dashboard
-    if ("role:student") {
+    } elseif ("role:student") {
         return redirect()->route("student-dashboard");
-    }
-
-    //if role has parent or invisilator, then return to target dashboard
-    if ("role:parent") {
+    } elseif ("role:parent") {
         return redirect()->route("parent-dashboard");
+    } elseif ("role:admin") {
+        return redirect()->route('administrator-dashboard');
     }
 })->name('dashboard')->middleware("auth");
 // dd(Auth::id());
@@ -85,13 +78,13 @@ Route::get("parent/section", function () {
     return view("auth.parent.index");
 })->name("parent-dashboard")->middleware(["auth", "role:parent"]);
 
+//admin dashboard
+Route::get("/administrator/dashboard", function () {
+    return view('dashboard');
+})->name("administrator-dashboard")->middleware(["auth", "role:admin"]);
 
 //admin routes
 Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(function () {
-    //admin dashboard
-    Route::get("/dashboard", function () {
-        return view('dashboard');
-    })->name("administrator-dashboard");
 
     //view all user
     Route::get('/vendor/controls', [adminController::class, 'vendorIndex'])->name('adminVandor.index');
@@ -138,6 +131,10 @@ Route::prefix("/instructor/section")->middleware("auth")->group(function () { //
     Route::get("/supervisor/supervisor-lists", SupervisorIndex::class)->name("vendorSupervisor.index");
     Route::get("/supervisor/create", SupervisorCreateForm::class)->name("vendorSupervisor.create");
     Route::get("/supervisor/update-supervisor/{id}", SupervisorIndex::class)->name("vendorSupervisor.edit");
+
+
+    //is route authorized for scheduling exams
+    Route::get("/exam/schedule/index", ScheduleIndex::class)->name("vendorExamSchedule.index");
 
     Route::middleware("can:create_group")->group(function () {
     });

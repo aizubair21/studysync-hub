@@ -225,9 +225,9 @@
                 </ul>
               </li>
 
-              {{-- <li class="nav-item @if(Route::currentRouteName() == 'teacherExamShedule.index' || Route::currentRouteName() == 'teacherExamShedule.create' || Route::currentRouteName() == 'teacherPendingExam.index' || Route::currentRouteName() == 'teacherExam.past' || Route::currentRouteName() == "teacherExamPublished.index") menu-is-opening menu-open @endif">
+              <li class="nav-item @if(Route::currentRouteName() == 'teacherExamShedule.index' || Route::currentRouteName() == 'teacherExamShedule.create' || Route::currentRouteName() == 'teacherPendingExam.index' || Route::currentRouteName() == 'teacherExam.past' || Route::currentRouteName() == "teacherExamPublished.index") menu-is-opening menu-open @endif">
                 <a href="#" class="nav-link @if(Route::currentRouteName() == 'teacherExamShedule.index' || Route::currentRouteName() == 'teacherExamShedule.create' || Route::currentRouteName() == 'teacherPendingExam.index' || Route::currentRouteName() == 'teacherExam.past' || Route::currentRouteName() == "teacherExamPublished.index") active @endif">
-                  <i class="nav-icon fas fa-tachometer-alt"></i>
+                  <i class="nav-icon fas fa-calendar"></i>
                   <p>
                     Exams
                     <i class="right fas fa-angle-left"></i>
@@ -235,38 +235,39 @@
                 </a>
                 <ul class="nav nav-treeview">
                   <li class="nav-item">
-                    <a href="{{ route('teacherExamShedule.create') }}" class="nav-link @if(Route::currentRouteName() == 'teacherExamShedule.create') active @endif">
+                    <a wire:navigate href="{{route("vendorExamSchedule.index")}}" class="nav-link @if(Route::currentRouteName() == 'teacherExamShedule.index') active @endif">
                       <i class="far fa-circle nav-icon"></i>
-                      <p>Create exam routine</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('teacherExamShedule.index') }}" class="nav-link @if(Route::currentRouteName() == 'teacherExamShedule.index') active @endif">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>List Draft Exam</p>
+                      <p>List Exam</p>
                     </a>
                   </li>
 
                   <li class="nav-item">
-                    <a href="{{ route('teacherExamPublished.index') }}" class="nav-link @if(Route::currentRouteName() == "teacherExamPublished.index") active @endif ">
+                    <a wire:navigate href="" class="nav-link @if(Route::currentRouteName() == 'teacherExamShedule.create') active @endif">
+                      <i class="far fa-circle nav-icon"></i>
+                      <p>Create exam routine</p>
+                    </a>
+                  </li>
+                  
+                  <li class="nav-item">
+                    <a wire:navigate href="" class="nav-link @if(Route::currentRouteName() == "teacherExamPublished.index") active @endif ">
                       <i class="far fa-circle nav-icon"></i>
                       <p>All Live exams</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('teacherPendingExam.index') }}" class="nav-link @if(Route::currentRouteName() == 'teacherPendingExam.index') active @endif">
+                    <a wire:navigate href="" class="nav-link @if(Route::currentRouteName() == 'teacherPendingExam.index') active @endif">
                       <i class="far fa-circle nav-icon"></i>
                       <p>All Pending exams</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="{{ route('teacherExam.past') }}" class="nav-link @if(Route::currentRouteName() == "teacherExam.past") active @endif">
+                    <a wire:navigate href="" class="nav-link @if(Route::currentRouteName() == "teacherExam.past") active @endif">
                       <i class="far fa-circle nav-icon"></i>
                       <p>View past exams</p>
                     </a>
                   </li>
                 </ul>
-              </li> --}}
+              </li>
 
               {{-- <li class="nav-item">
                 <a href="#" class="nav-link">

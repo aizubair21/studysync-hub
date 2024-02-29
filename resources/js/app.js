@@ -13,8 +13,8 @@ import "./bootstrap.min.js";
 import "./fs.min.js";
 import "./adminlte.min.js";
 import "./dashboard.js";
-import "./summernote.min.js";
-import "./jquery.dataTables.min.js";
+// import "./summernote.min.js";
+// import "./jquery.dataTables.min.js";
 // import "./sweetalert2.all.min.js";
 import "./toastr.min.js";
 import "./main_script.js";
@@ -30,5 +30,4 @@ document.addEventListener('livewire:navigating', () => {
 document.addEventListener("livewire:navigated", () => {
     document.getElementsByClassName('spinner')[0].style.display = "none";
     // $('#dataTables').DataTable();toastr.info("{{Session::get('message')}}");
-
 })

@@ -10,6 +10,6 @@ class SupervisorCreateForm extends Component
 {
     public function render()
     {
-        return view('livewire.vendor.supervisor.supervisor-create-form')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.supervisor.supervisor-create-form')->extends("layouts.vendor.app")->section('content');
     }
 }

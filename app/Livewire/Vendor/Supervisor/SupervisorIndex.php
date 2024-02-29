@@ -10,6 +10,6 @@ class SupervisorIndex extends Component
 {
     public function render()
     {
-        return view('livewire.vendor.supervisor.supervisor-index')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.supervisor.supervisor-index')->extends("layouts.vendor.app")->section('content');
     }
 }

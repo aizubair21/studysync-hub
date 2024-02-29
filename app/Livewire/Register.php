@@ -44,8 +44,8 @@ class Register extends Component
 
         Auth::login($user);
 
-        // return redirect()->intended('/dashboard');
-        return $this->redirect('/dashboard', navigate: true);
+        return redirect()->intended('/dashboard');
+        // return $this->redirect('/dashboard', navigate: true);
     }
 
     public function render()

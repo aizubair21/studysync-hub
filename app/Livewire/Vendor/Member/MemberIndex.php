@@ -11,6 +11,6 @@ class MemberIndex extends Component
     public $member;
     public function render()
     {
-        return view('livewire.vendor.member.member-index')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.member.member-index')->extends("layouts.vendor.app")->section('content');
     }
 }

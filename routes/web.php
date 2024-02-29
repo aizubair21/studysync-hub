@@ -9,8 +9,9 @@ use App\Http\Controllers\admin\adminController;
 use App\Livewire\Admin\Role\PermissionIndex;
 use App\Livewire\Admin\Role\RoleIndex;
 use App\Livewire\Admin\Role\EditPermissionForm;
+use App\Livewire\Vendor\ExamsSchedule\ScheduleEdit;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleIndex;
-use App\Livewire\Vendor\ExamsSchedule\Schedulendex;
+use App\Livewire\Vendor\ExamsSchedule\ScheduleForm;
 use App\Livewire\Vendor\Group\Groupcreate;
 use App\Livewire\Vendor\Group\GroupIndex;
 use App\Livewire\Vendor\Group\GroupUpdate;
@@ -47,15 +48,15 @@ Route::get('/', function () {
 // require __DIR__ . '/auth.php';
 // dashboard route can access anyone, but to do anything permission must be needed 
 Route::get("/dashboard", function () {
-
+    // dd($roles = Auth()->user()->hasRole("admin"));
     // if role has instructor, return to instructor dashboard
-    if ("role:instructor") {
+    if (Auth()->user()->hasRole("instructor")) {
         return redirect()->route("instructor-dashboard");
-    } elseif ("role:student") {
+    } elseif (Auth()->user()->hasRole("student")) {
         return redirect()->route("student-dashboard");
-    } elseif ("role:parent") {
+    } elseif (Auth()->user()->hasRole("parent")) {
         return redirect()->route("parent-dashboard");
-    } elseif ("role:admin") {
+    } elseif (Auth()->user()->hasRole("admin")) {
         return redirect()->route('administrator-dashboard');
     }
 })->name('dashboard')->middleware("auth");
@@ -63,7 +64,7 @@ Route::get("/dashboard", function () {
 
 // teachers dashboard
 
-Route::get("/instructor/section", function () {
+Route::get("/vendor/section", function () {
     return view("auth.teacher.index");
 })->middleware(["auth", 'role:instructor'])->name("instructor-dashboard");
 
@@ -113,7 +114,7 @@ Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(functi
 
 
 //route assign with permission. to access bellow route user must be neede to loged in. then targeted permissio to to task
-Route::prefix("/instructor/section")->middleware("auth")->group(function () { // we defile route prefix
+Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we defile route prefix
 
     //is route is authorized for group task
     Route::get("/group/create", Groupcreate::class)->name('vendorGroup.create');
@@ -135,6 +136,8 @@ Route::prefix("/instructor/section")->middleware("auth")->group(function () { //
 
     //is route authorized for scheduling exams
     Route::get("/exam/schedule/index", ScheduleIndex::class)->name("vendorExamSchedule.index");
+    Route::get("/exam/schedule/create", ScheduleForm::class)->name("vendorExamSchedule.create");
+    Route::post("/exam/schedule/{id}/edit", ScheduleEdit::class)->name("vendorExamSchedule.edit");
 
     Route::middleware("can:create_group")->group(function () {
     });

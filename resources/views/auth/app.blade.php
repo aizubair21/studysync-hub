@@ -7,12 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <title>Administrator || {{ $title ?? "Administrator Controls" }}</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
-
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> --}}
     <!-- Scripts -->
+    
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    @stack('style')
     @livewireStyles
 
   </head>

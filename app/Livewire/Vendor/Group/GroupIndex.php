@@ -11,6 +11,6 @@ class GroupIndex extends Component
 {
     public function render()
     {
-        return view('livewire.vendor.group.group-index')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.group.group-index')->extends("layouts.vendor.app")->section('content');
     }
 }

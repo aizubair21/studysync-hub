@@ -66,9 +66,18 @@
                                 <input type="text" wire:model="username" id="username" class="form-control @error('username') is-invalid  @enderror" >
                             </div>
                             
-                            <div class="col-8 my-2">
+                            <div class="col-4 my-2">
                                 <label for="name" class="from-label">Name :</label>
                                 <input type="text" wire:model="name" id="name" class="form-control"  >
+                            </div>
+                            <div class="col-4 my-2">
+                                <label for="role" class="from-label ">Role  :</label>
+                                <select name="role" id="role" class="form-contorl form-select">
+
+                                    <option value="2">Student</option>
+                                    <option value="5" selected>Vendor</option>
+                                    <option value="1">Parent</option>
+                                </select>
                             </div>
                             <div class="col-4 my-2">
                                 <label for="pack" class="from-label">Subscription Pack :</label>

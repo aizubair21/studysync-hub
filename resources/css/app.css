@@ -5,3 +5,8 @@
 [x-cloak] {
     display: none;
 }
+
+.scrolbar-none::-webkit-scrollbar {
+    display: hidden !important;
+    opacity: 0;
+}

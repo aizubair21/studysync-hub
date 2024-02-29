@@ -10,6 +10,6 @@ class Groupcreate extends Component
 {
     public function render()
     {
-        return view('livewire.vendor.group.groupcreate')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.group.groupcreate')->extends("layouts.vendor.app")->section('content');
     }
 }

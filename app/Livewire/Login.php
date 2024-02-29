@@ -29,11 +29,11 @@ class Login extends Component
         ]);
 
         // $this->validate();
-        if (Auth::attempt(["email" => $this->email, "password" => $this->password])) {
+        if (Auth::attempt(["email" => $this->email, "password" => $this->password], $this->remember)) {
             $this->reset(["email", "password"]);
             // Authentication was successful
             // return redirect()->intended('/dashboard');
-            return $this->redirect('/dashboard', navigate: true);
+            return redirect()->intended('/dashboard');
         } else {
             // Authentication failed
             $this->addError('email', 'Invalid email or password');

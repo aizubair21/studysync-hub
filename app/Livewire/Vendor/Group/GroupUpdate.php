@@ -11,6 +11,6 @@ class GroupUpdate extends Component
 {
     public function render()
     {
-        return view('livewire.vendor.group.group-update')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.group.group-update')->extends("layouts.vendor.app")->section('content');
     }
 }

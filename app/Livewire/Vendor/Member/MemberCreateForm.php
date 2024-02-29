@@ -10,6 +10,6 @@ class MemberCreateForm extends Component
 {
     public function render()
     {
-        return view('livewire.vendor.member.member-create-form')->extends("auth.teacher.app")->section('content');
+        return view('livewire.vendor.member.member-create-form')->extends("layouts.vendor.app")->section('content');
     }
 }

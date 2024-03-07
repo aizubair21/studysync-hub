@@ -14,7 +14,7 @@ class PermissionIndex extends Component
     public function render()
     {
         $this->getData();
-        return view('livewire.admin.role.permission-index')->extends("auth.app")->section("content");
+        return view('livewire.admin.role.permission-index')->extends("layouts.administrator.app")->section("content");
     }
 
     //get data

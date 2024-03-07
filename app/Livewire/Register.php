@@ -44,12 +44,13 @@ class Register extends Component
 
         Auth::login($user);
 
-        return redirect()->intended('/dashboard');
+        // return redirect()->intended('/dashboard');
         // return $this->redirect('/dashboard', navigate: true);
+        $this->redirectIntended("dashboard", navigate: true);
     }
 
     public function render()
     {
-        return view('livewire.register');
+        return view('livewire.register')->extends("layouts.app")->section("content");;
     }
 }

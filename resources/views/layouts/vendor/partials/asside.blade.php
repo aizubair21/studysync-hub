@@ -1,26 +1,13 @@
-<aside class="main-sidebar  elevation-4 mt-1">
+<aside class="main-sidebar  elevation-4 mt-1 bg-light">
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar Menu -->
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a wire:navigate href="{{ route('instructor-dashboard') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'teacher_control') active @endif ">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-
-                        <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                </li>
-                <hr>
-
                 {{-- group management --}}
                 @if (request()->routeIs(['vendorGroup.*']))
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item menu-is-opening menu-open ">
+                        <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Group Management
@@ -58,8 +45,8 @@
 
                 {{-- member management  --}}
                 @if (request()->routeIs(['vendorMember.*']))
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item menu-is-opening menu-open ">
+                        <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-user"></i>
                             <p>
                                 Members
@@ -85,8 +72,8 @@
 
                 {{-- supervisor management  --}}
                 @if (request()->routeIs(['vendorSupervisor.*']))
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
+                    <li class="nav-item menu-is-opening menu-open ">
+                        <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-eye"></i>
                             <p>
                                 Supervisor
@@ -119,7 +106,7 @@
                 {{-- exam schedule management  --}}
                 @if (request()->routeIs(['vendorExamSchedule.*']))
                     <li class="nav-item  menu-is-opening menu-open">
-                        <a href="#" class="nav-link">
+                        <a href="#" class="nav-link active">
                             <i class="nav-icon fas fa-users"></i>
                             <p>
                                 Question and Exams
@@ -167,31 +154,31 @@
                             </li>
                         </ul>
                     </li>
-                @endif
 
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Exam Result
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="public/back-end/index.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Result</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="public/back-end/index2.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Excel Sheet</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                    <li class="nav-item ">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Exam Result
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="public/back-end/index.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>All Result</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="public/back-end/index2.html" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Excel Sheet</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endif
 
 
                 <li class="nav-item">

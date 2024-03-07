@@ -18,11 +18,11 @@
     {{-- livewire style  --}}
     @livewireStyles
 </head>
-  
+
 <body>
 
     {{-- top navigation menue --}}
-    @include('navigation-menu')
+    {{-- @include($navigationMenu) --}}
 
     {{-- main content --}}
     <div class="hold-transition sidebar-mini layout-fixed text-sm">
@@ -68,31 +68,6 @@
 
         {{-- wrapper --}}
         <div class="wrapper">
-
-            {{-- main asside content  --}}
-
-            @if (Str::startsWith(Route::current()->getName(), 'administrator'))
-                {{--  administrator dashboard ; example.com/administrator --}}
-                {{-- admin panel nav bar --}}
-                @include('layouts.administrator.partials.asside')
-                {{-- admin panel nav bar --}}
-            @endif
-
-            @if (Str::startsWith(Route::current()->getName(), 'vendor'))
-                {{-- vendor dashboard --}}
-                @include('layouts.vendor.partials.asside')
-            @endif
-
-            @if (Str::startsWith(Route::current()->getName(), 'member'))
-                {{-- member dashboard; example.com/member --}}
-                @include('layouts.member.partials.asside')
-            @endif
-
-            @if (Str::startsWith(Route::current()->getName(), 'invisilator'))
-                {{-- invisible user dashboard; example.com/invisilator --}}
-                @include('layouts.invisilator.partials.asside')
-            @endif
-
             {{-- main asside content  --}}
 
             @yield('content')

@@ -22,7 +22,7 @@ import "./main_script.js";
 
 //when wire vavigating
 document.addEventListener('livewire:navigating', () => {
-    // document.getElementsByClassName('spinner')[0].style.display = "block";
+    document.getElementsByClassName('spinner')[0].style.display = "block";
 
 })
 

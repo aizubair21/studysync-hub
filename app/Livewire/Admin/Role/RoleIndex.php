@@ -33,7 +33,7 @@ class RoleIndex extends Component
     public function render()
     {
         $this->getData();
-        return view('livewire.admin.role.role-index')->extends("auth.app")->section("content");
+        return view('livewire.admin.role.role-index')->extends("layouts.administrator.app")->section("content");
     }
 
     //get data

@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\validate;
+use Livewire\Attributes\Title;
 
 // use Livewire\Attributes\Validate;
 
+#[title("administrator - vendor create")]
 class VendorForm extends Component
 {
     // public $student;
@@ -110,6 +112,6 @@ class VendorForm extends Component
 
     public function render()
     {
-        return view('livewire.admin.user.vendor-form');
+        return view('livewire.admin.user.vendor-form')->extends("layouts.administrator.app")->section("content");
     }
 }

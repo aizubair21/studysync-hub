@@ -24,7 +24,7 @@ class ScheduleForm extends Component
         $this->exm_date = today();
         $this->exm_start  = now()->addHour();
         $this->exm_duration = "30";
-        return view('livewire.vendor.exams-schedule.schedule-form')->extends("layouts.app")->section("content");;
+        return view('livewire.vendor.exams-schedule.schedule-form')->extends("layouts.vendor.app")->section("content");;
     }
 
 

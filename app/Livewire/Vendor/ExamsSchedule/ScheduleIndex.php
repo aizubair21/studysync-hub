@@ -17,7 +17,7 @@ class ScheduleIndex extends Component
 
     public function render()
     {
-        return view('livewire.vendor.exams-schedule.schedulendex')->extends("layouts.app")->section("content");
+        return view('livewire.vendor.exams-schedule.schedulendex')->extends("layouts.vendor.app")->section("content");
     }
 
     public function getData()

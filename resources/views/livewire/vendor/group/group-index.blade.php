@@ -1,43 +1,46 @@
 <div>
     <div class="content-wrapper p-2">
         {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
-    
-        <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a wire:navigate  href="route('dashboard')">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page"> Your Groups </li>
-              <li class="breadcrumb-item active" aria-current="page"> Group Manage </li>
-            </ol>
+
+        {{-- header  --}}
+        <nav class=" navbar navbar-expand">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a wire:navigate href="{{ route('instructor-dashboard') }}" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="{{ route('vendorExamSchedule.index') }}" class="nav-link">Group</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link active">All</a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item me-2">
+                    <button class="btn btn-info  mb-2"> <i class="fas fa-filter ms-1"></i> Filter</button>
+                </li>
+                <li class="nav-item">
+                    <input type="search" wire:model="search_exam" id="" class=" form-control form-search"
+                        placeholder="Search by exan name, subject, group......">
+                </li>
+            </ul>
         </nav>
-    
-        <div class="row my-3">
-            
-            <div class="col-md-2">
-                <button class="btn btn-md btn-success"> Group </button>
-            </div>
-            <div class="col-md-3">
-                <div class="input-group">
-                    <input type="text" placeholder="Search..." class="form-control  border-0 shadow-sm" wire:model='search'>
-                    <button class="input-group-text">check</button>
-                </div>
-            </div>
-            
-            <div class="col-md-7 d-inline-flex">
-    
-                <!-- Button trigger modal -->
-                <button class="btn btn-md btn-info mx-2 mx-sm-0 rounded-circle  my-2 my-sm-0"> <i class="fas fa-sync"></i> </button>
-                <a wire:navigate href="{{route("vendorGroup.create")}}" class="btn btn-md btn-success rounded-pill mx-2"> <i class="fas fa-plus"></i> Add Groups </a>
-                <a wire:navigate href="" class="btn btn-md btn-outline-info rounded-pill mx-2"> <i class="fas fa-plus"></i> Add Member </a>
-                <a wire:navigate href="" class="btn btn-md btn-outline-info rounded-pill mx-2"> <i class="fas fa-plus"></i> Exam Schedule </a>
-            </div>
+        <div class="mx-2">
+            <button class="btn btn-sm rounded btn-danger "> <i class="fas fa-trash"> </i> Delete </button>
         </div>
-        <hr>
-        <div class="my-2">
-            
-        </div>
+        {{-- ./header  --}}
         <table class="table table-striped my-3">
             <thead>
                 <tr>
+                    <th>
+                        <input type="checkbox" name="" id="">
+                    </th>
                     <th>#</th>
                     <th>Name</th>
                     <th>A/C</th>
@@ -45,12 +48,17 @@
             </thead>
             <tbody>
                 <tr>
+                    <td>
+                        <input type="checkbox" name="" id="">
+                    </td>
                     <td>01</td>
                     <td>Science Group</td>
                     <td class="d-flex">
-                        <button class="btn btn-sm rounded btn-danger "> <i class="fas fa-trash">  </i> Delete </button>
-                        <a wire:navigate href="{{route("vendorGroup.edit", [1])}}" class="btn btn-sm rounded btn-success my-2 my-sm-0 mx-2"> <i class="fas fa-edit">  </i> Edit</a>
-                        <button class="btn btn-sm rounded btn-info" title="Quick view"> <i class="fas fa-eye">  </i> Quick View</button>
+                        <a wire:navigate href="{{ route('vendorGroup.edit', [1]) }}"
+                            class="btn btn-sm rounded btn-success my-2 my-sm-0 mx-2"> <i class="fas fa-edit"> </i>
+                            Edit</a>
+                        <button class="btn btn-sm rounded btn-info" title="Quick view"> <i class="fas fa-eye"> </i>
+                            Quick View</button>
                     </td>
                 </tr>
             </tbody>

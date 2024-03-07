@@ -28,12 +28,11 @@
                             <div>
 
                                 <button class="btn btn-sm rounded btn-primary" wire:click="re_set"> <i
-                                        class="fas fa-sync me-2"></i> Reset</button>
+                                        class="fas fa-sync me-2"></i> Reset
+                                </button>
                             </div>
                         </div>
                     </div>
-
-                    {{-- @if ($group->count() >= 1) --}}
 
                     <div class="card-body">
                         <form wire:submit="submitScheduleForm">
@@ -140,14 +139,9 @@
                         </form>
                     </div>
 
-                    {{-- @else
-                        <div class="card-body">
-                            <div class="alert alert-info w-100">
-                                You have no student group. please create student group first to criate a exam routine. <a href="{{ route('teacherStudentGroup.create') }}" >Create A Group</a>
-                </div>
-            </div>
-            @endif --}}
                 </div>
 
             </div>
         </div>
+    </div>
+</div>

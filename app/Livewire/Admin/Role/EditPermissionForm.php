@@ -17,7 +17,7 @@ class EditPermissionForm extends Component
 
     public function render()
     {
-        return view('livewire.admin.role.edit-permission-form')->extends("auth.app")->section("content");
+        return view('livewire.admin.role.edit-permission-form')->extends("layouts.administrator.app")->section("content");
     }
 
     #[On('refresh-data')]

@@ -17,7 +17,7 @@ class PermsToRoleForm extends Component
     public function render()
     {
         $this->getData();
-        return view('livewire.admin.role.perms-to-role-form')->extends('auth.app')->section('content');
+        return view('livewire.admin.role.perms-to-role-form')->extends('layouts.administrator.app')->section('content');
     }
 
     //assign permission

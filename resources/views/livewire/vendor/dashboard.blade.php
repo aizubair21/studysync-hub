@@ -1,28 +1,35 @@
-@extends('layouts.app')
-@section('title')
-    Administrator Dashboard | studentsync-hub
-@endsection
-@section('content')
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Dashboard</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
+<div>
+    <div class="content-wrapper p-2">
 
-        <!-- Main content -->
+        {{-- header  --}}
+        <nav class=" navbar navbar-expand">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a wire:navigate href="{{ route('instructor-dashboard') }}" class="nav-link">Dashboard</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link active">Exam Schedule</a>
+                </li>
+            </ul>
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item me-2">
+                    <button class="btn btn-info  mb-2"> <i class="fas fa-filter ms-1"></i> Filter</button>
+                </li>
+                <li class="nav-item">
+                    <input type="search" wire:model="search_exam" id="" class=" form-control form-search"
+                        placeholder="Search by exan name, subject, group......">
+                </li>
+            </ul>
+        </nav>
+        {{-- ./header  --}}
+
+
         <section class="content">
             <div class="container-fluid">
                 <!-- Small boxes (Stat box) -->
@@ -120,9 +127,11 @@
                                     <!-- Morris chart - Sales -->
                                     <div class="chart tab-pane active" id="revenue-chart"
                                         style="position: relative; height: 300px;">
-                                        <canvas id="revenue-chart-canvas" height="300" style="height: 300px;"></canvas>
+                                        <canvas id="revenue-chart-canvas" height="300"
+                                            style="height: 300px;"></canvas>
                                     </div>
-                                    <div class="chart tab-pane" id="sales-chart" style="position: relative; height: 300px;">
+                                    <div class="chart tab-pane" id="sales-chart"
+                                        style="position: relative; height: 300px;">
                                         <canvas id="sales-chart-canvas" height="300" style="height: 300px;"></canvas>
                                     </div>
                                 </div>
@@ -461,7 +470,8 @@
                                             <label for="todoCheck6"></label>
                                         </div>
                                         <span class="text">Let theme shine like a star</span>
-                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
+                                        <small class="badge badge-secondary"><i class="far fa-clock"></i> 1
+                                            month</small>
                                         <div class="tools">
                                             <i class="fas fa-edit"></i>
                                             <i class="fas fa-trash-o"></i>
@@ -471,8 +481,8 @@
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer clearfix">
-                                <button type="button" class="btn btn-primary float-right"><i class="fas fa-plus"></i>
-                                    Add item</button>
+                                <button type="button" class="btn btn-primary float-right"><i
+                                        class="fas fa-plus"></i> Add item</button>
                             </div>
                         </div>
                         <!-- /.card -->
@@ -490,7 +500,8 @@
                                 </h3>
                                 <!-- card tools -->
                                 <div class="card-tools">
-                                    <button type="button" class="btn btn-primary btn-sm daterange" title="Date range">
+                                    <button type="button" class="btn btn-primary btn-sm daterange"
+                                        title="Date range">
                                         <i class="far fa-calendar-alt"></i>
                                     </button>
                                     <button type="button" class="btn btn-primary btn-sm" data-card-widget="collapse"
@@ -602,7 +613,8 @@
                                             <a href="#" class="dropdown-item">View calendar</a>
                                         </div>
                                     </div>
-                                    <button type="button" class="btn btn-success btn-sm" data-card-widget="collapse">
+                                    <button type="button" class="btn btn-success btn-sm"
+                                        data-card-widget="collapse">
                                         <i class="fas fa-minus"></i>
                                     </button>
                                     <button type="button" class="btn btn-success btn-sm" data-card-widget="remove">
@@ -625,7 +637,5 @@
                 <!-- /.row (main row) -->
             </div><!-- /.container-fluid -->
         </section>
-        <!-- /.content -->
     </div>
-    <!-- /.content-wrapper -->
-@endsection
+</div>

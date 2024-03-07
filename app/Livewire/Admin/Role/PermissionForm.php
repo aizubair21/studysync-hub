@@ -16,7 +16,7 @@ class PermissionForm extends Component
     public function render()
     {
         $this->getPermissionData();
-        return view('livewire.admin.role.permission-form')->extends("auth.app")->section("content");
+        return view('livewire.admin.role.permission-form')->extends("layouts.administrator.app")->section("content");
     }
 
     //store new permission 

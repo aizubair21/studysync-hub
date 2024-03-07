@@ -1,22 +1,37 @@
-<div>
-    {{-- Knowing others is intelligence; knowing yourself is true wisdom. --}}
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>@yield('title')</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <!-- Styles -->
+    @stack('style')
+    @livewireStyles
+</head>
+
+<body>
     <div class="hold-transition login-page">
         <div class="login-box">
             <div class="card card-outline card-primary">
                 <div class="card-header text-center">
-                    @if ($authMessage)
-                        <div class="text-center text-light fw-bold bg-success p-2  mt-3 rounded">
-                            <i class="fas fa-check-circle me-2"></i> {{ $authMessage }}
-                        </div>
-                    @else
-                        <a wire:navigate href="/" class="h4">StudySync-HUB</a>
-                    @endif
+                    <a wire:navigate href="/" class="h4">StudySync-HUBb</a>
                 </div>
                 <div class="card-body">
-                    <form wire:submit.prevent="doLogin">
+                    <form wire:navigate action="{{ route('login') }}" method="POST">
                         @csrf
                         <div class="input-group">
-                            <input type="email" wire:model.live="email"
+                            <input type="email" name="email"
                                 class="form-control @error('email') is-invalid @enderror" placeholder="Email">
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -30,7 +45,7 @@
 
                         {{-- <div class="input-group mb-3"> --}}
                         <div class="input-group mt-3">
-                            <input type="password" wire:model.live="password"
+                            <input type="password" name="password"
                                 class="form-control @error('password') is-invalid @enderror" placeholder="Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
@@ -44,7 +59,7 @@
                         <div class="row mt-2">
                             <div class="col-8">
                                 <div class="icheck-primary">
-                                    <input type="checkbox" wire:model="remember" id="remember">
+                                    <input type="checkbox" name="remember-me" id="remember">
                                     <label for="remember">
                                         Remember Me
                                     </label>
@@ -59,13 +74,13 @@
                     </form>
 
                     {{-- <div class="social-auth-links text-center mt-2 mb-3">
-                  <a href="#" class="btn btn-block btn-primary">
-                    <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
-                  </a>
-                  <a href="#" class="btn btn-block btn-danger">
-                    <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
-                  </a>
-                </div> --}}
+                      <a href="#" class="btn btn-block btn-primary">
+                        <i class="fab fa-facebook mr-2"></i> Sign in using Facebook
+                      </a>
+                      <a href="#" class="btn btn-block btn-danger">
+                        <i class="fab fa-google-plus mr-2"></i> Sign in using Google+
+                      </a>
+                    </div> --}}
                     <!-- /.social-auth-links -->
 
                     <p class="mb-1">
@@ -83,4 +98,6 @@
         <!-- /.login-box -->
 
     </div>
-</div>
+</body>
+
+</html>

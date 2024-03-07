@@ -12,7 +12,10 @@
                     <a wire:navigate href="{{ route('instructor-dashboard') }}" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link active">Exam Schedule</a>
+                    <a href="{{ route('vendorExamSchedule.index') }}" class="nav-link">Exam Schedule</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
+                    <a href="#" class="nav-link active">Create</a>
                 </li>
             </ul>
 
@@ -53,12 +56,6 @@
             </select> --}}
             </div>
         @endif
-        <pre>
-            @php
-
-                print_r($action);
-            @endphp
-        </pre>
         <table class="table table-hover table-responsive table-fixed">
             <thead>
                 <tr>

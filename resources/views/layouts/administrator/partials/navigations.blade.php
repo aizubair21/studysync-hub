@@ -6,7 +6,8 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-mark class="block h-9 w-auto" />
+                        <img src="{{ asset('media/studysync-hub.jpg') }}" style="height: 50px; width:50px;margin:0 auto;"
+                            alt="">
                     </a>
                 </div>
 
@@ -128,8 +129,7 @@
                             <form method="POST" wire:navigate action="{{ route('logout') }}" x-data>
                                 @csrf
 
-                                <x-dropdown-link  href="{{ route('logout') }}"
-                                    @click.prevent="$root.submit();">
+                                <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
                                     {{ __('Log Out') }}
                                 </x-dropdown-link>
                             </form>

@@ -54,19 +54,22 @@
                                 @enderror
                             </div>
                         </div>
+
                         <div class="col-4">
                             <label for="is_role" class="form-label">Give A Role :</label>
                             <select wire:model.live="is_role" id="is_role"
                                 class="form-control @error('is_role') is-invalid  @enderror">
-                                {{-- <option value="" disabled>Give A Role</option> --}}
-                                <option value="2">Student</option>
-                                <option value="5" selected>Vendor</option>
-                                <option value="1">Parent</option>
+                                <option value="" disabled>Give A Role</option>
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->name }}">{{ Str::upper($role->name) }}</option>
+                                @endforeach
                             </select>
                             @error('is_role')
                                 <strong class="text text-danger">{{ $message }}</strong>
                             @enderror
                         </div>
+
+
                         <div class="col-8 my-2">
                             <label for="name" class="from-label">Personal Name :</label>
                             <input type="text" wire:model.live="name" id="name" class="form-control"

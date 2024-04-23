@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('media/studysync-hub.jpg') }}" type="image/x-icon">
 
     <title>@yield('title')</title>
 
@@ -12,21 +13,26 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
+
     <!-- vite Scripts and css-->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    {{-- @vite(['resources/css/app.css']) --}}
+
+    @include('components.style')
 
     {{-- livewire style  --}}
     @livewireStyles
 </head>
 
-<body>
+<body class="overflow-x-hidden" style="height: 100vh">
+    {{-- top navigation menue --}}
+    @include('components.spinner')
     @include('layouts.administrator.partials.navigations')
 
-    {{-- top navigation menue --}}
     {{-- @include($navigationMenu) --}}
 
     {{-- main content --}}
-    <div class="hold-transition sidebar-mini layout-fixed text-sm">
+    <div class="hold-transition sidebar-mini layout-fixed text-sm w-100" style="height: 100%">
 
         <style>
             .spinner {

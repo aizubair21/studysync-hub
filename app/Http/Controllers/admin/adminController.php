@@ -21,4 +21,5 @@ class adminController extends Controller
     {
         return view("admin.vendor.create");
     }
+    
 }

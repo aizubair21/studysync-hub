@@ -1,9 +1,25 @@
 <aside class="main-sidebar elevation-4 mt-1 bg-light">
     <!-- Sidebar -->
     <div class="sidebar">
+
+        @if (request()->routeIs('administrator-dashboard'))
+            <div class="p-2 mx-auto text-center">
+                <img src="{{ asset('media/studysync-hub.jpg') }}"
+                    style="width:70px; height:70px; margin:0 auto; border-radius:50%;" alt="">
+                <h4 class="h4">{{ auth()->user()->name }}</h4>
+                <h6 class="h6 border bg-success rounded p-2 ">{{ auth()->user()->email }}</h6>
+            </div>
+        @else
+            <div class="p-2 mx-auto text-center">
+                <h4 class="h4">{{ auth()->user()->name }}</h4>
+                <h6 class="h6 border bg-success rounded p-2 ">{{ auth()->user()->email }}</h6>
+            </div>
+        @endif
+
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
 
                 {{-- role management --}}
                 @if (request()->routeIs('adminRole.*'))

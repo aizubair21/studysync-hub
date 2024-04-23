@@ -1,0 +1,42 @@
+
+
+:root {
+    --brand-dark-green: #0D6934;
+    --brand-green:#22C26B;
+    --brand-white: #fff;
+    --brand-black: #000;
+    --brand-blue:#64BBED;
+    --brand-body-bg:#FFFAED;
+    --brand-dark-red: #BD4444;
+    --brand-red:#FA6D6D;
+    --brand-yellow: #EBB25C;
+    --brand-dark-yellow: #B6863F;
+    
+}
+
+
+* {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 300;
+}
+
+h1,
+.h1,
+h2,
+.h2 {
+    font-weight: 600;
+}
+
+label {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    opacity: .7;
+    font-size: 15px;
+}
+
+input,
+select {
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 300;
+    font-size: 14px !important;
+}

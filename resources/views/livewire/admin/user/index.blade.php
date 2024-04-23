@@ -1,7 +1,13 @@
 <div>
-    <div class="content-wrapper p-2">
-        {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+    <div class="content-wrapper p-2" x-data="{
+        search: 'search data',
+        select: '',
+    }">
+        {{-- send this alpine data to 'admin.user.usertale' livewire components --}}
+        {{-- @include('sweetalert::alert') --}}
 
+        {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+        {{-- </form> --}}
         {{-- header  --}}
         <nav class=" navbar navbar-expand">
             <!-- Left navbar links -->
@@ -25,14 +31,14 @@
                 <li class="nav-item me-2">
                     <button class="btn btn-info  mb-2"> <i class="fas fa-filter ms-1"></i> Filter</button>
                 </li>
-                <li class="nav-item">
-                    <input type="search" wire:model="search_exam" id="" class=" form-control form-search"
-                        placeholder="Search by exan name, subject, group......">
+                <li class="nav-item me-2">
+                    <input type="search" class="form-control rounded" x-model="search"
+                        wire:change="$dispatch('searchToChild', {'search' : search})" id="">
                 </li>
             </ul>
         </nav>
         {{-- ./header  --}}
-
+        {{-- <div x-html="search"></div> --}}
 
         {{-- <div class="row my-3">
 
@@ -57,17 +63,23 @@
                     class="btn btn-md btn-outline-info rounded-pill mx-2"> <i class="fas fa-plus"></i> Add Vendor </a>
             </div>
         </div> --}}
-        <div class="d-flex border-bottom">
+        <div class="d-flex border-bottom overflow-x-scroll scrolbar-none" x-data="{ name: 'zubair' }">
             <div class="d-flex m-2">
                 <div class="input-group-text bg-light outline-0 border-0">
                     Action :
                 </div>
-                <select class="form-select" name="action" id="action_select">
-                    <option value="Select Action">Select Action </option>
+                <select class="form-select form-control" x-model="select" id="action_select">
+                    <option selected value="Select Action">Select Action </option>
                     <option value="0">Delete</option>
                     <option value="1">Draft</option>
                 </select>
-                <button class="btn btn-sm btn-success ms-1">Applay</button>
+                <button class="btn btn-sm btn-success ms-1" wire:click="$dispatch('testToChild', {message: search})">
+                    {{-- this wire click method work here, this method are basically  used to send data from parent component to child component.
+                    and this is a alpine event.   --}}
+                    Applay
+                </button>
+
+
             </div>
 
             <div class="d-flex m-2">
@@ -93,6 +105,8 @@
                 </select>
             </div> --}}
         </div>
-        @livewire('admin.user.usertable')
+        {{-- @livewire('admin.user.usertable') --}}
+        {{-- @livewire('admin.user.usertable', ['search' => $search]) --}}
+        <livewire:admin.user.usertable />
     </div>
 </div>

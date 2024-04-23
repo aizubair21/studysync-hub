@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('groups', function (Blueprint $table) {
-            $table->id();
+        Schema::create('question_has_options', function (Blueprint $table) {
+            $table->bigIncrements("id");
+            $table->bigInteger("question");
+            $table->string("type"); //text, image
+            $table->text("option");
+            $table->boolean("is_correct");
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('groups');
+        Schema::dropIfExists('question_has_options');
     }
 };

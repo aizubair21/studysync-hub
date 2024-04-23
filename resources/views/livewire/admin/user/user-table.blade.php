@@ -1,70 +1,73 @@
-<div>
+<div x-data="{ 'isUpdateForm': false, actions: [] }" style="width:100%">
     {{-- The Master doesn't talk, he acts. --}}
-    <table class="table table-hober table-bordered table-responsive">
-        <thead>
-            <tr>
-                <th> </th>
-                <th>#</th>
-                <th>Id</th>
-                <th>Name </th>
-                <th>Email </th>
-                <th>Phone </th>
-                <th>Subscrive</th>
-                <th>Status</th>
-                <th>Role</th>
-                <th>A/C</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $i = 1;
-            @endphp
-            @foreach ($vendorData as $std)
+    <div class="overflow-x-scroll ">
+        <table class="table table-hover">
+            <thead>
                 <tr>
-                    <td>
-                        <input type="checkbox" name="user_1" id="user_1">
-                    </td>
-                    <td>{{ $i++ }}</td>
-                    <td>{{ $std->id }}</td>
-                    <td> {{ $std->name }}</td>
-                    <td> {{ $std->email }}</td>
-                    <td> {{ $std->phone }}</td>
-                    <td>
-                        50
-                    </td>
-                    <td>
-                        <span class="py-2 px-4 bg-success rounded texst-light">OK</span>
-                    </td>
-                    <td>
-                        <span class="px-4 py-2 border rounded">vendor</span>
-                    </td>
-                    <td class="d-flex">
-                        <div>
-                            {{-- <form action="{{ route('adminUser.delete',['id' => $std->id]) }}" method="delete">
-                                @csrf
-                                @method('delete')
-                            </form> --}}
-                            <button wire:confirm="Are you sure you want to delete this post?"
-                                wire:click="dropVendor({{ $std->id }})" class="btn btn-danger btn-sm rounded ">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                        <div>
-                            <button wire:click="editVendor({{ $std->id }})"
-                                class="btn btn-info btn-sm rounded mx-2">
-                                <i class="fas fa-edit"> </i> Edit
-                            </button>
-                        </div>
-                        <div>
-                            <button wire:click="queryVendor({{ $std->id }})" class="btn btn-info btn-sm rounded">
-                                <i class="fas fa-eye"> </i> View
-                            </button>
-                        </div>
-                    </td>
+                    <th> </th>
+                    <th>#</th>
+                    <th>Name </th>
+                    <th>Email </th>
+                    <th>Phone </th>
+                    <th>Subscrive</th>
+                    <th>Status</th>
+                    <th>Role</th>
+                    <th>A/C</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @php
+                    $i = 1;
+                @endphp
+                @foreach ($vendorData as $std)
+                    <tr>
+                        <td>
+                            <input type="checkbox" id="user_{{ $std->id }}" x-model="actions"
+                                wire:input="$dispatch('getActionsArray', {array:actions})">
+                        </td>
+                        <td>{{ $i++ }}</td>
+                        <td> <a wire:navigate href="#"> {{ $std->name }} </a> </td>
+                        <td> {{ $std->email }}</td>
+                        <td> {{ $std->phone ?? '000 00000000' }}</td>
+                        <td>
+                            50
+                        </td>
+                        <td>
+                            <span class="py-2 px-4 bg-success rounded texst-light">OK</span>
+                        </td>
+                        <td>
+                            <span class="px-4 py-2 border rounded ">Vendor </span>
+                        </td>
+                        <td class="d-flex">
+                            <div>
+                                {{-- <form action="{{ route('adminUser.delete',['id' => $std->id]) }}" method="delete">
+                                    @csrf
+                                    @method('delete')
+                                </form> --}}
+                                <button wire:confirm="Are you sure you want to delete this post?"
+                                    wire:click="dropVendor({{ $std->id }})"
+                                    class="btn btn-danger btn-sm rounded-circle shadow ">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                            <div>
+                                <button wire:click="editVendor({{ $std->id }})"
+                                    class="btn btn-info btn-sm rounded-circle shadow  mx-2">
+                                    <i class="fas fa-edit"> </i>
+                                </button>
+                            </div>
+                            {{-- <div>
+                                <button wire:click="queryVendor({{ $std->id }})"
+                                    class="btn btn-info btn-sm rounded-circle shadow ">
+                                    <i class="fas fa-eye"> </i>
+                                </button>
+                            </div> --}}
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     @if ($is_update_form_show)
         <div class="container">

@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\User;
 use Livewire\Component;
 use App\Http\Requests\admin\vendor\vendorStoreRequest;
 use App\Models\User;
+use Database\Seeders\role;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +19,20 @@ use Livewire\Attributes\Title;
 #[title("administrator - vendor create")]
 class VendorForm extends Component
 {
-    // public $student;
-    // protected $listener = ['refreshList' => '$refresh'];
+    /**
+     * public property to store components data, that sahre to client side
+     */
+    public $student, $roles;
 
+    /**
+     * Listeners to refresh the initial components
+     */
+    protected $listener = ['refreshList' => '$refresh'];
+
+    /**
+     * public property to store client side data
+     * further work in component
+     */
     #[Validate('required')]
     public $name, $username, $email, $password, $is_role, $pack;
     public $phone;
@@ -36,9 +48,9 @@ class VendorForm extends Component
 
         if ($userId) {
             $user = User::find($userId);
-            $user->assignRole('instructor');
+            $user->assignRole($this->is_role);
         }
-        return $this->redirect('/admin/user/create', navigate: true);
+        return $this->redirect(route("adminVandor.index"), navigate: true);
     }
 
 
@@ -113,5 +125,13 @@ class VendorForm extends Component
     public function render()
     {
         return view('livewire.admin.user.vendor-form')->extends("layouts.administrator.app")->section("content");
+    }
+
+    /**
+     * mount method. to get related data with initial components render
+     */
+    public function mount()
+    {
+        $this->roles = \Spatie\Permission\Models\Role::all();
     }
 }

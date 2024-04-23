@@ -48,6 +48,11 @@
             /* border-radius: 50%; */
         }
 
+        .table td,
+        .tabl th {
+            verticle-align: middle !important;
+        }
+
         @keyframes spin {
             100% {
                 transform: rotate(360deg)
@@ -314,6 +319,9 @@
 
     @livewireScripts
     @stack('script')
+    <script>
+        $("#dataTable").dataTable();
+    </script>
 </body>
 
 </html>

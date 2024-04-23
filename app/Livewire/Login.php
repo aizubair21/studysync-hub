@@ -33,8 +33,8 @@ class Login extends Component
             $this->reset(["email", "password"]);
             $this->authMessage = "Successfully authenticated. Redirecting...";
             // Authentication was successful
-            // return redirect()->intended('/dashboard');
-            $this->redirectIntended("dashboard", navigate: true);
+            return redirect()->intended('/dashboard');
+            // $this->redirectIntended("dashboard", navigate: true);
         } else {
             // Authentication failed
             $this->addError('email', 'Invalid email or password');

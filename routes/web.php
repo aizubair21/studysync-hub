@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\admin\adminController;
+use App\Http\Controllers\Exams\QuestionController;
+use App\Http\Controllers\Exams\ScheduleController;
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Role\PermissionIndex;
 use App\Livewire\Admin\Role\RoleIndex;
@@ -15,14 +17,17 @@ use App\Livewire\Admin\User\VendorForm;
 use App\Livewire\Login;
 use App\Livewire\Register;
 use App\Livewire\Vendor\Dashboard as VendorDashboard;
+use App\Livewire\Vendor\ExamsSchedule\ScheduelPreview;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleEdit;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleIndex;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleForm;
 use App\Livewire\Vendor\Group\Groupcreate;
 use App\Livewire\Vendor\Group\GroupIndex;
+use App\Livewire\Vendor\Group\GroupPreview;
 use App\Livewire\Vendor\Group\GroupUpdate;
 use App\Livewire\Vendor\Member\MemberCreateForm;
 use App\Livewire\Vendor\Member\MemberIndex;
+use App\Livewire\Vendor\Member\MemberToGroup;
 use App\Livewire\Vendor\Supervisor\SupervisorCreateForm;
 use App\Livewire\Vendor\Supervisor\SupervisorIndex;
 use Illuminate\Support\Facades\DB;
@@ -47,12 +52,12 @@ Route::get("/login", Login::class)->name("login");
 Route::get("/regiser", Register::class)->name("register");
 
 
-// Route::get("assign-admin-role", function () {
-//     $user = User::find(11);
-//     // Check if user has admin role
-//     $user->assignRole("admin");
-//     return back();
-// })->name('attached-role-to-user');
+Route::get("assign-admin-role", function () {
+    $user = User::find(11);
+    // Check if user has admin role
+    $user->assignRole("admin");
+    return back();
+})->name('attached-role-to-user');
 
 
 // require __DIR__ . '/auth.php';
@@ -60,7 +65,7 @@ Route::get("/regiser", Register::class)->name("register");
 Route::get("/dashboard", function () {
     // dd($roles = Auth()->user()->hasRole("admin"));
     // if role has instructor, return to instructor dashboard
-    if (Auth()->user()->hasRole("instructor")) {
+    if (Auth()->user()->hasRole("vendor")) {
         return redirect()->route("instructor-dashboard");
     } elseif (Auth()->user()->hasRole("student")) {
         return redirect()->route("student-dashboard");
@@ -119,18 +124,25 @@ Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(functi
 Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we defile route prefix
 
     // vendor dashboard
-    Route::get("/", VendorDashboard::class)->middleware(["auth", 'role:instructor'])->name("instructor-dashboard");
+    Route::get("/", VendorDashboard::class)->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
 
     //is route is authorized for group task
     Route::get("/group/create", Groupcreate::class)->name('vendorGroup.create');
     Route::get("/groups/manage-groups", GroupIndex::class)->name('vendorGroup.index');
-    Route::get("/groups/udpate-gorups/{id}", GroupUpdate::class)->name('vendorGroup.edit');
+    Route::get("/groups/udpate/{id}", GroupUpdate::class)->name('vendorGroup.edit');
+    Route::get("/groups/member/add", MemberToGroup::class)->name('vendorGroup.AddUser');
+    Route::get("/groups", GroupPreview::class)->name("vendorGroup.show");
+
+    // Route::post("/groups/save", [GroupsController::class, 'SaveMemberIntoGroup'])->name('vendorGroup.save');
+    // Route::get("/groups/remove/member/{groupId}/{userId}", [GroupsController::class, 'RemoveMemberFromGroup']);
+    // Route::get("/groups/{groupId}/remove/{userId}", [GroupsController::class, 'RemoveUserFromGroup'])->name('vendorGroup.removeUser');
 
 
     //is route authorized for member task
-    Route::get("/member/member-list", MemberIndex::class)->name("vendorMember.index");
-    Route::get("/member/update-member/{id}", MemberIndex::class)->name("vendorMember.edit");
-    Route::get("/member/create", MemberCreateForm::class)->name("vendorMember.create");
+    Route::get("/member", MemberIndex::class)->name("vendorMember.index");
+    Route::get("/member/update/{id}", MemberIndex::class)->name("vendorMember.edit");
+    Route::get("/member/new/create", MemberCreateForm::class)->name("vendorMember.create");
+    Route::get("/member/new/request", MemberCreateForm::class)->name("vendorMember.request");
 
 
     //is route authorize for supervisor task
@@ -143,9 +155,18 @@ Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we 
     Route::get("/exam/index", ScheduleIndex::class)->name("vendorExamSchedule.index");
     Route::get("/exam/create", ScheduleForm::class)->name("vendorExamSchedule.create");
     Route::post("/exam/{id}/edit", ScheduleEdit::class)->name("vendorExamSchedule.edit");
+    Route::get("/exam/{pid}/{endpoint}/index", ScheduelPreview::class)->name("vendorExamSchedule.view");
+    Route::get("/exam/{pid}/{endpoint}/question", ScheduelPreview::class)->name("vendorExamSchedule.question");
+    Route::get("/exam/{pid}/{endpoint}/response", ScheduelPreview::class)->name("vendorExamSchedule.response");
+
 
     Route::middleware("can:create_group")->group(function () {
     });
 
+    Route::get("/text/redirect", function () {
+        return redirect()->back();
+    })->name("restRediraction");
     // Route::middleware(['auth', 'verified', 'can:accessInstructorPanel'])->group(function () {
 });
+
+Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");

@@ -3,28 +3,41 @@
 namespace App\Livewire\Admin\User;
 
 use App\Models\User;
+use Livewire\Attributes\Reactive;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\Attributes\On;
+
+use function Laravel\Prompts\search;
 
 class UserTable extends Component
 {
+    // protected $listeners = ['delete'];
+    public $actions = [];
     public $vendorData;
-    public $search = '';
+    public $search;
     public $vendor;
     public $vendor_update_id;
     public $is_update_form_show = false;
-    protected $listeners = ['refreshList' => 'refreshList'];
-
     public $name, $username, $email, $password, $is_role, $pack;
     public $phone;
 
+    protected $listeners = ['refreshList' => '$refresh', "testToChild" => "testToChild", 'searchToChild' => 'searchToChild'];
 
     //computed
 
     public function render()
     {
-        $this->vendorData = User::withoutRole('admin')->get();
+        // return $this->search;
         return view('livewire.admin.user.user-table');
+    }
+
+
+    //mount method to get related data
+    public function mount()
+    {
+        $this->vendorData = User::role("vendor")->get();
+        // dd($this->search);
     }
 
     //drop vendor 
@@ -63,14 +76,26 @@ class UserTable extends Component
         $this->refreshList();
     }
 
-    //query vendor
-    public function queryVendor(User $vendor)
+    //store to action
+    public function actions()
     {
     }
 
-    //refresh list 
-    public function refreshList()
+    //search from parent with dispatch event
+    public function searchToChild($search)
     {
-        $this->vendorData = User::withoutRole('admin')->get();
+        // $this->search = $search;
+        // search from user model?
+        if (!empty($search)) {
+
+            $this->vendorData = User::role('vendor')
+                ->where('name', 'like', "%{$search}%")
+                ->orWhere('email', 'like', "%{$search}%")
+                ->orWhere('username', 'like', "%{$search}%")
+                ->orWhere("id", "like", "%{$search}%")
+                ->get();
+        } else {
+            $this->vendorData = User::role("vendor")->get();
+        }
     }
 }

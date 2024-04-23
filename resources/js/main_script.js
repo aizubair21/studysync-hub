@@ -26,6 +26,6 @@
 // }
 
 //question type
-$('.qTypeCont').hide();
-$('.qtOne').show();
+// $('.qTypeCont').hide();
+// $('.qtOne').show();
 //

@@ -27,7 +27,10 @@
                 data-accordion="false">
                 {{-- dashboard --}}
                 <li class="nav-item">
-                    <a href="{{ route('dashboard') }}" wire:navigate @class(['nav-link', 'active' => request()->routeIs('dashboard')])>
+                    <a href="{{ route('dashboard') }}" wire:navigate @class([
+                        'nav-link',
+                        'bordere border-info' => request()->routeIs('dashboard'),
+                    ])>
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
                             Dashboard
@@ -39,7 +42,10 @@
 
                 {{-- group management --}}
                 <li class="nav-item @if (request()->routeIs('vendorGroup.*')) menu-is-opening menu-open @endif">
-                    <a href="#" @class(['nav-link', 'active' => request()->routeIs('vendorGroup.*')])>
+                    <a href="#" @class([
+                        'nav-link',
+                        'bordere border-info' => request()->routeIs('vendorGroup.*'),
+                    ])>
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Group Management
@@ -50,7 +56,7 @@
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorGroup.index') }}" @class([
                                 'nav-link',
-                                'border border-info' => request()->routeIs('vendorGroup.index'),
+                                'active' => request()->routeIs('vendorGroup.index'),
                             ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorGroup.index')) text-info @endif"></i>
@@ -60,7 +66,7 @@
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorGroup.create') }}" @class([
                                 'nav-link',
-                                'border border-info' => request()->routeIs('vendorGroup.create'),
+                                'active' => request()->routeIs('vendorGroup.create'),
                             ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorGroup.create')) text-info @endif"></i>
@@ -70,7 +76,7 @@
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorGroup.AddUser') }}" @class([
                                 'nav-link',
-                                'border border-info' => request()->routeIs('vendorGroup.AddUser'),
+                                'active' => request()->routeIs('vendorGroup.AddUser'),
                             ])>
                                 <i
                                     class="far fa-circle nav-icon @if (1 + 1) text-info @endif"></i>
@@ -92,7 +98,10 @@
                 {{-- @if (request()->routeIs(['vendorMember.*']))
                 @endif --}}
                 <li class="nav-item @if (request()->routeIs('vendorMember.*')) menu-is-opening menu-open @endif">
-                    <a href="#" @class(['nav-link', 'active' => request()->routeIs('vendorMember.*')])>
+                    <a href="#" @class([
+                        'nav-link',
+                        'bordere border-info' => request()->routeIs('vendorMember.*'),
+                    ])>
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             Members
@@ -103,7 +112,7 @@
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorMember.index') }}" @class([
                                 'nav-link',
-                                'border border-info' => request()->routeIs('vendorMember.index'),
+                                'active' => request()->routeIs('vendorMember.index'),
                             ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorMember.index')) text-info @endif"></i>
@@ -113,7 +122,7 @@
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorMember.create') }}" @class([
                                 'nav-link',
-                                'border border-info' => request()->routeIs('vendorMember.create'),
+                                'active' => request()->routeIs('vendorMember.create'),
                             ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorMember.create')) text-info @endif"></i>
@@ -123,7 +132,7 @@
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorMember.request') }}" @class([
                                 'nav-link',
-                                'border border-info' => request()->routeIs('vendorMember.request'),
+                                'active' => request()->routeIs('vendorMember.request'),
                             ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorMember.request')) text-info @endif"></i>
@@ -139,10 +148,10 @@
                 @endif --}}
 
                 <li class="nav-item  @if (request()->routeIs('vendorExamSchedule.*')) menu-is-opening menu-open @endif">
-                    <a href="#" class ='nav-link @if (request()->routeIs('vendorExamSchedule.*')) active @endif'>
+                    <a href="#" class ='nav-link @if (request()->routeIs('vendorExamSchedule.*')) bordere border-info @endif'>
                         {{-- <a href="#" @class([
                         'nav-link',
-                        ' active' => request()->routeIs('vendorExamSchedule.*'),
+                        ' bordere border-info' => request()->routeIs('vendorExamSchedule.*'),
                     ])> --}}
                         <i class="nav-icon fas fa-users"></i>
                         <p>
@@ -156,7 +165,7 @@
                             <a wire:navigate href="{{ route('vendorExamSchedule.index') }}"
                                 @class([
                                     'nav-link',
-                                    'border border-info' => request()->routeIs('vendorExamSchedule.index'),
+                                    'active' => request()->routeIs('vendorExamSchedule.index'),
                                 ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorExamSchedule.index')) text-info @endif"></i>
@@ -168,7 +177,7 @@
                             <a wire:navigate href="{{ route('vendorExamSchedule.create') }}"
                                 @class([
                                     'nav-link',
-                                    'border border-info' => request()->routeIs('vendorExamSchedule.create'),
+                                    'active' => request()->routeIs('vendorExamSchedule.create'),
                                 ])>
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('vendorExamSchedule.create')) text-info @endif"></i>
@@ -178,7 +187,7 @@
 
                         <li class="nav-item">
                             <a wire:navigate href=""
-                                class="nav-link @if (Route::currentRouteName() == ' teacherExamPublished.index') border border-info @endif ">
+                                class="nav-link @if (Route::currentRouteName() == ' teacherExamPublished.index') active @endif ">
                                 <i
                                     class=" far fa-circle nav-icon @if (request()->routeIs('teacherExamPublished.index')) text-info @endif"></i>
                                 <p>All Live exams</p>
@@ -186,7 +195,7 @@
                         </li>
                         <li class="nav-item">
                             <a wire:navigate href=""
-                                class="nav-link @if (Route::currentRouteName() == 'teacherPendingExam.index') border border-info @endif">
+                                class="nav-link @if (Route::currentRouteName() == 'teacherPendingExam.index') active @endif">
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('teacherPendingExam.index')) text-info @endif"></i>
                                 <p>All Pending exams</p>
@@ -194,7 +203,7 @@
                         </li>
                         <li class="nav-item">
                             <a wire:navigate href=""
-                                class="nav-link @if (Route::currentRouteName() == ' teacherExam.past') border border-info @endif">
+                                class="nav-link @if (Route::currentRouteName() == ' teacherExam.past') active @endif">
                                 <i
                                     class="far fa-circle nav-icon @if (request()->routeIs('teacherExam.past')) text-info @endif"></i>
                                 <p>View past exams</p>
@@ -234,7 +243,7 @@
                 <li class="nav-item @if (request()->routeIs('vendorSupervisor.*')) menu-is-opening menu-open @endif">
                     <a href="#" @class([
                         'nav-link',
-                        'active' => request()->routeIs('vendorSupervisor.*'),
+                        'bordere border-info' => request()->routeIs('vendorSupervisor.*'),
                     ])>
                         <i class="nav-icon fas fa-eye"></i>
                         <p>
@@ -245,14 +254,14 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorSupervisor.index') }}"
-                                class="nav-link @if (request()->routeIs('vendorSupervisor.index')) border border-info @endif">
+                                class="nav-link @if (request()->routeIs('vendorSupervisor.index')) active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>All supervisor</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorSupervisor.create') }}"
-                                class="nav-link @if (request()->routeIs('vendorSupervisor.create')) border border-info @endif">
+                                class="nav-link @if (request()->routeIs('vendorSupervisor.create')) active @endif">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Add supervisor</p>
                             </a>
@@ -277,7 +286,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{ route('testMaster') }}" wire:navigate class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>New Notice</p>
                             </a>

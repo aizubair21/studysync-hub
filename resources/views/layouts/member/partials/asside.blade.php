@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4 mt-1">
+<aside class="main-sidebar sidebar-light-primary elevation-1 mt-1">
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar Menu -->

@@ -117,6 +117,11 @@ Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(functi
     Route::get("/member-manage/roles", RoleIndex::class)->name("adminRole.index");
     Route::get("/member-manage/permission", PermissionIndex::class)->name("adminPermission.index");
     Route::get("/member-manage/role/{id}/edit", EditPermissionForm::class)->name("adminRole.edit");
+
+
+
+    // test master
+
 });
 
 
@@ -125,6 +130,10 @@ Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we 
 
     // vendor dashboard
     Route::get("/", VendorDashboard::class)->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
+    
+    // Route::get("/", function () {
+    //     return view("livewire.vendor.vendor-section");
+    // })->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
 
     //is route is authorized for group task
     Route::get("/group/create", Groupcreate::class)->name('vendorGroup.create');
@@ -166,7 +175,13 @@ Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we 
     Route::get("/text/redirect", function () {
         return redirect()->back();
     })->name("restRediraction");
-    // Route::middleware(['auth', 'verified', 'can:accessInstructorPanel'])->group(function () {
+    // Route::middleware(['auth', 'verified', 'can:accessInstructorPanel'])->group(function () {});
+
+
+
+    Route::get("pages/section/test-master", function () {
+        return view("livewire.vendor.test.master");
+    })->name("testMaster");
 });
 
 Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");

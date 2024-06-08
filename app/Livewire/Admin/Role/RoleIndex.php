@@ -30,6 +30,12 @@ class RoleIndex extends Component
     public $new_role_name;
 
 
+    /**
+     * property to toggle model
+     */
+    public $confirmAssignRoleToUserModal, $confirmNewRoleModal, $confirmNewPermissionModal, $confirmAssignPermissionToUser;
+
+
     public function render()
     {
         $this->getData();
@@ -47,6 +53,8 @@ class RoleIndex extends Component
     //assign user to a role
     public function assignRoleToUser()
     {
+        $this->confirmAssignRoleToUserModal = !$this->confirmAssignRoleToUserModal;
+        // dd("assignRoleToUser event fired");
         //check if there are users with that role. If yes, give an error message and stop executing
         // return $id;
         $getRole = Role::findById($this->assign_role);
@@ -54,10 +62,10 @@ class RoleIndex extends Component
         $alreadyHaveRole = DB::table("model_has_roles")->where("role_id", "=", $this->assign_role)->where("model_id", "=", $this->assign_user)->count();
         if ($alreadyHaveRole) {
             # code...
-            $this->dispatch("warning", message: "Already have this role.");
+            $this->dispatch("notifyWarning", message: "Already have this role.");
         } else {
             User::find($this->assign_user)->assignRole($getRole->name);
-            $this->dispatch("success", message: "Role attached.");
+            $this->dispatch("notifySuccess", message: "Role attached.");
         }
 
 
@@ -70,23 +78,24 @@ class RoleIndex extends Component
     //add new role
     public function addNewRole()
     {
-
+        // dd("event fired");
         //if not validate. return false
         if (empty($this->new_role_name)) {
-            $this->dispatch("warning", message: "Give a valid role name. Name must be string.");
+            $this->dispatch("notifyWarning", message: "Give a valid role name. Name must be string.");
             $this->reset("new_role_name");
             // return "false";
         } else {
 
             try {
                 if (Role::where('name', '=', $this->new_role_name)->exists()) {
-                    $this->dispatch("warning", message: "This role already exists.");
+                    $this->dispatch("notifyWarning", message: "This role already exists.");
                 } else {
                     //create new role
                     // $newRol = Role::create(['name' => $this->new_role_name]);
                     Role::create(["name" => $this->new_role_name]);
                     $this->getData();
-                    $this->dispatch("success", message: "Role added. You can now select permissions for it.");
+                    $this->dispatch("notifySuccess", message: "Role added. You can now select permissions for it.");
+                    $this->confirmNewRoleModal = !$this->confirmNewRoleModal;
 
                     //give admin all permissions by default
                     // $permission = Permission::all();
@@ -98,7 +107,7 @@ class RoleIndex extends Component
             } catch (\Exception $e) {
                 //show error message
                 // session()->flash('error', "An error occurred while creating the role. Please try again later");
-                $this->dispatch("warning", message: "An error occurred while creating the role. Please try again later");
+                $this->dispatch("notifyWarning", message: "An error occurred while creating the role. Please try again later");
             }
             $this->reset('new_role_name');
         }
@@ -113,7 +122,7 @@ class RoleIndex extends Component
         // return $id;
         $usersWithThatRole = User::whereHas('roles', fn ($query) => $query->whereIn('id', [$id]))->count();
         if ($usersWithThatRole > 0) {
-            $this->dispatch("warning", message: "You can't delete your own role.");
+            $this->dispatch("notifyWarning", message: "You can't delete your own role.");
         } else {
 
 
@@ -121,8 +130,8 @@ class RoleIndex extends Component
             Role::findOrFail($id)->delete();
 
             $this->getData();
-            $this->dispatch('success', message: "Role has beed deleted. ");
-            // $this->dispatch("warning", message: "On testing.");
+            $this->dispatch('notifySuccess', message: "Role has beed deleted. ");
+            // $this->dispatch("notifyWarning", message: "On testing.");
         }
     }
 

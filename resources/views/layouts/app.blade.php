@@ -9,7 +9,7 @@
     <title>@yield('title')</title>
 
     <!-- Fonts -->
-    {{-- <link rel="preconnect" href="https://fonts.bunny.net"> --}}
+    {{-- <link rel="preconnect" href="https://fonts.bunny.ginet"> --}}
     {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
 
     <!-- vite Scripts and css-->
@@ -21,64 +21,61 @@
     @livewireStyles
 </head>
 
-@auth
 
-    <body class="hold-transition sidebar-mini layout-fixed text-sm">
+<body class="hold-transition sidebar-mini layout-fixed text-sm">
 
-        {{-- alert messages --}}
-        @if (session('success'))
-            <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
-        @endif
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    {{-- alert messages --}}
 
-        <!-- Site wrapper -->
-        {{-- alert messages --}}
+    <!-- Site wrapper -->
+    {{-- alert messages --}}
 
-        @include('components.spinner')
-        {{-- @include('layouts.vendor.partials.navigations') --}}
-        {{-- top navigation menue --}}
+    @include('components.spinner')
+    {{-- @include('layouts.vendor.partials.navigations') --}}
+    {{-- top navigation menue --}}
 
-        {{-- wrapper --}}
-        <div class="wrapper">
+    {{-- wrapper --}}
+    <div class="wrapper">
 
+        @auth
             @include('layouts.vendor.partials.asside')
 
             {{-- main asside content  --}}
             @include('layouts.vendor.partials.navigations')
+        @endauth
+
+        <div class="content-wrapper">
+
+            @if (session('success'))
+                <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
+            @endif
+            @if ($errors->any())
+                <div class="text text-danger">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @yield('content')
+        </div>
+
+    </div>
+
+    {{-- livewire script --}}
+    @livewireScripts
+    {{-- <div class="wrapper">
 
             @yield('content')
 
         </div>
-
-        {{-- livewire script --}}
-        @livewireScripts
-
-    </body>
-@else
-
-    <body>
-        <div class="wrapper">
-
-            @yield('content')
-
-        </div>
-        {{-- wrapper --}}
 
         <script src="{{ asset('asset/script/particle.js') }}"></script>
 
-        {{-- livewire script --}}
-        @livewireScripts
-    </body>
 
-@endauth
+        @livewireScripts --}}
+</body>
+
 
 
 

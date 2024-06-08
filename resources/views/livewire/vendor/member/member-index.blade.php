@@ -1,4 +1,4 @@
-<div x-data="{ confirmMemberAddModal: false }">
+<div x-data="{ confirmMemberAddModal: false, search: false, showOn: null }">
     {{-- The best athlete wants his opponent at his best. --}}
     {{-- header  --}}
     {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -141,7 +141,19 @@
     <!-- /.navbar -->
 
 
-    <div class="content-wrapper px-4 py-2" x-data="{ search: false, showOn: null }">
+    {{-- breadcrumbs/content header  --}}
+    <x-content-header>
+        <li class="breadcrumb-item">
+            <a href="{{ route('vendorMember.index') }}">Members</a>
+        </li>
+        <li class="breadcrumb-item">
+            Index
+        </li>
+    </x-content-header>
+    {{-- breadcrumbs/content header  --}}
+
+
+    <div>
         {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
 
 
@@ -184,6 +196,7 @@
                         class="fas fa-plus me-2"></i> Create </button>
             </div>
         </div>
+        {{-- table info header  --}}
 
 
         <div>
@@ -196,34 +209,34 @@
             <table class="table table-striped  my-3" id="dataTables">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Phone</th>
-                        <th>Group</th>
-                        <th> Permit </th>
-                        <th>Added On</th>
+                        <x-th></x-th>
+                        <x-th>Name</x-th>
+                        <x-th>Email</x-th>
+                        <x-th>Phone</x-th>
+                        <x-th>Group</x-th>
+                        <x-th> Permit </x-th>
+                        <x-th>Added On</x-th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($members as $key => $member)
                         <tr>
-                            <td style="position:sticky; left:0; background-color:white;">
+                            <x-td style="position:sticky; left:0; background-color:white;">
                                 <input type="checkbox" style="width:20px; heigh:20px;" wire:model="action"
                                     wire:input="getAction" id="member_{{ $member->id }}" value="{{ $member->id }}">
-                            </td>
-                            <td>{{ $member->name }}</td>
-                            <td>{{ $member->email }}</td>
-                            <td>{{ $member->phone }}</td>
-                            <td>
+                            </x-td>
+                            <x-td>{{ $member->name }}</x-td>
+                            <x-td>{{ $member->email }}</x-td>
+                            <x-td>{{ $member->phone }}</x-td>
+                            <x-td>
                                 <div class="btn btn-info btn-sm">Default</div>
-                            </td>
-                            <td>
+                            </x-td>
+                            <x-td>
 
-                            </td>
-                            <td>
-                                01-Jan-2021
-                            </td>
+                            </x-td>
+                            <x-td>
+                                {{ $member->created_at }}
+                            </x-td>
 
                         </tr>
                     @endforeach
@@ -234,8 +247,54 @@
                     @endif
                 </tbody>
             </table>
+
+            {{-- @livewire('vendor.member.components.table.table', ['user' => $user], key($user->id)) --}}
+
+            {{-- livewire table components --}}
+            {{-- @livewire('vendor.member.components.table.table', [
+                'header' => $header,
+                'members' => $members,
+            ]) --}}
+
+            {{-- <livewire:vendor.member.components.table.table :$header :$members> --}}
+
+            {{-- <table class="table"> --}}
+            {{-- @livewire('vendor.member.components.table.head', ['user' => $user], key($user->id)) --}}
+
+            {{-- head  --}}
+            {{-- @livewire('vendor.member.components.table.head', ['header' => $header]) --}}
+
+            {{-- body  --}}
+            {{-- @livewire('vendor.member.components.table.body', ['data' => $members]) --}}
+
+            {{-- </table> --}}
+
+
         </div>
     </div>
+
+
+    {{-- <livewire:vendor.questions.create> --}}
+
+    {{-- <x-wire-link>
+        Test
+    </x-wire-link>
+    <x-section-title>
+        <x-slot name="title">
+            section title
+        </x-slot>
+        <x-slot name="aside">
+            aide from section title
+        </x-slot>
+
+        <x-slot name="description">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure, cumque deleniti. Est nesciunt error, unde
+            deleniti dignissimos nisi, nulla eius ipsum quo maiores recusandae magni, eligendi modi odit fugiat vitae
+            facere totam quis molestias fuga veniam architecto. Architecto laudantium, corrupti totam, voluptates quia
+            minus odio esse aliquid a veritatis impedit!
+        </x-slot>
+
+    </x-section-title> --}}
 
 
     {{-- components add users modal  --}}
@@ -306,7 +365,7 @@
         </x-slot>
 
         <x-slot name="content">
-            
+
             <div>
                 <label for="new_group_name">Group Name: </label>
                 <input type="text" wire:model="newGroupName" placeholder="Give a name of your group"

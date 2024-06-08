@@ -1,5 +1,5 @@
 <div>
-    <div class="content-wrapper p-2">
+    <div>
 
         {{-- header  --}}
         <nav class=" navbar navbar-expand">

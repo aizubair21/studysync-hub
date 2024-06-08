@@ -42,7 +42,8 @@ class GroupPreview extends Component
 
     public function render()
     {
-        return view('livewire.vendor.group.group-preview')->extends("layouts.vendor.app")->section('content');
+        // return view('livewire.vendor.group.group-preview')->extends("layouts.vendor.app")->section('content');
+        return view('livewire.vendor.group.group-preview')->extends("layouts.vendor.app");
     }
 
 

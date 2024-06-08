@@ -1,4 +1,4 @@
-<div class="content-wrapper px-4 py-2">
+<div>
     <div class="d-flex justify-content-center align-items-center w-100
     " x-data="{ get: 0, isShowSearch: true, memberGroup: null, isTemp: false, isModerator: false, }">
 

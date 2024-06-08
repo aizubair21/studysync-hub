@@ -138,13 +138,11 @@
     </nav> --}}
     <!-- /.navbar -->
 
-    <div class="content-wrapper px-4 py-2" x-data="{ tableView: false, isShowAddModal: false }">
+    <div x-data="{ tableView: false, isShowAddModal: false }">
         {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
 
 
-
-
-        {{-- table view toggle --}}
+        {{-- table view toggle buton --}}
         <div class="py-2 d-flex justify-content-between align-items-center">
             <div class="d-inline-flex bg-light p-2">
                 <input type="checkbox" id="tableView" x-on:click="tableView = !tableView"
@@ -156,7 +154,9 @@
                     id="groupSearch" class="form-control form-search">
             </div>
         </div>
+        {{-- table view toggle button  --}}
 
+        
         {{-- header  --}}
         <div class="mx-2 d-flex justify-content-between oveflow-s-scroll">
             <div class="d-flex">
@@ -198,30 +198,32 @@
         </div>
         {{-- ./header  --}}
 
+
+        {{-- table  --}}
         <div class="px-2 row m-0">
             <div class="w-100 overflow-x-scroll">
 
                 <table class="table table-striped" x-show="tableView" style="vertical-align: center">
                     <thead>
-                        <td>A/C</td>
-                        <td>Name</td>
-                        <td>Status</td>
-                        <td>Member</td>
-                        <td>Info</td>
-                        <td>Create</td>
-                        <td>Last Update</td>
-                        <td></td>
+                        <x-th>A/C</x-th>
+                        <x-th>Name</x-th>
+                        <x-th>Status</x-th>
+                        <x-th>Member</x-th>
+                        <x-th>Info</x-th>
+                        <x-th>Create</x-th>
+                        <x-th>Last Update</x-th>
+                        <x-th></x-th>
                     </thead>
                     <tbody class="text-center">
                         @foreach ($groups as $group)
                             <tr>
 
-                                <td>
+                                <x-td>
                                     <input type="checkbox" id="gp_{{ $group->id }}" value="{{ $group->id }}"
                                         wire:model="action" class="" wire:input="check"
                                         style="height:20px; width:20px">
-                                </td>
-                                <td>
+                                </x-td>
+                                <x-td>
                                     {{-- use PATCH metho  --}}
                                     <a href="#" class="link-primary text-decoration-none"
                                         wire:click="viewGroup({{ $group }})">
@@ -230,22 +232,22 @@
                                     <a wire:navigate
                                         href="{{ route('vendorGroup.show', ['gpid' => $group->id, $group->name]) }}">{{ $group->name }}
                                     </a>
-                                </td>
-                                <td>
+                                </x-td>
+                                <x-td>
                                     <span
                                         class="py-1 px-2 w-auto  me-2 bg-success rounded text-center mx-auto text-light">
                                         active <i class="fas fa-caret-right ms-2"></i> </span>
                                     <span class="py-1 px-2 bg-primary rounded text-center mx-auto text-light">
                                         {{ $group->is_private ? 'Private' : '  Public' }} </span>
-                                </td>
+                                </x-td>
                                 <td class="d-flex align-items-center ">
                                     <p class="m-0"> {{ count($group->students) }} </p>
 
                                     {{-- <input type="checkbox" hidden wire:model.live="memberGroup" value="{{ $group->id }}"> --}}
                                 </td>
-                                <td>{{ $group->description }}</td>
-                                <td>{{ $group->created_at }}</td>
-                                <td>{{ $group->updated_at }}</td>
+                                <x-td>{{ $group->description }}</x-td>
+                                <x-td>{{ $group->created_at }}</x-td>
+                                <x-td>{{ $group->updated_at }}</x-td>
                                 <td class="d-flex justify-content-center align-items-center">
                                     <button class="btn btn-danger  btn-sm shadow"><i class="fas fa-trash"></i>
                                     </button>
@@ -307,16 +309,16 @@
                                 </td>
                             </tr>
                             <tr class="">
-                                <td>
+                                <x-td>
                                     <span
                                         class="py-1 px-2 d-block w-auto  me-2 bg-success rounded text-center mx-auto text-light">
                                         active <i class="fas fa-caret-right ms-2"></i> </span>
-                                </td>
-                                <td>
+                                </x-td>
+                                <x-td>
                                     <span class="py-1 px-2 bg-primary rounded text-center mx-auto text-light">
                                         {{ $group->is_private ? 'Private' : '  Public' }} </span>
 
-                                </td>
+                                </x-td>
                             </tr>
                         </tbody>
                     </table>
@@ -324,6 +326,8 @@
             @endforeach
 
         </div>
+        {{-- table  --}}
+
     </div>
 
     <!-- add instant group Modal -->

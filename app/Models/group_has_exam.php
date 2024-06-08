@@ -103,23 +103,23 @@ class group_has_exam extends Model
         switch ($value) {
             case '0':
                 # code...
-                return "Draft";
+                return "<div class=' text-center rounded-pill border bordered text-dark py-1 px-2 text-nowrap'> Draft </div>";
                 break;
 
             case "1":
-                return  "opened";
+                return  "<div class=' text-center rounded-pill bg-success text-dark py-1 px-2 text-nowrap'> Opened </div>";
                 break;
 
             case "5":
-                return "finished";
+                return "<div class=' text-center rounded-pill bg-warning text-dark py-1 px-2 text-nowrap'> Finished </div>";
                 break;
 
             case "2":
-                return "Published";
+                return "<div class=' text-center rounded-pill bg-primary text-dark py-1 px-2 text-nowrap'> Published </div>";
                 break;
 
             default:
-                return "update failed";
+                return "<div class=' text-center rounded-pill bg-danger text-dark py-1 px-2 text-nowrap'> Faild </div>";
                 # code...
                 break;
         }

@@ -10,7 +10,11 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 use Livewire\Attributes\Title;
+use Livewire\Attributes\Layout;
 use Illuminate\Support\Str;
+use Livewire\Attributes\On;
+use PhpParser\Node\Expr\Cast\Array_;
+use Ramsey\Uuid\Type\Integer;
 
 #[Title('Members | Manage Member')]
 class MemberIndex extends Component
@@ -19,7 +23,7 @@ class MemberIndex extends Component
      * public property to store the component data.
      * further send to client side
      */
-    public $members = [], $groups;
+    public $members = [], $groups, $header = ["", "Name", "Email", "Phone", "Group", "Permit", "Added On"];
 
     /**
      * public property to store data from client side 
@@ -37,10 +41,9 @@ class MemberIndex extends Component
     // protected $listeners =  ["refresh" => "$refresh"];
     protected $listeners = ['refresh' => '$refresh'];
 
-
     public function render()
     {
-        return view('livewire.vendor.member.member-index')->extends("layouts.vendor.app")->section('content');
+        return view('livewire.vendor.member.member-index')->extends("layouts.vendor.app");
     }
 
     /**
@@ -98,6 +101,8 @@ class MemberIndex extends Component
                 'vendor' => Auth::id(),
                 'email' => $this->email,
                 'password' => Hash::make($this->instantPassword),
+                'created_at' => now(),
+                'updated_at' => now()
             ]);
             // dd($userId);
             User::find($userId)->assignRole("member");
@@ -177,5 +182,13 @@ class MemberIndex extends Component
                 'message' => 'Have an error when creating the group.'
             ], 500);
         }
+    }
+
+
+    #[on("showTableAction")]
+    public function emitAction($actionArray)
+    {
+        // dd($actionArray);
+        $this->action = $actionArray;
     }
 }

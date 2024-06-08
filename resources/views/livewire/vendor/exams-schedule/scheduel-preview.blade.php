@@ -1,5 +1,5 @@
 <div>
-    <div class="content-wrapper px-1 py-2">
+    <div>
 
         <!-- Content Header (Page header) -->
         <div class="content-header">

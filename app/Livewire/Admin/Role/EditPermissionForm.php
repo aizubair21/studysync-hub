@@ -12,7 +12,12 @@ use Livewire\Attributes\On;
 #[title("Administrator | edit role")]
 class EditPermissionForm extends Component
 {
-    //component received a data by url 
+
+    /**
+     * public property to toggle model
+     */
+    public $confirmNewPermissionModel, $confirmNewRoleModel, $confirmAddPermissionToRoleModel;
+
     public $role, $roles, $name, $permissions, $select_role, $permission_id = [], $DP_id = [], $roleParamId;
 
     public function render()
@@ -57,7 +62,7 @@ class EditPermissionForm extends Component
         // dd(Role::where("id", "=", $this->select_role)->with("permissions")->first());
         // $Ar = Role::with("permissions")->get(); //return all role table with permission
         $this->role = Role::where("id", "=", $this->select_role)->with("permissions")->first(); //define targeted role from role array
-        $this->dispatch("warning", message: "Editing permissions for " . $this->role->name . " role"); //toaster message event
+        $this->dispatch("notifyInfo", message: "Editing permissions for " . $this->role->name . " role"); //toaster message event
         // $this->refreshData(request()->route()->parameter($this->select_role));
         // dd($this->role);
         // request()->route()->parameter("id", $this->select_role);
@@ -78,12 +83,14 @@ class EditPermissionForm extends Component
                     "role_id" => $this->role->id,
                 ]);
             } else {
-                $this->dispatch("warning", message: "Permission already exists");
+                $this->confirmAddPermissionToRoleModel = !$this->confirmAddPermissionToRoleModel;
+                $this->dispatch("notifyWarning", message: "Permission already exists");
             }
         }
         $this->dispatch("refresh-data");
-        $this->dispatch("succcess", message: "Permission Inserted !");
-        // $this->reset($this->permission_id);
+        $this->dispatch("notifySucccess", message: "Permission Inserted !");
+        $this->confirmAddPermissionToRoleModel = !$this->confirmAddPermissionToRoleModel;
+        $this->reset("permission_id");
         // $this->role = $this->role[];
     }
 }

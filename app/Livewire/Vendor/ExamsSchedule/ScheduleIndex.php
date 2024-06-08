@@ -143,6 +143,9 @@ class ScheduleIndex extends Component
     public function addQuestionModal($selectedId)
     {
         // $this->dispatch("notifyInfo", message: "Please select Just One  Exam to Add Questions.");
+
+        // $this->redirectIntended(, true);
+
         if (empty(count($selectedId))) {
             $this->isShowSelectExamModal = !$this->isShowSelectExamModal;
             # code...

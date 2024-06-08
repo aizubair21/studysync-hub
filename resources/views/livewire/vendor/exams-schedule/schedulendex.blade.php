@@ -139,7 +139,7 @@
     </nav> --}}
 
 
-    <div class="content-wrapper py-2 px-4" x-data="{
+    <div x-data="{
         activeNav: 'all',
         activeContent: 'all',
         isFilter: false,
@@ -152,26 +152,11 @@
     }">
 
         <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Studysync-hub</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a wire:navigate href="#">Dash</a></li>
-                            <li class="breadcrumb-item"><a wire:navigate
-                                    href="{{ route('vendorGroup.index') }}">Groups</a></li>
-                            <li class="breadcrumb-item"><a wire:navigate
-                                    href="{{ route('vendorExamSchedule.index') }}">Exams</a></li>
-                            <li class="breadcrumb-item">All List</li>
-                            {{-- <li class="breadcrumb-item active">{{ $group->name }}</li> --}}
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
+        <x-content-header>
+            <li class="breadcrumb-item active">
+                Exams Index
+            </li>
+        </x-content-header>
         <!-- /.content-header -->
 
 
@@ -179,6 +164,12 @@
 
         <div class=" d-inline-flex bg_light scrolbar-none" style="width:100%; overflow-x:scroll;" x-data={}>
             {{-- <div class=" btn btn-lg m-2 mx-3 border-primary p-3" wire:click="$refresh"> <i class="fas fa-carret-down"></i> Draft --}}
+            <button x-show="selectedId.length == 1" href="" role="button"
+                class=" text-nowrap btn d-block border-bottom m-2 btn-success"
+                @click="$wire.addQuestionModal(selectedId)">
+                <i class="fas fa-pen me-2"></i>
+                Make Question
+            </button>
 
             {{-- trash  --}}
             <button x-show="selectedId.length > 0" x-transition type="button" class=" text-nowrap btn btn-danger m-2"
@@ -202,12 +193,6 @@
                 <i class="fas fa-play me-2"></i> Live
             </button>
 
-            <button x-show="selectedId.length == 1" href="" role="button"
-                class=" text-nowrap btn d-block border-bottom m-2 btn-success"
-                @click="$wire.addQuestionModal(selectedId)">
-                <i class="fas fa-pen me-2"></i>
-                Make Question
-            </button>
 
         </div>
         {{-- hidden action center --}}
@@ -283,15 +268,15 @@
             <table class="table  text-center " id="dataTables_simple">
                 <thead>
                     <tr>
-                        <th scope="col ">A/C</th>
-                        <th scope="col " style=" min-width:30px; width:30px">#</th>
-                        <th scope="col " style=" min-width:150px">Name</th>
-                        <th scope="col " style=" min-width:150px">Group</th>
-                        <th scope="col " style=" min-width:150px">Exam Time</th>
-                        <th scope="col " style=" min-width:150px">Status</th>
-                        <th scope="col " style=" min-width:180px">Exam Date</th>
-                        <th scope="col " style=" min-width:150px">Last Modified</th>
-                        <th>Questions</th>
+                        <x-th scope="col ">A/C</x-th>
+                        <x-th scope="col " style=" min-width:30px; width:30px">#</x-th>
+                        <x-th scope="col " style=" min-width:150px">Name</x-th>
+                        <x-th scope="col " style=" min-width:150px">Group</x-th>
+                        <x-th scope="col " style=" min-width:150px">Exam Time</x-th>
+                        <x-th scope="col " style=" min-width:150px">Status</x-th>
+                        <x-th scope="col " style=" min-width:180px">Exam Date</x-th>
+                        <x-th scope="col " style=" min-width:150px">Last Modified</x-th>
+                        <x-th>Questions</x-th>
                     </tr>
                 </thead>
                 <tbody>
@@ -300,7 +285,7 @@
                         @foreach ($exams as $id => $item)
                             <tr>
 
-                                <td class=" align-items-center">
+                                <x-td class=" align-items-center">
                                     <div class="d-inline-flex align-items-center">
 
                                         <div>
@@ -311,11 +296,11 @@
 
                                     </div>
 
-                                </td>
-                                <td>
+                                </x-td>
+                                <x-td>
                                     <div class="d-inline-flex align-items-center">{{ $loop->iteration }}</div>
-                                </td>
-                                <td for="inp_1">
+                                </x-td>
+                                <x-td for="inp_1">
                                     <div>
                                         <a href="{{ route('vendorExamSchedule.view', ['pid' => $item->id, 'endpoint' => $item->attend_endpoint]) }}"
                                             wire:navigate>
@@ -332,28 +317,27 @@
                                                 class="fas fa-eye me-1"></i> Quick View
                                         </button>
                                     </div>
-                                </td>
-                                <td>
+                                </x-td>
+                                <x-td>
                                     <p class="m-0 mb-1">
 
                                         {{ $item->group['name'] }}
                                     </p>
 
-                                    <p class="m-0 small text-muted rounded bg-info d-inline w-auto p-1 ">Subject:
+                                    <p class="m-0 small text-muted rounded bg-info d-inline w-auto p-1 ">
                                         {{ $item->exm_subject }}
                                     </p>
-                                </td>
-                                <td>
+                                </x-td>
+                                <x-td>
                                     {{ $item->exm_time }}
-                                </td>
-                                <td>
-                                    <span
-                                        class="rounded-pill bg-warning text-dark py-1 px-2 text-nowrap">{{ $item->status }}</span>
-                                </td>
-                                <td> <span class="border border-info px-2 py-1 rounded-pill text-nowrap">
-                                        {{ $item->exm_date }}</span></td>
-                                <td>{{ $item->updated_at }}</td>
-                                <td>
+                                </x-td>
+                                <x-td>
+                                    {!! $item->status !!}
+                                </x-td>
+                                <x-td> <span class="border border-info px-2 py-1 rounded-pill text-nowrap">
+                                        {{ $item->exm_date }}</span></x-td>
+                                <x-td>{{ $item->updated_at }}</x-td>
+                                <x-td>
                                     <div class="d-inline-flex ">
 
                                         {{-- <button type="button" title="quick add question"
@@ -369,18 +353,20 @@
 
                                         <buton title="view quesiton of this exams" role="button"
                                             wire:click="showQuestionViewModal({{ $item->id }})"
-                                            class=" text-nowrap btn btn-success mx-1 ">
-                                            <i class="fas fa-eye me-2"></i> View
+                                            class=" text-nowrap btn rounded-circle btn-success mx-1 ">
+                                            <i class="fas fa-eye"></i>
                                         </buton>
 
-                                        <buton title="view quesiton of this exams" role="button"
+                                        {{-- <buton title="view quesiton of this exams" role="button"
                                             wire:click="showQuestionViewModal({{ $item->id }})"
                                             class=" text-nowrap btn btn-outline-success mx-1 ">
                                             <i class="fas fa-sync me-2"></i> View Response
-                                        </buton>
+                                        </buton> --}}
+                                        <a href="" wire:navigate title="Add new question"
+                                            class="btn btn-outline-primary"> <i class="fas fa-plus"></i> </a>
 
                                     </div>
-                                </td>
+                                </x-td>
                             </tr>
                         @endforeach
                     @else

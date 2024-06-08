@@ -140,7 +140,7 @@
     <!-- /.navbar -->
 
     {{-- Nothing in the world is as soft and yielding as water. --}}
-    <div class="content-wrapper px-4 py-2">
+    <div>
 
         <!-- main content -->
         <div class="row justify-content-center" x-data="{

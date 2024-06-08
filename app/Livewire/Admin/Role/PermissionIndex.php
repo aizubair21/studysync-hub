@@ -11,6 +11,12 @@ use Livewire\Attributes\On;
 class PermissionIndex extends Component
 {
     public $permissions;
+
+    /**
+     * property to toggle modal
+     */
+    public $confirmNewPermissionModal;
+
     public function render()
     {
         $this->getData();
@@ -21,7 +27,7 @@ class PermissionIndex extends Component
     #[On('refresh-data')]
     public function getData()
     {
-        $this->permissions = Permission::all();
+        $this->permissions = Permission::orderBy("id", "desc")->get();
     }
 
     //delete permission
@@ -29,10 +35,10 @@ class PermissionIndex extends Component
     {
         if ($permisions) {
             $permisions->delete();
-            $this->dispatch("success", message: "Permission Deleted !");
+            $this->dispatch("notifySuccess", message: "Permission Deleted !");
             $this->getData();
         } else {
-            $this->dispatch("error", message: "There is no such a permission!");
+            $this->dispatch("notifyWarning", message: "There is no such a permission!");
         }
     }
 }

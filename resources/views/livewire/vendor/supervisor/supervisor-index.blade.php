@@ -137,7 +137,7 @@
         </ul>
     </nav> --}}
     {{-- The best athlete wants his opponent at his best. --}}
-    <div class="content-wrapper py-2 px-4">
+    <div >
 
         <div class="row my-3">
 

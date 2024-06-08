@@ -1,4 +1,4 @@
-<div class="content-wrapper px-4 py-2">
+<div >
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
     <div>
         @if (session('success'))

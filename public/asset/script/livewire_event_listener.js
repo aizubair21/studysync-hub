@@ -25,19 +25,39 @@ toastr.options.shadow = false;
 
 // toaster option config end
 
+var Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+
 document.addEventListener('livewire:init', () => {
     Livewire.on('notifySuccess', (event) => {
         // Toast(event.detail, 'success');
         // Example usage:
-        toastr.success(event.message);
+        // toastr.success(event.message);
         // Toast.success(null, event.message);
+        Toast.fire({
+            icon: "success",
+            title: event.message,
+        });
     });
 
     Livewire.on('notifyWarning', (event) => {
-        toastr.warning(event.message);
+        // toastr.warning(event.message);
+        Toast.fire({
+            icon: 'warning',
+            title: event.message,
+        })
     });
 
     Livewire.on("notifyInfo", (event) => {
-        toastr.info(event.message);
+        // toastr.info(event.message);
+        Toast.fire({
+            icon: 'info',
+            title: event.message,
+        })
+
     });
 });

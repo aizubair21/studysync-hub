@@ -138,7 +138,7 @@
         </ul>
     </nav> --}}
     <!-- /.navbar -->
-    <div class="content-wrapper py-2 px-4">
+    <div>
         {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
 
 

@@ -138,10 +138,10 @@
         </ul>
     </nav> --}}
     <!-- /.navbar -->
-    <div class="wrepper-content px-4 py-2">
+    <div>
 
         <!-- main content -->
-        <div class="row justify-content-center">
+        <div class="row m-0 justify-content-center">
             <div class="col-12">
                 <div class="card mt-2">
                     <div class="card-header ">
@@ -239,8 +239,7 @@
                                     </div>
                                     <div class="col-sm-4 my-2">
                                         <label for="for_skp" class="from-label">For Skip (Point):</label>
-                                        <input type="text" wire:model.live="for_skp" id="for_skp"
-                                            value="0"
+                                        <input type="text" wire:model.live="for_skp" id="for_skp" value="0"
                                             class="form-control @error('for_skp') is-invalid @enderror">
                                         <div class="form-text">How many point cut if skip a question.</div>
                                     </div>

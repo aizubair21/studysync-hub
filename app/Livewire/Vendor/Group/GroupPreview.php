@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Url;
+use Livewire\Attributes\Reactive;
 
 
 #[Title('Groups | Preview')]
@@ -17,7 +18,7 @@ class GroupPreview extends Component
     /**
      * public property to store cmponents data
      */
-    public $name, $group, $member;
+    public $name, $group, $member = [], $schedule;
 
     /**
      * property to store client side data
@@ -37,7 +38,7 @@ class GroupPreview extends Component
      * URL paramitter
      */
     #[Url]
-    public $gpid;
+    public $gpid, $active = "home";
 
 
     public function render()
@@ -53,11 +54,27 @@ class GroupPreview extends Component
     public function  mount()
     {
 
-        // dd($this->gpid);
-        $this->group = Group::where(["id" => $this->gpid, "vendor" => Auth::id()])->with("students")->first();
-        $this->member = User::where(["vendor" => Auth::id(), 'privilage' => 1])->orderBy("id", "desc")->get();
+        $this->group = auth()->user()->vendorGroups()->find($this->gpid)->with("students")->first();
+
+        // dd($this->group);
+        $this->schedule = auth()->user()->vendorGroups()->find($this->gpid)->schedules;
     }
 
+
+    public function updated($property)
+    {
+        
+        if ($property == 'confirmAddNewMember' && $this->confirmAddNewMember) {
+            $this->member = auth()->user()->students; //all meber with this vendor
+        }
+
+    }
+
+
+    public function activeNav($name)
+    {
+        $this->active = $name;
+    }
 
     /**
      * Delete member from a targeted group
@@ -110,13 +127,6 @@ class GroupPreview extends Component
          */
         $this->dispatch("refresh");
     }
-
-
-    /**
-     * public function to  add members into group
-     * 
-     * */
-
 
     /**
      * public function to banned member from group

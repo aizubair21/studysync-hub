@@ -1,3 +1,3 @@
-<th style="text-align:left!important">
+<th {{ $attributes }}>
     {{ $slot }}
 </th>

@@ -14,4 +14,10 @@ class ScheduleController extends Controller
         } else {
         }
     }
+
+
+    public function update(Request $req)
+    {
+        return redirect()->back();
+    }
 }

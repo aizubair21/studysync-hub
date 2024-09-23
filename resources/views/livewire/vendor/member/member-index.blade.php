@@ -141,160 +141,197 @@
     <!-- /.navbar -->
 
 
-    {{-- breadcrumbs/content header  --}}
-    <x-content-header>
-        <li class="breadcrumb-item">
-            <a href="{{ route('vendorMember.index') }}">Members</a>
-        </li>
-        <li class="breadcrumb-item">
-            Index
-        </li>
-    </x-content-header>
-    {{-- breadcrumbs/content header  --}}
+    {{-- header --}}
+    <div class="bg-white mb-2">
 
+        <div class="flex items-center justify-between px-5 py-4">
+            <div>
+                <div class="text-xl font-bold">My Member</div>
+                <div class="text-sm font-normal"> 40 members </div>
+            </div>
 
-    <div>
-        {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+            <div class="flex items-center">
+                <button class="mx-1 bg-green-900 text-white px-3 py-1 hover:bg-green-800 transition rounded">Add</button>
+                <button class="px-3 py-1"><img class="w-5 rotate-90" src="{{asset('media/ellipsis-h.png')}}" alt=""></button>
+            </div>
+        </div>
 
+        <div class="flex items-center justify-center border-b w-full">
+            <button class="px-3 py-1 mx-1 border-5 border-b border-green-700 text-green-700 font-bold bg-green-50">Summery</button>
+            <button class="px-3 py-1 mx-1">Individual</button>
+            <button class="px-4 py-1 font-md">Settings</button>
+        </div>
 
-        {{-- table info header  --}}
-        <div class="d-flex justify-content-between align-items-center p-2 w-100 overflow-x-scroll scrolbar-none">
+    </div>
+    {{-- header --}}
 
-            <div class="d-flex justify-content-start flex-1 w-100">
+    <div class="flex justify-center items-start">
+        
+        <div class="rounded p-2" style="width: 100%; max-width:570px; margin: 0 auto">
+            {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+    
+            <div class="rounded bg-white ">
+                <div class="p-4 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <select name="" id="" class="border rounded p-2">
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                        <div class="w-1 border-r"></div>
+                        <input type="search" name="" class="w-full p-2 rounded border-b " placeholder="search" id="">
+                    </div>
+               
+                    <x-dropdown aling="right">
+                        <x-slot name="trigger">
+                            <button class="px-3 py-1 rounded ">more </button>
+                        </x-slot>
+            
+                        <x-slot name="content">
+                            <div class="px-1">
+                                <button class="text-start p-2 hover:bg-gray-100 hover:transition w-full">Delete</button>
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
+                </div>
+                
+                {{-- <hr class="my-1"> --}}
+    
+                <div class="my-2">
+                    <div class="my-1 p-4 bg-white rounded flex items-center justify-between hover:bg-gray-100 hover:transition border-b">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="" style="width:20px; height:20px" id="">
+                            <div class="px-3">
+                                <img class="rounded-full w-8 border border-green-700" src="{{asset("media/profile-white.png")}}" alt="">
+                            </div>
+                            <div class="">
+                                <a href="" class="block font-bold text-md">
+                                    Lorem ipsum dolor
+                                </a>
+                                <div class="font-normal font-xs my-0">
+                                    lorem@lorem.com
+                                </div>
+                            </div>
+                        </div>
+            
+                        <button class="p-2" wire:click="$toggle('showMemberAside')">
+                            <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/20/circled-chevron-right.png" alt="circled-chevron-right"/>
+                        </button>
+                    </div>
+    
+                    <div class="my-1 p-4 bg-white rounded flex items-center justify-between hover:bg-gray-100 hover:transition border-b">
+                        <div class="flex items-center">
+                            <input type="checkbox" name="" style="width:20px; height:20px" id="">
+                            <div class="px-3">
+                                <img class="rounded-full w-8 border border-green-700" src="{{asset("media/profile-white.png")}}" alt="">
+                            </div>
+                            <div class="">
+                                <div class="font-bold text-md">
+                                    Lorem ipsum dolor
+                                </div>
+                                <div class="font-normal font-xs my-0">
+                                    lorem@lorem.com
+                                </div>
+                            </div>
+                        </div>
+            
+                        <button class="p-2">
+                            <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/20/circled-chevron-right.png" alt="circled-chevron-right"/>
+                        </button>
+                    </div>
+                </div>
+    
+            </div>
+            
+            <div class="bg-white rounded text-ms text-center font-bold p-2" >
+                No Member Found!
+            </div>
+    
+           
+        </div>
 
-                <div class="btn btn-sm border-primary rounded py-2 me-2" x-on:click="search = !search">
-                    <i class="fas fa-search"> </i>
+        {{-- aside  --}}
+        {{-- <div class="p-2 absolute top-0 left-0 w-full h-full flex items-start justify-end" style="background-color: #00000040; z-index:99999">
+            <div class="rounded bg-white h-full" style="width:300px">
+                <div class="p-4 text-end border-b">
+                    <button wire:click="$toggle('showMemberAside')">x</button>
                 </div>
 
-                <button title="delete parmanent" x-show="$wire.action.length > 0" class="btn btn-danger btn-sm mx-2">
-                    <i class="fas fa-trash"></i>
-                </button>
 
-                <button title="make mute" x-show="$wire.action.length > 0" class="btn btn-info btn-sm">
-                    <i class="fas fa-bell"></i>
-                </button>
 
-                <a x-show="$wire.action.length == 1" wire:navigate href="{{ route('vendorGroup.edit', [1]) }}"
-                    class="btn btn-sm  text-center   ">
-                    Edit
-                </a>
-
-                <button x-show="$wire.action.length == 1" class="btn btn-sm  text-center   " title="Quick view">
-                    View
-                </button>
-
-                <button x-show="$wire.action.length > 0" class="btn btn-sm  text-center btn-success mx-2  "
-                    title="create a new group  with this selected students" wire:click="$toggle('confirmAddNewGroup')">
-                    <i class="fas fa-plus me-2"></i> Make Group
-                </button>
 
             </div>
+        </div> --}}
 
-            {{-- right side --}}
-            <div>
-                <button class="btn btn-outline-info btn-sm" wire:click="$toggle('confirmMemberAddModal')"> <i
-                        class="fas fa-plus me-2"></i> Create </button>
-            </div>
-        </div>
-        {{-- table info header  --}}
-
-
-        <div>
-            <input x-show="search" type="search" wire:model="search" wire:change="doSearchMember"
-                placeholder="Type to search" id="search" class=" form-control rounded">
-        </div>
-
-        {{-- table --}}
-        <div class=" overflow-x-scroll pb-3 scrolbar-none">
-            <table class="table table-striped  my-3" id="dataTables">
-                <thead>
-                    <tr>
-                        <x-th></x-th>
-                        <x-th>Name</x-th>
-                        <x-th>Email</x-th>
-                        <x-th>Phone</x-th>
-                        <x-th>Group</x-th>
-                        <x-th> Permit </x-th>
-                        <x-th>Added On</x-th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($members as $key => $member)
-                        <tr>
-                            <x-td style="position:sticky; left:0; background-color:white;">
-                                <input type="checkbox" style="width:20px; heigh:20px;" wire:model="action"
-                                    wire:input="getAction" id="member_{{ $member->id }}" value="{{ $member->id }}">
-                            </x-td>
-                            <x-td>{{ $member->name }}</x-td>
-                            <x-td>{{ $member->email }}</x-td>
-                            <x-td>{{ $member->phone }}</x-td>
-                            <x-td>
-                                <div class="btn btn-info btn-sm">Default</div>
-                            </x-td>
-                            <x-td>
-
-                            </x-td>
-                            <x-td>
-                                {{ $member->created_at }}
-                            </x-td>
-
-                        </tr>
-                    @endforeach
-                    @if (count($members) == 0)
-                        <tr class="text-center">
-                            <td colspan="6">No Data Found !</td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>
-
-            {{-- @livewire('vendor.member.components.table.table', ['user' => $user], key($user->id)) --}}
-
-            {{-- livewire table components --}}
-            {{-- @livewire('vendor.member.components.table.table', [
-                'header' => $header,
-                'members' => $members,
-            ]) --}}
-
-            {{-- <livewire:vendor.member.components.table.table :$header :$members> --}}
-
-            {{-- <table class="table"> --}}
-            {{-- @livewire('vendor.member.components.table.head', ['user' => $user], key($user->id)) --}}
-
-            {{-- head  --}}
-            {{-- @livewire('vendor.member.components.table.head', ['header' => $header]) --}}
-
-            {{-- body  --}}
-            {{-- @livewire('vendor.member.components.table.body', ['data' => $members]) --}}
-
-            {{-- </table> --}}
-
-
-        </div>
     </div>
 
 
-    {{-- <livewire:vendor.questions.create> --}}
+    <x-modal-aside wire:model.live="showMemberAside">
+        <div class="p-4 border-b flex items-start">
+            <img class="w-12 border roundef-full border-green-700" src="{{asset("media/profile.white.png")}}" alt="">
+            <div class="ps-5">
+                <div class="text-sm">3 month ago</div>
+                <div class="text-lg font-bold">lorem ipsum colors</div>
+                <div class="text-sm">loremasdfasdf@lorem.com</div>
+            </div>
+        </div>
 
-    {{-- <x-wire-link>
-        Test
-    </x-wire-link>
-    <x-section-title>
-        <x-slot name="title">
-            section title
-        </x-slot>
-        <x-slot name="aside">
-            aide from section title
-        </x-slot>
+        <div class="p-4 flex item-center justify-between border-b">
+            <div class="text-md font-bold">status</div>
+            <select name="" id="" class="p-2 rounded border border-green-900 bg-green-50">
+                <option selected value="Active">Active</option>
+                <option value="Baned">Banned</option>
+            </select>
+        </div>
 
-        <x-slot name="description">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Iure, cumque deleniti. Est nesciunt error, unde
-            deleniti dignissimos nisi, nulla eius ipsum quo maiores recusandae magni, eligendi modi odit fugiat vitae
-            facere totam quis molestias fuga veniam architecto. Architecto laudantium, corrupti totam, voluptates quia
-            minus odio esse aliquid a veritatis impedit!
-        </x-slot>
+        <div class="p-4 border-b">
+            <div class="text-sm mb-4 flex items-center justify-between">
+                <div>Group</div>
+                <a href="" class="block bg-green-900 text-white rounded-full px-2">view</a>
+            </div>
 
-    </x-section-title> --}}
+            <div class="flex items-center mx-4 my-1">
+                <div class="border-r px-2">01</div>
+                <div class="px-2"> General Batch </div>
+            </div>
+            <div class="flex items-center mx-4 my-1">
+                <div class="border-r px-2">01</div>
+                <div class="px-2"> General Batch </div>
+            </div>
+            <div class="flex items-center mx-4 my-1">
+                <div class="border-r px-2">01</div>
+                <div class="px-2"> General Batch </div>
+            </div>
+
+            <div class="mx-4 text-end">
+                <button class="px-2 rounded bg-green-50 ">Assign New</button>
+            </div>
+        </div>
+
+        <div class="p-4 border-b">
+            <div class="text-sm mb-4 flex items-center justify-between">
+                <div>Exams</div>
+                <a href="" class="block bg-green-900 text-white rounded-full px-2">view</a>
+            </div>
+
+            <div class="flex items-center mx-4 my-1">
+                <table>
+                    <tr>
+                        <th class="p-1">Exam</th>
+                        <th class="p-1">Attend</th>
+                        {{-- <th></th> --}}
+                    </tr>
+                    <tr>
+                        <td>
+                            20
+                        </td>
+                        <td>15</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+
+    </x-modal-aside>
 
 
     {{-- components add users modal  --}}
@@ -389,3 +426,4 @@
     </x-dialog-modal>
     {{-- components new group with slected students modal  --}}
 </div>
+ 

@@ -1,6 +1,7 @@
 {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
-<link rel="stylesheet" href="{{ asset('asset/css/toastr.min.css') }}">
-<link rel="stylesheet" href="{{ asset('asset/css/sweetalert2.min.css') }}">
+{{-- <link rel="stylesheet" href="{{ asset('asset/css/toastr.min.css') }}">
+<link rel="stylesheet" href="{{ asset('asset/css/sweetalert2.min.css') }}"> --}}
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="{{ asset('asset/css/fs.min.css') }}">
 <link rel="stylesheet" href="{{ asset('asset/css/adminlte.min.css') }}">
 <link rel="stylesheet" href="{{ asset('asset/css/main_style.css') }}">
@@ -24,15 +25,19 @@
         align-items: start !important;
         text-align: start !important;
     }
+
+    input:checked {
+        background-color: green !imprtnt;
+    }
 </style>
 
 <script src="{{ asset('asset/script/jquery.min.js') }}"></script>
-{{-- <script src="{{ asset('asset/script/bootstrap.min.js') }}"></script> --}}
+<script src="{{ asset('asset/script/bootstrap.min.js') }}"></script>
 <script src="{{ asset('asset/script/adminlte.min.js') }}"></script>
 <script src="{{ asset('asset/script/fs.min.js') }}"></script>
-<script src="{{ asset('asset/script/toastr.min.js') }}"></script>
+{{-- <script src="{{ asset('asset/script/toastr.min.js') }}"></script>
 <script src="{{ asset('asset/script/sweetalert2.all.min.js') }}"></script>
-<script src="{{ asset('asset/script/livewire_event_listener.js') }}"></script>
+<script src="{{ asset('asset/script/livewire_event_listener.js') }}"></script> --}}
 {{-- <script src="{{ asset('asset/script/bootstrap.bundle.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('asset/script/jquery.dataTables.min.js') }}"></script> --}}
 {{-- <script src="{{ asset('asset/script/jquery.min.js') }}"></script> --}}

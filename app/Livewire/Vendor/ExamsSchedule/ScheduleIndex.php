@@ -6,6 +6,7 @@ use App\Http\Controllers\Exams\QuestionController;
 use App\Models\exam_has_question;
 use App\Models\group_has_exam as exams;
 use App\Models\Group;
+use App\Models\group_has_exam;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -57,7 +58,7 @@ class ScheduleIndex extends Component
         $this->groups = Auth::user()->vendorGroups;
         $this->exams = Auth::user()->schedules;
         // $this->member = Auth::user()->studetns;
-        $this->member = User::where("vendor", Auth::id())->orderBy("id", "desc")->get();
+        $this->member = User::where("vendor", Auth::id())->latest()->get();
         // $this->groups = Group::where("vendor", Auth::id())->get();
         // dd($this->exams);
     }
@@ -110,7 +111,7 @@ class ScheduleIndex extends Component
     {
         foreach ($selectedId as $key => $value) {
             // $this->exams->where("id", $value)->update(["status" => "2"]);
-            exams::find($value)->update(["status" => "1"]);
+            exams::find($value)->update(["status" => "2"]);
             $this->dispatch("notifySuccess", message: "A Group exam schedule has been published. !");
             $this->dispatch("refresh");
             $this->resetActionArray();
@@ -122,7 +123,7 @@ class ScheduleIndex extends Component
     {
         foreach ($selectedId as $key => $value) {
             // $this->exams->where("id", $value)->update(["status" => "2"]);
-            exams::find($value)->update(["status" => "2"]);
+            exams::find($value)->update(["status" => "1"]);
             $this->dispatch("notifySuccess", message: "A Group exam schedule is LIVE now !");
             $this->dispatch("refresh");
             $this->resetActionArray();
@@ -156,84 +157,13 @@ class ScheduleIndex extends Component
             // $this->isShowSelectExamModal = false;
         } else {
             // $this->toggle("confirmQuickAddQuestion");
-            $this->selectedExamToAddQuestion  = $selectedId[0];
-            $this->confirmQuickAddQuestion = !$this->confirmQuickAddQuestion;
+            // $this->selectedExamToAddQuestion  = $selectedId[0];
+            $se = group_has_exam::where(["id" => $selectedId[0], "vendor" => Auth::id()])->first();
+            $this->redirectIntended(route("vendorExamSchedule.question", ["pid" => $se->id, "endpoint" => $se->attend_endpoint]), true);
+            // $this->confirmQuickAddQuestion = !$this->confirmQuickAddQuestion;
         }
     }
 
-    //add quick  question modal
-    public function addQuestion()
-    {
-        // dd($this->question, $this->options, $this->correct);
-        // dd(QuestionController::store(request()->all()));
-        // validator::make(request()->all(), [
-        //     "question" => "required",
-        //     'options.*' => 'required',
-        //     'correct.*' => "required"
-        // ]);
-
-        $this->validate([
-            "question" => "required",
-            'options' => 'required',
-            'correct' => "required",
-            'q_type' => "required",
-            'a_type' => "required"
-        ], [
-            "question.required" => "The question field cannot be empty.",
-            "options.*.required" => "At least one option should not be empty.",
-            "correct.*.required" => "Correct answer must be selected for all options.",
-            "options.required" => "At least one option should not be empty.",
-            "correct.required" => "Correct answer must be selected for all options.",
-            "q_type.required" => "Select the type of question.",
-            "a_type.required" => "Select the type of answer."
-        ]);
-
-        // $this->valid;
-        // here options is an array of option  and correct is a string that contains the index number of the correct answer in the options array 
-        // now wanna to validate  at lest one options must be filled out
-        // if ($validator->fails()) {
-        //     # code...
-        //     if (count($this->options) == 0) {
-        //         // return $this->addErrorToField("options.*", "At least one option field should not be empty.");
-        //         $validator->errors()->add("options.*", "At least one option field should not be empty. via add");
-        //         return;
-        //     }
-        // }
-
-
-        $questionData = array(
-            "question" => $this->question,
-            "vendor" => Auth::id(),
-            "exam_id" => $this->selectedExamToAddQuestion,
-            "type" => $this->q_type,
-            "answer_type" => $this->a_type,
-            "has_option" => count($this->options),
-        );
-
-        $collectionData = array("questionData" => $questionData, "options" => $this->options, "correct" => $this->correct);
-        // dd(QuestionController::store($collectionData));
-        if (QuestionController::store($collectionData) == "ok") {
-            $this->confirmQuickAddQuestion = !$this->confirmQuickAddQuestion;
-            $this->reset(["question", "options", "correct", "selectedExamToAddQuestion", "q_type", "a_type"]);
-            $this->dispatch("notifySuccess", message: "Question inserted");
-        } else {
-            $this->dispatch("notifyError", message: "Something went wrong!");
-            dd(QuestionController::store($collectionData));
-        }
-
-
-        // dd($validator->errors());
-        //custom make validation error message
-        // $messages = [
-        //     'options.*.required' => 'At least one option field must be filled out',
-        // ];
-
-        // QuestionController::store(request()->all());
-        // $this->emit('showAlert');
-        // $this->resetFields();
-        // session()->flash("success","Question added successfully!");
-
-    }
 
 
     //view quesiton modal

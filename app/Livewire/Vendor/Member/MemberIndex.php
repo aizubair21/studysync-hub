@@ -23,7 +23,7 @@ class MemberIndex extends Component
      * public property to store the component data.
      * further send to client side
      */
-    public $members = [], $groups, $header = ["", "Name", "Email", "Phone", "Group", "Permit", "Added On"];
+    public $members = [], $groups, $header = ["", "Name", "Email", "Phone", "Group", "Permit", "Added On"], $showMemberAside;
 
     /**
      * public property to store data from client side 
@@ -61,6 +61,18 @@ class MemberIndex extends Component
     // {
     //     $this->dispatch("doPushNotification", message: ['title' => "Test Post Notificaiton", "rid" => "1"]);
     // }
+
+
+    /**
+     * public function showMemberSidebar
+     * @param Member
+     * open side bar of member info
+     */
+    public function showMemberSidebar()
+    {
+        // $this->showMemberAside = $m;
+        
+    }
 
 
     /**
@@ -130,18 +142,14 @@ class MemberIndex extends Component
      * getAction function to set the member selected to arrya
      * 
      */
-    public function getAction()
-    {
-    }
+    public function getAction() {}
 
 
 
     /**
      * member add to a group
      */
-    public function addMemberToGroup()
-    {
-    }
+    public function addMemberToGroup() {}
 
 
     /**

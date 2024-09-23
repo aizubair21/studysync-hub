@@ -1,301 +1,229 @@
 <div >
     {{-- A good traveler has no fixed plans and is not intent upon arriving. --}}
+
+    @section('title')
+        Group preview
+    @endsection
+
     <div>
         @if (session('success'))
             <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
         @endif
 
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-6">
-                        <h1 class="m-0">Studysync-hub</h1>
-                    </div><!-- /.col -->
-                    <div class="col-sm-6">
-                        <ol class="breadcrumb float-sm-right">
-                            <li class="breadcrumb-item"><a href="#">Dash</a></li>
-                            <li class="breadcrumb-item"><a href="{{ route('vendorGroup.index') }}">Groups</a></li>
-                            <li class="breadcrumb-item"><a href="#">Show</a></li>
-                            <li class="breadcrumb-item active">{{ $group->name }}</li>
-                        </ol>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
+        {{-- header  --}}
+        {{-- <div class="flex items-center justify-between mx-4">
+            <a wire:navigate href="{{route("vendorGroup.index")}}" class="py-1 block mb-2 px-4 text-md font-bold bg-gray-200 rounded-full ">
+            Back
+            </a>
+        </div> --}}
+        {{-- header  --}}
+        
+        <div class="bg-white mb-4">
+
+            <div class="flex justify-between items-start w-full  p-4 rounded">
+                <div class="p-1">
+                    <div class="text-sm">Group</div>
+                    <strong class="rounded font-bold text-xl"> {{ $group->name }}
+                    </strong>
+                    <div>
+                        Create - {{ \Carbon\Carbon::parse($group->created_at)->diffForHumans() }}
+                    </div>
+                </div>
+    
+                <button class="px-3 py-1 mt-1 border">More</button>
+            </div>
+
+            <div class="mt-3 flex items-center justify-center">
+                <button class="px-5 py-1 @if($active == "home") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('home')">General</button>
+                <button class="px-5 py-1 @if($active == "schedule") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('schedule')"> Schedule ({{count($schedule)}})</button>
+                <button class="px-5 py-1 @if($active == "member") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('member')"> Member ({{ count($group->students) }})</button>
+            </div>
         </div>
-        <!-- /.content-header -->
+        
+        {{-- {{$active}} --}}
 
-        {{-- <button >session test</button> --}}
+        @if ($active == "home")
+            <div class="my-3 rounded p-3" id="info" style="max-width: 570px; width:100%; margin:0 auto">
 
-        <div class="row m-0">
-            <div class="col-md-5">
+                <div class="p-4 bg-white text-lg font-bold text-start border-b">
+                    Group Info
+                </div>
 
-                {{-- group info  --}}
-
-                <div class="pb-3">
-                    <div class="text-center">
-                        <img src="{{ asset('media/awm.jpg') }}" alt="" class="rounded-full"
-                            style="width:70px; height:70px; margin:5px auto">
-
-                        <strong class=" text-success p-1 rounded d-block tw-bold h4"> {{ $group->name }}
-                        </strong>
-                        <div class=" mb-2 rounded w-auto d-flex justify-content-center align-items-center">
-                            <div class="rounded py-1 px-2 bg-primary text-light ">
-                                <i class="fas fa-user me-2"></i> Member {{ count($group->students) }}
-                            </div>
-                            <div class="rounded py-1 px-2 bg-primary text-light mx-2">
-                                <i class="fas fa-sync me-2"></i> Request
-                            </div>
-
-                            <button style="min-width:120px;" class=" d-md-none rounded bg-success text-light px-2 py-1">
-                                <i class="fas fa-user-plus me-1"></i> Add Member
-                            </button>
-
-
+                <div class="p-4 bg-white border-b hover:bg-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            Last Exam
+                        </div>
+                        
+                        <div>
+                            <div class="text-normal text-end">
+                                {{-- <input type="date" > --}}
+                                Tomorrow 
+                                <div class="px-2  inline rounded-full bg-gray-50 tex-sm"> Math </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="p-4 bg-white border-b hover:bg-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            Last Exam
+                        </div>
+                        
+                        <div>
+                            <div class="text-normal text-end">
+                                {{-- <input type="date" > --}}
+                                Tomorrow 
+                                <div class="px-2  inline rounded-full bg-gray-50 tex-sm"> Math </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
 
-                {{-- group attachement --}}
-                <div class="card" x-data="{ isShowGA: false, active: null }">
-                    <div class="card-header d-flex w-100 justify-content-between align-items-center"
-                        x-on:click="isShowGA = !isShowGA">
-                        <div>
-                            Group attachement
-                        </div>
-                        <div>
-                            <i class="fas fa-caret-down" x-show="isShowGA"></i>
-                            <i class="fas fa-caret-right" x-Show="!isShowGA"></i>
-                        </div>
-                    </div>
+            </div>
+        @endif
 
-                    <div class="card-body overflow-x-scroll " x-show="isShowGA" x-transition>
-                        <div class="d-flex justify-content-between align-items-start" style="width:880px">
-                            {{-- image attachement --}}
-                            <div class="p-1" style="width: 440px">
-                                <p>Image</p>
-                                <hr>
-                                <div class="content"
-                                    style="display:grid; grid-template-columns: repeat(auto-fit, 110px); grid-gaps:5px;">
-                                    <a href="{{ asset('media/studysync-hub.jpg') }}">
-                                        <img src="{{ asset('media/studysync-hub.jpg') }}" alt=""
-                                            class="rounded">
-                                    </a>
-                                    <a href="{{ asset('media/studysync-hub.jpg') }}">
-                                        <img src="{{ asset('media/studysync-hub.jpg') }}" alt=""
-                                            class="rounded">
-                                    </a>
-                                    <a href="{{ asset('media/studysync-hub.jpg') }}">
-                                        <img src="{{ asset('media/studysync-hub.jpg') }}" alt=""
-                                            class="rounded">
-                                    </a>
-                                    <a href="{{ asset('media/studysync-hub.jpg') }}">
-                                        <img src="{{ asset('media/studysync-hub.jpg') }}" alt=""
-                                            class="rounded">
-                                    </a>
-                                    <a href="{{ asset('media/studysync-hub.jpg') }}">
-                                        <img src="{{ asset('media/studysync-hub.jpg') }}" alt=""
-                                            class="rounded">
-                                    </a>
-                                </div>
-                            </div>
-
-                            {{-- file attachement --}}
-                            <div class="p-1" style="width: 440px">
-                                <p>File</p>
-                                <hr>
-                                <div class="content d-flex justify-content-between align-items-center p-1">
-                                    <input type="checkbox" name="" id=""
-                                        style="height:20px; width:20px">
-                                    <div class="shor-text mx-2">
-                                        Lorem ipsum dolor sit amet co nsectetur, adipisicing elit. Beatae labore vel
-                                        expedita modi officia laborum?
-                                    </div>
-                                    <div class="d-flex ">
-                                        <button class="btn btn-sm btn-success"> <i class="fas fa-download"></i>
-                                        </button>
-                                        <button class="btn btn-sm btn-success ms-1"> <i class="fas fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="card-footer">
-                        <button class="btn btn-outline-default btn-sm"> <i class="fas fa-link"></i> </button>
+        @if ($active == "schedule")    
+            <div  id="schedule" class="my-3 rounded p-3" style="max-width:570px; width: 100%;  margin:0 auto">
+                <div class="p-4 bg-white text-lg font-bold text-start border-b">
+                    Group Exams
+                    <div class="text-sm font-normal">
+                        3 exams found!
                     </div>
                 </div>
 
-                {{-- group exams --}}
-                <div class="card" x-data="{ isShow: false }">
-                    <div class="card-header">
-                        Group Exams
-                    </div>
-                    <div class="card-body overflow-x-scroll">
-                        <table class="table ">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Name</th>
-                                    <th>Subject</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>0</td>
-                                    <td>Test</td>
-                                    <td>Test</td>
-                                    <td>Test</td>
-                                    <td>Test</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer">
-                        <button class="btn btn-outline-success btn-sm"> <i class="fas fa-plus me-2"> </i>
-                            Create</button>
+                <div class="p-4 bg-white border-b hover:bg-gray-100">
+                    <div class=" rounded flex items-start w-full">
+                        <div class="h-full px-2 font-bold block  border-r text-lg">
+                            
+                        </div>
+
+                        <div class="px-3 w-full">
+
+                            <div class="flex items-center justify-between w-full ">
+                                <div class="md:flex  items-center justify-between lg:block">
+
+                                    <a title="" wire:navigate class="block text-start font-bold text-lg ">
+                                        <!-- exam name  -->
+                                        {{-- {{ Str::substr($group->name, 0, 15)  }} --}}
+                                    </a>
+
+                                    <div class="flex justify-between items-start md:items-center text-sm">
+                                        <div class="mx-2 hidden md:block lg:hidden">|</div>
+                                        {{-- <div>{{ \Carbon\Carbon::parse($group->created_at)->diffForHumans() }}</div> --}}
+                                        
+                                        <div class="mx-1 md:mx-2 ">|</div>
+                                        <div class="px-1 rounded bg-gray-300">
+                                            {{-- {{ $group->is_private ? 'Private' : '  Public' }} --}}
+                                        </div>
+
+                                        <!-- <div class="rounded-full px-2 border  mx-2 bg-green-900 text-white "> Draft
+                                        </div> -->
+                                    </div>
+
+                                </div>
+
+                                <div class="" style="align-self: flex-start">
+
+                                    <x-dropdown align="right" width="24">
+                                        <x-slot name="trigger">
+                                            <button class="px-2 py-1 rounded border">
+                                                More
+                                            </button>
+                                        </x-slot>
+
+                                        <x-slot name="content">
+                                            <div class="px-1 w-full text-md">
+                                                <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Select</a>
+                                            </div>
+                                            <div class="px-1 w-full text-md">
+                                                <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Bann</a>
+                                            </div>
+                                            <hr class="my-1">
+                                            <div class="px-1 w-full text-md">
+                                                <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Edit </a>
+                                            </div>
+                                            <div class="px-1 w-full text-md">
+                                                <button class="px-3 py-2 block rounded w-full text-md text-start" wire:click="destroySingle({{$group->id}})"> Delete </button>
+                                            </div>
+                                            <hr class="my-1">
+                                            <div class="px-1 w-full text-md">
+                                                <button class="px-3 py-2 block rounded w-full text-md "> Schedule </button>
+                                            </div>
+                                        </x-slot>
+                                    </x-dropdown>
+
+                                </div>
+                            </div>
+
+                            <hr class="my-3">
+
+                            <div class="flex justify-start items-center">
+                                
+                                <div class=" bg-green-900 text-white inline-flex">
+                                    <div class="px-2">15 - E</div>
+                                </div>
+                                
+                                <div class="mx-1 bg-gray-900 text-white inline-flex">
+                                    <div class="px-2"> - S</div>
+                                </div>
+                            
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
+        @endif
 
-            {{-- right side --}}
-
-            {{-- group member --}}
-            <div class="col-md-7">
-                <div class="card" x-data="{ isShowGM: true, selectedId: [] }" x-init="() => { $wire.on('clearValue', () => { selectedId = [] }) }">
-                    <div class="card-header " x-on:click="isShowGM = !isShowGM">
-                        <div class=" d-flex justify-content-between align-items-center ">
-                            <div>
-                                Group Members <span class="p-1 bg-info text-light rounded px-2"
-                                    x-html="selectedId.length + ' selected'"> </span>
-                            </div>
-                            <div>
-                                <i class="fas fa-caret-down" x-show="isShowGM"></i>
-                                <i class="fas fa-caret-right" x-Show="!isShowGM"></i>
-                            </div>
-                        </div>
-
-
+        @if ($active == "member")
+                <div wire:show="active == member" id="member" class="my-3 rounded p-3" style="width: 100%; max-width:570px; margin:0 auto"> 
+                
+                <div class="p-4 flex items-center justify-between bg-white text-lg font-bold text-start border-b">
+                    <div>
+                        60 Members
                     </div>
-                    <div class="card-body" x-show="isShowGM" x-transition>
+                    <button class="px-2 rounded text-start my-2 font-normal text-sm" >Add</button>
+                </div>
 
-                        <div x-show="selectedId.length > 0" x-transition class="w-100">
-                            <div class="d-flex w-100 overflow-x-scroll scrolbar-none py-2">
-
-                                <button style="min-width:120px; width:120px; height:35px;"
-                                    class="btn btn-sm btn-danger "
-                                    x-on:click="$wire.detachMemberFromGroup(selectedId)">
-                                    <i class="fas fa-trash me-2"></i> Remove
-                                </button>
-
-                                <button style="min-width:120px; width:120px; height:35px;"
-                                    class="btn btn-sm btn-danger mx-2" x-on:click="$wire.banUser(selectedId)"> <i
-                                        class="fas fa-user-lock mx-2"></i>
-                                    Banned
-                                </button>
-
-                                <button style="min-width:120px; width:120px; height:35px;"
-                                    class="btn btn-sm btn-outline-success" x-on:click="$wire.unBanedUser(selectedId)">
-                                    <i class="fas fa-user-check mx-2"></i>
-                                    Un Banned
-                                </button>
-
-                            </div>
+                <div class="py-3 px-5 bg-white border-b hover:bg-gray-100">
+                    <div class="flex items-center justify-start">
+                        
+                        <input type="checkbox" name="" style="width: 20px; height:20px" id="">
+                        <div class="ps-5">
+                            lorem ipsum colors door
                         </div>
-
-                        <div class="w-100 d-flex justify-content-between align-items-center">
-
-                            <div>
-                                Total {{ count($group->students) }} members
-                                <div class="input-group py-1">
-                                    <input type="checkbox" name="" id="showAll"
-                                        style="width:12px; height:12px margin:0 5px">
-                                    <label for="showAll" class="m-0 px-2">Show All</label>
-                                </div>
-                            </div>
-                            <div>
-
-                                <input type="search" name="" id="" class="rounded "
-                                    placeholder="Enter name to find" style="height:35px">
-                            </div>
-
-                        </div>
-
-                        <div class="overflow-x-scroll py-1">
-
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>
-
-                                        </th>
-                                        <th>Name</th>
-                                        <th>Status</th>
-                                        <th>A/C</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($group->students as $gps)
-                                        <tr>
-                                            <td>
-                                                {{ $loop->iteration }}
-                                            </td>
-                                            <td>
-                                                <input type="checkbox" x-model="selectedId"
-                                                    value="{{ $gps->id }}" id="member_{{ $gps->id }}"
-                                                    style="width:20px; height:20px me-2">
-                                            </td>
-                                            <td style="text-align: start!important">
-                                                {{ $gps->name }}
-                                                {{-- <span class="p-1 bg-info text-light rounded ms-1">
-                                                    {{ $gps['pivot']->is_moderator == 1 ? 'moderator' : '' }} </span> --}}
-                                                {{-- <button x-show="{{ $gps['pivot']->is_moderator }} == 1"
-                                                    class="d-block btn btn-sm text-danger outline-0 border-0 ">remove
-                                                    moderator</button> --}}
-
-                                            </td>
-                                            <td>
-
-                                                <div @class([
-                                                    'p-1 rounded bg-success text-light',
-                                                    'bg-danger' => $gps['pivot']->status != 1,
-                                                ])>
-                                                    {{-- {{ $loop->iteration }} --}}
-                                                    {{ $gps['pivot']->status == 1 ? 'Active' : 'Banned' }}
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <button class="btn btn-info btn-sm mx-1"> <i
-                                                        class="fas fa-user-shield"></i>
-                                                </button>
-
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                    </div>
-                    <div class="card-footer">
-                        <button class="btn btn-outline-success btn-md" wire:click="$toggle('confirmAddNewMember')"><i
-                                class="fas fa-user me-2"></i> Add</button>
                     </div>
                 </div>
+                <div class="py-3 px-5 bg-white border-b hover:bg-gray-100">
+                    <div class="flex items-center justify-start">
+                        
+                        <input type="checkbox" name="" style="width: 20px; height:20px" id="">
+                        <div class="ps-5">
+                            lorem ipsum colors door
+                        </div>
+                    </div>
+                </div>
+                <div class="py-3 px-5 bg-white border-b hover:bg-gray-100">
+                    <div class="flex items-center justify-start">
+                        
+                        <input type="checkbox" name="" style="width: 20px; height:20px" id="">
+                        <div class="ps-5">
+                            lorem ipsum colors door
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        @endif
+        
+
+
     </div>
 
 
     {{-- add member  modals start --}}
-    <x-dialog-modal wire:model.live="confirmAddNewMember">
+    <x-modal wire:model.live="confirmAddNewMember">
         <x-slot name="title">
             {{ __('Attached member to this group') }}
             {{-- {{ $memberGroup }} --}}
@@ -372,6 +300,6 @@
 
 
         </x-slot>
-    </x-dialog-modal>
+    </x-modal>
     {{-- add member  modals end --}}
 </div>

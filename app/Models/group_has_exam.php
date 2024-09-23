@@ -74,11 +74,11 @@ class group_has_exam extends Model
 
 
     //this make query all with with() method by default
-    // public function getWithRelationsAttribute()
-    // {
-    //     $this->load('courses.courseModules.contents',);
-    //     return $this;
-    // }
+    public function getWithRelationsAttribute()
+    {
+        $this->load('courses.courseModules.contents',);
+        return $this;
+    }
 
 
     /**
@@ -98,32 +98,32 @@ class group_has_exam extends Model
      * for status
      * show to human readiable formate, instead of database  value
      */
-    protected function getStatusAttribute($value)
-    {
-        switch ($value) {
-            case '0':
-                # code...
-                return "<div class=' text-center rounded-pill border bordered text-dark py-1 px-2 text-nowrap'> Draft </div>";
-                break;
+    // protected function getStatusAttribute($value)
+    // {
+    //     switch ($value) {
+    //         case '0':
+    //             # code...
+    //             return ['bool' => $value, 'text' => "<div class=' text-center rounded-pill border bordered text-dark py-1 px-2 text-nowrap'> Draft </div>"];
+    //             break;
 
-            case "1":
-                return  "<div class=' text-center rounded-pill bg-success text-dark py-1 px-2 text-nowrap'> Opened </div>";
-                break;
+    //         case "1":
+    //             return  ['bool' => $value, 'text' => "<div class=' text-center rounded-pill bg-success text-dark py-1 px-2 text-nowrap'> Live </div>"];
+    //             break;
 
-            case "5":
-                return "<div class=' text-center rounded-pill bg-warning text-dark py-1 px-2 text-nowrap'> Finished </div>";
-                break;
+    //         case "5":
+    //             return ['bool' => $value, 'text' => "<div class=' text-center rounded-pill bg-warning text-dark py-1 px-2 text-nowrap'> Finished </div>"];
+    //             break;
 
-            case "2":
-                return "<div class=' text-center rounded-pill bg-primary text-dark py-1 px-2 text-nowrap'> Published </div>";
-                break;
+    //         case "2":
+    //             return ['bool' => $value, 'text' => "<div class=' text-center rounded-pill bg-primary text-dark py-1 px-2 text-nowrap'> Published </div>"];
+    //             break;
 
-            default:
-                return "<div class=' text-center rounded-pill bg-danger text-dark py-1 px-2 text-nowrap'> Faild </div>";
-                # code...
-                break;
-        }
-    }
+    //         default:
+    //             return ['bool' => $value, 'text' => "<div class=' text-center rounded-pill bg-danger text-dark py-1 px-2 text-nowrap'> Faild </div>"];
+    //             # code...
+    //             break;
+    //     }
+    // }
 
     /**
      * Attrubute for moderator 
@@ -140,28 +140,28 @@ class group_has_exam extends Model
      * ACCESSOR
      * Get the value of `created_at` as a Carbon instance.
      */
-    public function getCreatedAtAttribute($date): string
-    {
-        return Carbon::parse($date)->format("M d, Y");
-        // Carbon 
-    }
-    public function getUpdatedAtAttribute($date): string
-    {
-        return Carbon::parse($date)->format("M d, Y");
-    }
-    public function getExmDateAttribute($date): string
-    {
-        $carbon = new Carbon($date);
-        if ($carbon < now()) {
-            return "Experied on, " . $carbon->format('M d, Y');
-        } elseif ($carbon->diffInDays(now(), false) == 0) {
-            return 'Today';
-        } elseif ($carbon->diffInDays(now(), false) > 0 && $carbon->diffInDays(now(), true) <= 7) {
-            return 'This Week';
-        } else {
-            return $carbon->format('F jS');
-        }
-    }
+    // public function getCreatedAtAttribute($date): string
+    // {
+    //     return Carbon::parse($date)->format("M d, Y");
+    //     // Carbon 
+    // }
+    // public function getUpdatedAtAttribute($date): string
+    // {
+    //     return Carbon::parse($date)->format("M d, Y");
+    // }
+    // public function getExmDateAttribute($date): string
+    // {
+    //     $carbon = new Carbon($date);
+    //     if ($carbon < now()) {
+    //         return "Experied on, " . $carbon->format('M d, Y');
+    //     } elseif ($carbon->diffInDays(now(), false) == 0) {
+    //         return 'Today';
+    //     } elseif ($carbon->diffInDays(now(), false) > 0 && $carbon->diffInDays(now(), true) <= 7) {
+    //         return 'This Week';
+    //     } else {
+    //         return $carbon->format('F jS');
+    //     }
+    // }
 
 
 
@@ -235,18 +235,18 @@ class group_has_exam extends Model
      * @param  array   $questionData contains the question details.
      * @return Object            The added question.
      */
-    // public function addQuestionToExam($groupId, array $questionData)
-    // {
-    //     //add the new question to the questions table and get its ID
-    //     $newQuesitonID = QuestionController::store($questionData);
-    //     //create a new instance of the exam_has_questions model using the newly created question Id.
-    //     $newQuesiton = new ExamHasQuestions();
-    //     //link this question with the given exam.
-    //     $newQuesiton->exam_id = $groupId;
-    //     $newQuesiton->question_id = $newQuesitionID;
-    //     $newQuesiton->save();
-    //     return $newQuesiton;
-    // }
+    public function addQuestionToExam($groupId, array $questionData)
+    {
+        //add the new question to the questions table and get its ID
+        $newQuesitonID = QuestionController::store($questionData);
+        //create a new instance of the exam_has_questions model using the newly created question Id.
+        $newQuesiton = new ExamHasQuestions();
+        //link this question with the given exam.
+        $newQuesiton->exam_id = $groupId;
+        $newQuesiton->question_id = $newQuesitionID;
+        $newQuesiton->save();
+        return $newQuesiton;
+    }
 
     /**
      * remove a question from an exam.
@@ -254,15 +254,15 @@ class group_has_exam extends Model
      * @param  [type] $questionId [description]
      * @return [type]              [description]
      */
-    // public function deleteQuestionFromExam($groupId, $questionId)
-    // {
-    //     $theGroup = GroupHasExams::findOrFail($groupId);
-    //     if ($theGroup->questions()->detach($questionId)) {
-    //         return "Successfully deleted";
-    //     } else {
-    //         App::abort(404);
-    //     }
-    // }
+    public function deleteQuestionFromExam($groupId, $questionId)
+    {
+        $theGroup = GroupHasExams::findOrFail($groupId);
+        if ($theGroup->questions()->detach($questionId)) {
+            return "Successfully deleted";
+        } else {
+            App::abort(404);
+        }
+    }
 
     /*******************************PRIVATE FUNCTIONS********************************/
 }

@@ -1,4 +1,4 @@
-@props(['id', 'maxWidth'])
+@props(['id', 'maxWidth', 'height' => "90%", 'align'])
 
 @php
     $id = $id ?? md5($attributes->wire('model'));
@@ -10,6 +10,8 @@
         'xl' => 'sm:max-w-xl',
         '2xl' => 'sm:max-w-2xl',
     ][$maxWidth ?? '2xl'];
+
+    $align
 @endphp
 
 <div x-data="{ show: @entangle($attributes->wire('model')) }" x-on:close.stop="show = false" x-on:keydown.escape.window="show = false" x-show="show"
@@ -23,12 +25,13 @@
     </div>
 
     <div x-show="show"
-        class="mb-6 bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:w-full {{ $maxWidth }} sm:mx-auto"
+        class="mb-6 bg-white rounded-lg  shadow-xl transform transition-all w-80 sm:w-full  {{ $maxWidth }} sm:mx-auto"
         x-trap.inert.noscroll="show" x-transition:enter="ease-out duration-300"
         x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200"
         x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
-        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
+        x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        style="position: absolute; top:50%; left:50%; transform:translate(-50%, -50%); height:{{$height}}; overflow:hidden; overflow-y:scroll">
         {{ $slot }}
     </div>
 </div>

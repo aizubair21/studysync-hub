@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\validate;
 use Livewire\Attributes\Title;
+use Illuminate\Support\Facades\Auth;
 
 // use Livewire\Attributes\Validate;
 
@@ -43,6 +44,7 @@ class VendorForm extends Component
         $userId = DB::table("users")->insertGetId([
             "name" => $this->name,
             'email' => $this->email,
+            "vendor" => Auth::id(),
             "password" => Hash::make($this->password),
         ]);
 

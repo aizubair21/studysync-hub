@@ -1,4 +1,4 @@
-<div>
+<div class="px-4 py-2">
 
     {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
@@ -138,58 +138,93 @@
         </ul>
     </nav> --}}
 
+    {{-- page header  --}}
+    <div class="flex items-center justify-between py-2">
+        <div class="text-lg font-bold ">Schedule Index</div>
+
+        <div class="flex items-center">
+            <button class="mx-1 rounded-full h-9 w-9 bg-slate-200 hover:bg-slate-400 transition"> <i
+                    class="fas fa-cog"></i>
+            </button>
+            <a wire:navigate href=""
+                class="hover:bg-green-800 hover:text-slate-50 rounded bg-green-900 text-slate-50 px-3 py-2 "> <i
+                    class="fas fa-plus-circle me-2"></i>
+                Create</a>
+        </div>
+    </div>
+    {{-- page header  --}}
 
     <div x-data="{
-        activeNav: 'all',
+        activeNav: 'All',
         activeContent: 'all',
         isFilter: false,
         selectedId: [],
         filter_by_date: null,
         filter_by_group: null,
         filter_by_status: 'all',
-    
-    
-    }">
-
-        <!-- Content Header (Page header) -->
-        <x-content-header>
-            <li class="breadcrumb-item active">
-                Exams Index
-            </li>
-        </x-content-header>
-        <!-- /.content-header -->
+    }" >
 
 
-        {{-- hidden action center  --}}
+        {{-- <div class="border-y flex justify-between items-center">
 
-        <div class=" d-inline-flex bg_light scrolbar-none" style="width:100%; overflow-x:scroll;" x-data={}>
-            {{-- <div class=" btn btn-lg m-2 mx-3 border-primary p-3" wire:click="$refresh"> <i class="fas fa-carret-down"></i> Draft --}}
-            <button x-show="selectedId.length == 1" href="" role="button"
-                class=" text-nowrap btn d-block border-bottom m-2 btn-success"
+            <button class=" text-nowrap btn d-block border-bottom m-2 btn-success"
                 @click="$wire.addQuestionModal(selectedId)">
                 <i class="fas fa-pen me-2"></i>
                 Make Question
             </button>
+            <div>
+                <input type="search" class="w-full border rounded px-3 py-2" placeholder="Search by name">
+            </div>
+
+
+            <x-dropdown width="48" maxWidth="sm">
+                <x-slot name="trigger">
+                    <button class="px-3 py-2 border rounded">More <i class="fas fa-caret-down ms-2"></i></button>
+                </x-slot>
+
+                <x-slot name="content">
+                    <button class="text-nowrap text-left w-full px-3 py-2 border-b"> <i
+                            class="fas fa-arrow-down me-2"></i> Draft
+                    </button>
+                    <button class="text-nowrap text-left w-full px-3 py-2 border-b"> <i class="fas fa-sync me-2"></i>
+                        Published
+                    </button>
+                    <button class="text-nowrap text-left w-full px-3 py-2 border-b"> <i class="fas fa-play me-2"></i>
+                        Live </button>
+                    <button class="text-nowrap text-left w-full px-3 py-2 border-b"> <i class="fas fa-trash me-2"></i>
+                        Delete
+                    </button>
+                    <button class="text-nowrap text-left w-full px-3 py-2 border-b"> <i class="fas fa-pen me-2"></i>
+                        Edit </button>
+
+                </x-slot>
+            </x-dropdown>
+
+        </div> --}}
+
+        {{-- hidden action center  --}}
+        <div class=" d-inline-flex scrolbar-none p-0 m-0" style="width:100%; ;" x-data={}>
+            {{-- <div class=" btn btn-lg m-2 mx-3 border-primary p-3" wire:click="$refresh"> <i class="fas fa-carret-down"></i> Draft --}}
 
             {{-- trash  --}}
-            <button x-show="selectedId.length > 0" x-transition type="button" class=" text-nowrap btn btn-danger m-2"
+            <button x-show="selectedId.length > 0" x-transition type="button" class="text-nowrap px-2 py-1 bg-red mx-1"
                 @click="$wire.distroy(selectedId)"> <i class="fas fa-trash me-2"></i> Trash
             </button>
 
             {{-- draft --}}
             <button x-show="selectedId.length > 0" x-transition type="button"
-                class=" text-nowrap text-nowrap btn btn-outline-info m-2" @click="$wire.draft(selectedId)"> <i
+                class="text-nowrap px-2 py-1 border bg-light  mx-1" @click="$wire.draft(selectedId)"> <i
                     class="fas fa-arrow-down me-2"></i> Draft</button>
 
             {{-- published exam --}}
             <button x-show="selectedId.length > 0" x-transition type="button" href=""
-                class=" text-nowrap  btn btn-outline-success m-2" @click="$wire.doPublishedExam(selectedId)">
+                class=" text-nowrap px-2 py-1  bg-green  mx-1" @click="$wire.doPublishedExam(selectedId)">
                 <i class="fas fa-sync me-2"></i> Publish
             </button>
 
             {{-- live exam  --}}
             <button x-show="selectedId.length > 0" x-transition type="button" href=""
-                class="  text-nowrap btn btn-success m-2" @click="$wire.doLiveExam(selectedId)">
+                class="text-nowrap px-2 py-1 border  mx-1" @click="$wire.doLiveExam(selectedId)">
                 <i class="fas fa-play me-2"></i> Live
             </button>
 
@@ -198,10 +233,10 @@
         {{-- hidden action center --}}
 
         {{-- table data filter nav --}}
-        <div class="d-flex align-items-center" style="overflow-x: scroll">
+        <div class="flex justify-start items-center mb-1">
 
 
-            <button x-show="!isFilter" @click="isFilter = !isFilter" x-transition
+            {{-- <button x-show="!isFilter" @click="isFilter = !isFilter" x-transition
                 class="py-2 px-3 bg-info border-0 mx-1 cursor-pinter rounded text-nowrap sticky start-0">
                 <i class="fa fa-filter me-2"></i> filter
             </button>
@@ -209,46 +244,63 @@
             <button x-show="isFilter" @click="isFilter = !isFilter" x-transition
                 class="py-2 px-3 bg-info border-0 mx-1 cursor-pinter rounded text-nowrap sticky start-0">
                 <i class="fa fa-align-justify me-2"></i> Tab
-            </button>
+            </button> --}}
 
             {{-- tab  --}}
-            <div x-show="!isFilter" x-transition>
-                <div class="d-flex  m-0  w-100 my-2 py-1 ">
-                    <div class="py-2 px-3 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'all' }" @click="activeNav = 'all'">All</div>
+            <x-dropdown align="left">
 
-                    <div class="py-2 px-3 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'drafted' }" @click="activeNav = 'drafted'">Draft
+                <x-slot name="trigger">
+                    <button class="p-2  rounded border "> <span x-text="activeNav"></span> <i
+                            class="fas fa-caret-down ml-2"></i> </button>
+                </x-slot>
+
+                <x-slot name="content">
+
+                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
+                        :class="{ 'bg-success': activeNav == 'All' }" @click="activeNav = 'All'">All</div>
+
+                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
+                        :class="{ 'bg-success': activeNav == 'Drafted' }" @click="activeNav = 'Drafted'">Draft
                     </div>
 
-                    <div class="py-2 px-3 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'published' }" @click="activeNav = 'published'">Published
+                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
+                        :class="{ 'bg-success': activeNav == 'Published' }" @click="activeNav = 'Published'">Published
                     </div>
 
-                    <div class="py-2 px-3 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'live' }" @click="activeNav = 'live'">Live
+                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
+                        :class="{ 'bg-success': activeNav == 'Live' }" @click="activeNav = 'Live'">Live
                     </div>
 
-                    <div class="py-2 px-3 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
+                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
                         :class="{ 'bg-success': activeNav == 'Resulted' }" @click="activeNav = 'Resulted'">Result out
                     </div>
+
+                </x-slot>
+            </x-dropdown>
+            {{-- <div>
+                <div class="d-flex  m-0  w-100 my-2 py-1 ">
                 </div>
-            </div>
+            </div> --}}
 
             {{-- flter and action section --}}
-            <div x-show="isFilter" x-transition>
+            <div>
 
-                <div class="d-flex  m-0  w-100 my-2 py-1 ">
+                <div class="flex items-center m-0  w-full ">
+                    {{-- <x-dropdown align="left">
+                        <x-slot name="trigger">
 
-                    <select name="" id="by_subject" class="form-select rounded mx-1" v-model="filters_by_group">
+                        </x-slot>
+
+                    </x-dropdown> --}}
+
+                    <select name="" id="by_subject" class="p-2 border bg-white rounded mx-1" v-model="filters_by_group">
                         <option selected value="*"> -- All Group --</option>
                         @foreach ($groups as $item)
                             <option value="{{ $item->id }}"> {{ $item->name }}</option>
                         @endforeach
                     </select>
 
-                    <select name="filter_by_date" id="group_by" x-model="filter_by_date"
-                        class=" form-select rounded mx-1">
+                    <select name="filter_by_date" id="group_by" x-model="filter_by_date" class=" p-2 border rounded">
                         <option selected value="*">All Time</option>
                         <option value="today">Today</option>
                         <option value="tomorrow">Tomorrow</option>
@@ -264,121 +316,120 @@
         {{-- table data filter nav end --}}
 
         {{-- table --}}
-        <div class="w-100 overflow-scroll pb-3 px-2">
-            <table class="table  text-center " id="dataTables_simple">
-                <thead>
-                    <tr>
-                        <x-th scope="col ">A/C</x-th>
-                        <x-th scope="col " style=" min-width:30px; width:30px">#</x-th>
-                        <x-th scope="col " style=" min-width:150px">Name</x-th>
-                        <x-th scope="col " style=" min-width:150px">Group</x-th>
-                        <x-th scope="col " style=" min-width:150px">Exam Time</x-th>
-                        <x-th scope="col " style=" min-width:150px">Status</x-th>
-                        <x-th scope="col " style=" min-width:180px">Exam Date</x-th>
-                        <x-th scope="col " style=" min-width:150px">Last Modified</x-th>
-                        <x-th>Questions</x-th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (!empty($exams))
+        <div class="w-full rounded text-md ">
+            <div class="py-2 text-sm"> {{ count($exams) ?? '0' }} items found.</div>
+            <div class="">
 
-                        @foreach ($exams as $id => $item)
-                            <tr>
+                <div class="">
+                    @foreach ($exams as $exm)
+                    <div class="my-1 p-1 w-full">
+                        {{-- <div class="xl:px-3 xl:py-4 rounded flex items-center w-full bg-white">
 
-                                <x-td class=" align-items-center">
-                                    <div class="d-inline-flex align-items-center">
+                        </div> --}}
+                        <div class="xl:px-3 xl:py-4 p-2 rounded flex items-start w-full bg-white">
+                            <div class="h-full px-2 font-bold block  border-r text-lg">
+                                {{ $loop->iteration }}
+                            </div>
 
-                                        <div>
-                                            <input type="checkbox" id="inp_{{ $item->id }}"
-                                                name="inp_{{ $item->id }}" x-model="selectedId"
-                                                value="{{ $item->id }}">
-                                        </div>
+                            <div class="px-3 w-full">
 
-                                    </div>
+                                <div class="flex items-center justify-between w-full ">
+                                    <div class="block items-center justify-between">
 
-                                </x-td>
-                                <x-td>
-                                    <div class="d-inline-flex align-items-center">{{ $loop->iteration }}</div>
-                                </x-td>
-                                <x-td for="inp_1">
-                                    <div>
-                                        <a href="{{ route('vendorExamSchedule.view', ['pid' => $item->id, 'endpoint' => $item->attend_endpoint]) }}"
-                                            wire:navigate>
-                                            {{ $item->exm_name }}
+                                        <a title="{{$exm->exm_name}}" wire:navigate href="{{route('vendorExamSchedule.view', ['pid' => $exm->id])}}" class="block text-start font-bold text-lg ">
+                                            <!-- exam name  -->
+                                            {{ Str::substr($exm->exm_name, 0, 20)  }}
                                         </a>
+
+                                        <div class="md:flex justify-between items-start md:items-center text-sm my-2">
+                                            {{-- <img class="me-2" width="18" height="18" src="https://img.icons8.com/plumpy/24/people-skin-type-7.png" alt="people-skin-type-7"/> --}}
+                                            {{-- <div>{{ \Carbon\Carbon::parse($exm->created_at)->diffForHumans() }}</div> --}}
+                                            <div class="hidden md:block flex items-center"> {{ DB::table("groups")->where('id',$exm->group)->get("name")->value("name")}} </div>
+                                            <div class="mx-2 hidden md:block">|</div>
+                                            <div class="flex item-center"> <img class="me-2" width="18" height="18" src="https://img.icons8.com/material-outlined/24/books--v1.png" alt="books--v1"/> {{$exm->exm_subject}}</div>
+                                            <div class="mx-2 hidden md:block">|</div>
+
+                                            <!-- <div class="rounded-full px-2 border  mx-2 bg-green-900 text-white "> Draft
+                                            </div> -->
+
+                                            @if ($exm->exm_date > today())
+                                                
+                                                <div class="flex items-center">
+                                                    <img class="me-2" width="18" height="18" src="https://img.icons8.com/forma-thin/18/baby-calendar.png" alt="baby-calendar"/>                                                    <div class="">Next Exam: {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
+                                                </div>
+                                            @else
+                                                <div class="flex items-center">
+                                                    <img class="me-2" width="18" height="18" src="https://img.icons8.com/ios/18/calendar--v1.png" alt="calendar--v1"/>
+                                                    <div class="">Last Exam: {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
+                                                </div>
+                                                
+                                            @endif
+                                        </div>
+                                        
                                     </div>
-                                    <div class="d-inline-flex align-items-center mt-2">
 
-                                        <a wire:navigate
-                                            href="{{ route('vendorExamSchedule.edit', ['id' => $item->id]) }}"
-                                            class="btn btn-sm btn-info mx-1"> Edit </a>
-                                        <button class="btn btn-sm btn-info text-nowrap"
-                                            wire:click="showMoreInfo({{ $item->id }})"> <i
-                                                class="fas fa-eye me-1"></i> Quick View
-                                        </button>
-                                    </div>
-                                </x-td>
-                                <x-td>
-                                    <p class="m-0 mb-1">
 
-                                        {{ $item->group['name'] }}
-                                    </p>
+                                    <div class="" style="align-self: flex-start">
 
-                                    <p class="m-0 small text-muted rounded bg-info d-inline w-auto p-1 ">
-                                        {{ $item->exm_subject }}
-                                    </p>
-                                </x-td>
-                                <x-td>
-                                    {{ $item->exm_time }}
-                                </x-td>
-                                <x-td>
-                                    {!! $item->status !!}
-                                </x-td>
-                                <x-td> <span class="border border-info px-2 py-1 rounded-pill text-nowrap">
-                                        {{ $item->exm_date }}</span></x-td>
-                                <x-td>{{ $item->updated_at }}</x-td>
-                                <x-td>
-                                    <div class="d-inline-flex ">
+                                        <x-dropdown align="right" width="24">
+                                            <x-slot name="trigger">
+                                                <button class="px-2 py-1 rounded border">
+                                                    <img width="18" src="{{asset("media/ellipsis-h.png")}}" alt="">
+                                                </button>
+                                            </x-slot>
 
-                                        {{-- <button type="button" title="quick add question"
-                                            class=" text-nowrap btn text-priamry "
-                                            wire:click="$toggle('confirmQuickAddQuestion')">
-                                            <i class="fas fa-plus"></i> Quick
-                                        </button> --}}
-
-                                        {{-- <a wire:navigate href="" title="Add question with full of featured"
-                                            role="button" class=" text-nowrap btn btn-success ms-1 ">
-                                            <i class="fas fa-plus me-2"></i>Add
-                                        </a> --}}
-
-                                        <buton title="view quesiton of this exams" role="button"
-                                            wire:click="showQuestionViewModal({{ $item->id }})"
-                                            class=" text-nowrap btn rounded-circle btn-success mx-1 ">
-                                            <i class="fas fa-eye"></i>
-                                        </buton>
-
-                                        {{-- <buton title="view quesiton of this exams" role="button"
-                                            wire:click="showQuestionViewModal({{ $item->id }})"
-                                            class=" text-nowrap btn btn-outline-success mx-1 ">
-                                            <i class="fas fa-sync me-2"></i> View Response
-                                        </buton> --}}
-                                        <a href="" wire:navigate title="Add new question"
-                                            class="btn btn-outline-primary"> <i class="fas fa-plus"></i> </a>
+                                            <x-slot name="content">
+                                                <div class="px-1 w-full text-md">
+                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Select</a>
+                                                </div>
+                                                <div class="px-1 w-full text-md">
+                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Bann</a>
+                                                </div>
+                                                <hr class="my-1">
+                                                <div class="px-1 w-full text-md">
+                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Edit </a>
+                                                </div>
+                                                <div class="px-1 w-full text-md">
+                                                    <button class="px-3 py-2 block rounded w-full text-md text-start" wire:click="destroySingle({{$exm->id}})"> Delete </button>
+                                                </div>
+                                                <hr class="my-1">
+                                                <div class="px-1 w-full text-md">
+                                                    <button class="px-3 py-2 block rounded w-full text-md "> Schedule </button>
+                                                </div>
+                                            </x-slot>
+                                        </x-dropdown>
 
                                     </div>
-                                </x-td>
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="12" class="text-center ">No Data Found!</td>
-                        </tr>
-                    @endif
+                                </div>
 
-                </tbody>
-            </table>
+                                <hr class="my-3">
+
+                                <div class="flex justify-between items-center text-center">
+                                    
+                                    <div class="flex items-center">
+                                        <img class="me-2 hidden md:block" width="18" height="18" src="https://img.icons8.com/ios-glyphs/18/time--v1.png" alt="time--v1"/>
+                                        {{$exm->link_open_at ?? "Not Defined!"}}
+                                        <div class="mx-1">|</div>
+                                        {{$exm->exm_duration ?? "Not Defined!"}} Minute 
+                                    </div>
+                                    
+                                    <div class="mx-1 border rounded-full p-1 inline-flex cursor-pointer" wire:click="$toggle('isShowQuestionViewModal')">
+                                        <div class="px-2 flex items-center"> <img class="me-2" width="18" height="18" src="https://img.icons8.com/windows/18/maybe.png" alt="maybe"/> 50 </div>
+                                    </div>
+                                
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            
+            </div>
         </div>
     </div>
+
+
 
     {{-- quick add question modals --}}
     <x-dialog-modal wire:model.live="confirmQuickAddQuestion" x-data="{
@@ -484,8 +535,7 @@
                             </div>
 
                             <div class="w-20">
-                                <input type="radio" x-show="$wire.options.{{ $index }} !=  null "
-                                    wire:model.live="correct" id="correct_{{ $index }}"
+                                <input type="radio" wire:model.live="correct" id="correct_{{ $index }}"
                                     style="width:20px; height:20px; margin:0px 12px" value="{{ $index }}"
                                     class="@error('correct') is-invalid @enderror">
                                 {{-- <button onclick="this.parentElement.parentElement.remove()" type="button"
@@ -568,11 +618,12 @@
             <input type="text" wire:model.debounce.500ms="searchTerm"
                 class="form-control form-control-sm w-75 border rounded-pill my-2" />
             <hr>
-            <div class="d-inline-flex" x-data="{ select: null }">
+            <div class="block" x-data="{ select: null }">
                 @foreach ($exams as $item)
-                    {{-- <a href="#" wire:click="selectExam({{ $item->id }})"
-                        class="bg-primary text-white px-4 py-2 rounded-xl mr-2 font-semibold">{{ $item->name }}</a>
-                    class="bg-dark text- --}}
+                    <a wire:navigate
+                        href="{{ route('vendorExamSchedule.question', ['pid' => $item->id, 'endpoint' => $item->attend_endpoint]) }}"
+                        class="block mb-2 px-3 py-2 rounded-full bg-light mr-2 font-semibold">{{ $item->exm_name }}</a>
+
                     {{-- <div class="px-3 py-2 rounded m-2 border d-flex align-items-center">
                         <input type="radio" name="" id="selectExma_{{ $item->id }}"
                             value="{{ $item->id }}"
@@ -582,14 +633,14 @@
                         x-on:click="select = '{{ $item->id }}'"
                         style="width:20px; height:20px; margin-right:10px" /> --}}
 
-                    <div class="px-3 py-2 rounded m-2 border d-flex align-items-center">
+                    {{-- <div class="px-3 py-2 rounded m-2 border d-flex align-items-center">
                         <input type="radio" name="" id="selectExma_{{ $item->id }}"
                             value="{{ $item->id }}" wire:model="selectedExamToAddQuestion"
                             style="width:20px; height:20px; margin-right:10px" />
 
                         <label for="selectExma_{{ $item->id }}"
                             class="m-0 p-0 mx-2">{{ $item->exm_name }}</label><br>
-                    </div>
+                    </div> --}}
                 @endforeach
             </div>
 
@@ -604,8 +655,6 @@
                 <a href="#" class="btn btn-info" wire:click="addMCQQuestion">Multiple Choice Question</a>
             @endif --}}
 
-            <button class="btn btn-success mx-2 btn-md" wire:click="confirmSelectedExamToQuickAddQuestion">Add
-                Question</button>
             <button class="btn btn-default btn-md" wire:click="$set('isShowSelectExamModal', false)">Close</button>
         </x-slot>
     </x-dialog-modal>
@@ -613,65 +662,102 @@
 
 
     {{-- view exam queston  modal --}}
-    <x-dialog-modal wire:model="isShowQuestionViewModal">
-        <x-slot name="title">
-            View Question
-            <br>
-            <p class="px-2 py-1 rounded bg-info  d-inline h6"> {{ count($viewExamQuestionData ?? []) }} Question were
-                found
-                associated
-                with this exam.</p>
-        </x-slot>
-        <x-slot name="content">
-            <div class="d-flex align-items-center">
-                {{-- <input type="search" name="" id="searchQuestion" class="w-50 rounded-full " autofocus> --}}
-            </div>
+    <x-modal wire:model="isShowQuestionViewModal" maxWidth="lg">
 
-            <div class="overflow-x-scroll my-2">
+        <div class="flex justify-between items-center  p-3">
+            <h5 class="m-0 text-lg">
+                View Question
+            </h5>
 
-                <table class="table table-striped">
+            <button class="rounded p-2 text-sm text-gray-700" wire:click="$toggle('isShowQuestionViewModal')">Close</button>
+        </div>
+        <hr class="my-1">
 
-                    @foreach ($viewExamQuestionData as $item)
-                        <tr>
-                            <td>
-                                {{ $loop->iteration }}
-                            </td>
-                            <td style="text-align: start!important">
-                                {{ $item->question }}
-                                <p class="d-inline px-2 py-1 runded border mx-2"> {{ $item->type }} </p>
-                                <br>
-                                <div class="d-flex">
+        <p class="px-2 py-1 m-0"> {{ count($viewExamQuestionData ?? []) }} Question were found</p>
+        <div class="px-3 py-2">
 
-                                    <p class="d-inline-block px-2 py-1 rounded bg-success text-white">
-                                        {{ count($item->options) }} Options</p>
-                                    <p class="d-inline-block px-2 py-1 runded border mx-2">
-                                        {{ $item->answer_type }} answer </p>
+
+            @foreach ($viewExamQuestionData as $item)
+                <div class="flex justify-start items-start mb-3 bg-light">
+                    <div class="border-r ">
+
+                        <div class=" p-2 font-bold">
+                            {{ $loop->iteration }}
+                        </div>
+                    </div>
+
+                    <div class="text-left w-full">
+                        <div class="border-b p-2 flex justify-between items-center">
+                            <div>
+                                <p class="m-0 font-bold ">
+                                    {{ $item->question }}
+                                </p>
+                                <span class="d-inline px-2 py-1 runded border me-2"> {{ $item->type }} </span>
+                            </div>
+
+                            <div class="bg-white rounded cursor-pointer p-1">
+                                <x-dropdown>
+                                    <x-slot name="trigger">
+                                        <div class=" px-2 text-nowrap">
+                                            More <i class="fas fa-caret-down ms-2"></i>
+                                        </div>
+                                    </x-slot>
+
+                                    <x-slot name="content">
+                                        <button class="text-left w-full px-3 py-2 border-b text-green">
+                                            <i class="fas fa-pen me-2"></i> Edit
+                                        </button>
+                                        <button class="text-left w-full px-3 py-2 border-b  text-red">
+                                            <i class="fas fa-trash me-2"></i> Delete
+                                        </button>
+                                    </x-slot>
+                                </x-dropdown>
+                            </div>
+
+                        </div>
+
+                        <div class="mt-1 p-2" x-data="{ isShow: false }">
+                            <div class="flex justify-between items-center border-b bg-white p-2"
+                                x-on:click="isShow = !isShow">
+                                <div class="flex items-center">
+                                    {{ count($item->options) }} - {{ $item->answer_type }} answer </p>
                                 </div>
-                            </td>
-                            <td>
-                                <button class="btn btn-sm rounded-full border-0 bg-danger text-white"> <i
-                                        class="fas fa-minus"></i> </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                    @if (empty(count($viewExamQuestionData)))
-                        <tr>
-                            <td colspan="3 text-center text-info"> No Data Found ! </td>
-                        </tr>
-                    @endif
+                                <p class="m-0">
+                                    <i class="fas fa-caret-down"></i>
+                                </p>
+                            </div>
 
-                </table>
+                            <div x-show="isShow" class="ms-2">
 
-            </div>
+                                @foreach ($item->options as $opt)
+                                    <div class="flex items-center mb-1 bg-white ">
+                                        {{-- counter  --}}
+                                        <div class="p-2 border-r">
+                                            {{ $loop->iteration }}
+                                        </div>
+
+                                        {{-- options  --}}
+                                        <div class="px-2">
+                                            {{ $opt->option }}
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            {{-- @if (empty(count($viewExamQuestionData)))
+                    <div>
+                        <td colspan="3 text-center text-info"> No Data Found ! </td>
+                    </div>
+                @endif --}}
 
 
-        </x-slot>
+        </div>
 
-        <x-slot name="footer">
-            <button type="button" class="btn btn-danger"
-                wire:click="$set('isShowQuestionViewModal', false)">Close</button>
-        </x-slot>
-    </x-dialog-modal>
+    </x-modal>
     {{-- view exam queston  modal --}}
 
 

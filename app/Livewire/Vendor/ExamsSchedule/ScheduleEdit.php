@@ -11,3 +11,4 @@ class ScheduleEdit extends Component
         return view('livewire.vendor.exams-schedule.schedu-edit');
     }
 }
+

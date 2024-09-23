@@ -39,5 +39,19 @@ class exam_has_question extends Model
     {
         return $this->belongsTo(exam_has_question::class);
     }
-    
+
+    /**
+     * 
+     */
+    protected function getTagsAttribute($value)
+    {
+        /**
+         * @param comes a text
+         * we have to explode and make an array for comma sseparate
+         * @return array
+         */
+        if (!empty($value)) {
+            return explode(",", $value);
+        }
+    }
 }

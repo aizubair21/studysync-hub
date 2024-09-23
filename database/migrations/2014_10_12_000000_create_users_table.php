@@ -33,7 +33,7 @@ return new class extends Migration
             $table->timestamps();
 
             //foreign
-            $table->foreign("vendor")->references("id")->on("users")->onDelete("cascade");
+            // $table->foreign("vendor")->references("id")->on("users")->onDelete("cascade");
         });
     }
 

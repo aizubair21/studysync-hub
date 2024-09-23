@@ -6,6 +6,7 @@ namespace App\Livewire\Vendor\Group;
 use App\Models\Group;
 use App\Models\group_has_student;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Title;
@@ -20,7 +21,7 @@ class GroupIndex extends Component
     /**
      * public property to store client side data
      */
-    public $memberGroup = [], $action = [], $g_name, $g_image, $edit_group = [], $groupSearchVal;
+    public $memberGroup = [], $action = [], $g_name, $g_image, $edit_group = [], $groupSearchVal, $test;
 
 
     /**
@@ -44,6 +45,8 @@ class GroupIndex extends Component
 
     public function render()
     {
+        // dd(Auth()->user()->vendorGroups());
+
         // return view('livewire.vendor.group.group-index')->extends("layouts.vendor.app")->section('content');
         return view('livewire.vendor.group.group-index')->extends("layouts.vendor.app");
     }
@@ -53,10 +56,19 @@ class GroupIndex extends Component
     public function mount()
     {
         // $this->groups = Group::where("vendor", Auth::id())->with('students')->get();
+        // $this->groups = Auth::user()->vendoreGroupsWithMembersCount;
+        // $this->members = Auth::user()->students;
+        $this->getdata();
+    }
+
+
+    public function getdata()
+    {
+
+        // $this->groups = Group::where("vendor", Auth::id())->with('students')->get();
         $this->groups = Auth::user()->vendoreGroupsWithMembersCount;
         $this->members = Auth::user()->students;
     }
-
 
     //check
     public function check($target = null)
@@ -76,6 +88,23 @@ class GroupIndex extends Component
         $this->action = [];
     }
 
+    /**
+     * destroy method
+     * destory single data
+     * @param group id
+     */
+    public function destroySingle(Group $gp)
+    {
+        if (Auth::id() == $gp->vendor) {
+            # code...
+            // dd($gp);
+            $gp->delete();
+            // $gp->save();
+            $this->getdata();
+        }
+    }
+
+
 
     //create instant group
     public function createInstantGroup()
@@ -84,15 +113,24 @@ class GroupIndex extends Component
             //try creat instant group
             if (!empty($this->g_name)) {
                 // dd($this->g_name);
-                DB::table("groups")->insert([
+
+                // DB::table("groups")->insert([
+                //     "name" => $this->g_name,
+                //     "vendor" => Auth::id(),
+                // ]);
+
+                $newGroup = auth()->user()->vendorGroups()->create([
                     "name" => $this->g_name,
-                    "vendor" => Auth::id(),
-                ]);
+                ])->toArray();
             }
             $this->reset("g_name");
+            // array_unshift($this->groups, $newGroup);
+
             // $request->toArray()
             // array_push($this->groups, );
-            $this->groups = Group::where("vendor", Auth::id())->get();
+            // $this->groups = Group::where("vendor", Auth::id())->get();
+            // $this->dispatch("refresh");
+            $this->getdata();
             // $this->dispatch("notifySuccess", message: ["title" => "Group Created !"]);
             // $this->dispatch("refresh");
             $this->confirmingLogout = !$this->confirmingLogout;;

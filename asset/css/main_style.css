@@ -1,23 +1,26 @@
-
-
 :root {
-    --brand-dark-green: #0D6934;
-    --brand-green:#22C26B;
+    --brand-dark-primary: #0D6934;
+    --brand-primary: #22C26B;
+    --brand-light-gray:#f8f9fa;
+    --brand-dark-gray:#dddddd;
     --brand-white: #fff;
     --brand-black: #000;
-    --brand-blue:#64BBED;
-    --brand-body-bg:#FFFAED;
+    --brand-blue: #64BBED;
+    --brand-body-bg: #FFFAED;
     --brand-dark-red: #BD4444;
-    --brand-red:#FA6D6D;
+    --brand-red: #FA6D6D;
     --brand-yellow: #EBB25C;
     --brand-dark-yellow: #B6863F;
-    
 }
 
 
 * {
     font-family: 'Times New Roman', Times, serif;
     font-weight: 300;
+}
+
+body {
+    overflow: hidden !important;
 }
 
 h1,
@@ -35,7 +38,8 @@ label {
 }
 
 input,
-select {
+select,
+textarea {
     font-family: 'Times New Roman', Times, serif;
     font-weight: 300;
     font-size: 14px !important;

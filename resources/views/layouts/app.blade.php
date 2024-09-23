@@ -7,52 +7,45 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('media/studysync-hub.jpg') }}" type="image/x-icon">
     <title>@yield('title')</title>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
-    <!-- Fonts -->
-    {{-- <link rel="preconnect" href="https://fonts.bunny.ginet"> --}}
-    {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
+
+    
+    @livewireStyles
 
     <!-- vite Scripts and css-->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
-    @include('components.style')
-
-    {{-- livewire style  --}}
-    @livewireStyles
 </head>
 
 
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
-
-    {{-- alert messages --}}
-
-    <!-- Site wrapper -->
-    {{-- alert messages --}}
-
-    @include('components.spinner')
-    {{-- @include('layouts.vendor.partials.navigations') --}}
-    {{-- top navigation menue --}}
+<body class="">
 
     {{-- wrapper --}}
-    <div class="wrapper">
+    <div class="">
 
-        @auth
-            @include('layouts.vendor.partials.asside')
-
-            {{-- main asside content  --}}
-            @include('layouts.vendor.partials.navigations')
-        @endauth
-
-        <div class="content-wrapper">
+        <div class="">
 
             @if (session('success'))
                 <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
             @endif
             @if ($errors->any())
-                <div class="text text-danger">
+                <div class="">
                     <ul>
                         @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
+                            <li class="flex justify-between items-center text-red-900 text-red px-2 py-1 text-sm font-bold" >
+                                
+                                <div class="" style="color: rgb(119, 0, 0)">
+                                    {{ $error }}
+                                </div>
+
+                                <button onclick="this.parentElement.remove()" class="p-1 w-4 rounded bg-gray-200">
+                                    X
+                                </button>
+                                
+                            </li>
+                           @if (!$loop->last)
+                            <hr>
+                           @endif
                         @endforeach
                     </ul>
                 </div>
@@ -64,16 +57,6 @@
 
     {{-- livewire script --}}
     @livewireScripts
-    {{-- <div class="wrapper">
-
-            @yield('content')
-
-        </div>
-
-        <script src="{{ asset('asset/script/particle.js') }}"></script>
-
-
-        @livewireScripts --}}
 </body>
 
 

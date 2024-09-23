@@ -1,4 +1,5 @@
-<div>
+<div >
+
     {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
@@ -138,27 +139,80 @@
     </nav> --}}
     <!-- /.navbar -->
 
-    <div x-data="{ tableView: false, isShowAddModal: false }">
-        {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+    <div class="p-4 flex justify-between items-center bg-white">
+        <div class="font-bold text-xl">
+            Your Group
+            <div class="text-sm font-normal">
+                {{count($groups) > 0 ? count($groups) . " Groups"  : "No group were found !" }}
+            </div>
+        </div>
 
+        <div class="flex items-center">
+            <x-dropdown aling="right" >
+                <x-slot name="trigger">
+                    <button class="px-3 py-1  text-md">View </button>
+                </x-slot>
+
+                <x-slot name="content">
+                    <div class="px-1 w-full">
+                        <button class="px-3 py-2 w-full text-start text-md hover:bg-gray-100 rounded">
+                            Assending
+                        </button>
+                    </div>
+                    <div class="px-1 w-full">
+                        <button class="px-3 py-2 w-full text-start text-md hover:bg-gray-100 rounded">
+                            Desending
+                        </button>
+                    </div>
+                    <hr class="my-1">
+
+
+                </x-slot>
+            </x-dropdown>
+
+            <button class="px-3 py-1 text-start text-md hover:bg-green-700 bg-green-900 font-bold text-white " wire:click="$toggle('confirmingLogout')">
+                Add
+            </button>
+        </div>
+    </div>
+
+    <div x-data="{ isShowAddModal: false }" class="px-4 py-2">
 
         {{-- table view toggle buton --}}
-        <div class="py-2 d-flex justify-content-between align-items-center">
-            <div class="d-inline-flex bg-light p-2">
-                <input type="checkbox" id="tableView" x-on:click="tableView = !tableView"
-                    style="width: 20px; height:20px; margin-right:10px">
-                <label for="tableView">Table View </label>
-            </div>
-            <div class="input-group" style="width: 150px">
+        <div class="flex justify-between items-center py-2 hidden">
+            <div>
                 <input type="search" placeholder="search group" wire:model="groupSearchVal" wire:change="groupSearch"
-                    id="groupSearch" class="form-control form-search">
+                    id="groupSearch" class="border-0 outline-0 rounded">
             </div>
+            {{-- <button wire:click="$toggle('confirmingLogout')" type="button"
+                    title="create a new instant group" class="px-3 py-2 rounded bg-gray-900 text-white hover:bg-gray-700 transition">
+                    New
+                </button> --}}
+
+            <x-dropdown aling="right" maxWidth="24">
+                <x-slot name="trigger">
+                    <button class="px-3 py-2 rounded bg-white shadow text-md font-bold">More</button>
+                </x-slot>
+
+                <x-slot name="content">
+                    <div class="px-1 w-full">
+                        <button class="px-3 py-2 w-full text-start text-md hover:bg-gray-100 rounded" wire:click="$toggle('confirmingLogout')">
+                            Add Group
+                        </button>
+                    </div>
+                    <hr class="my-1">
+                    <div class="px-1 w-full">
+                        <button class="px-3 py-2 w-full text-start text-md hover:bg-gray-100 rounded" wire:click="$toggle('confirmingLogout')">
+                            Add Group
+                        </button>
+                    </div>
+                </x-slot>
+            </x-dropdown>
         </div>
         {{-- table view toggle button  --}}
 
-        
         {{-- header  --}}
-        <div class="mx-2 d-flex justify-content-between oveflow-s-scroll">
+        {{-- <div class="mx-2 flex justify-between oveflow-s-scroll">
             <div class="d-flex">
 
                 <button style="width:110px; margin-right:5px" class="btn btn-sm rounded btn-success "> <i
@@ -189,141 +243,160 @@
             </div>
 
             <div>
-                <button wire:click="$toggle('confirmingLogout')" wire:loading.attr="disabled" type="button"
-                    title="create a new instant group" class="btn btn-outline-dark">
-                    <i class="fas fa-plus me-2"> </i>
-                    New
-                </button>
+                
             </div>
-        </div>
+        </div> --}}
         {{-- ./header  --}}
 
-
         {{-- table  --}}
-        <div class="px-2 row m-0">
-            <div class="w-100 overflow-x-scroll">
+        <div class="">
 
-                <table class="table table-striped" x-show="tableView" style="vertical-align: center">
-                    <thead>
-                        <x-th>A/C</x-th>
-                        <x-th>Name</x-th>
-                        <x-th>Status</x-th>
-                        <x-th>Member</x-th>
-                        <x-th>Info</x-th>
-                        <x-th>Create</x-th>
-                        <x-th>Last Update</x-th>
-                        <x-th></x-th>
-                    </thead>
-                    <tbody class="text-center">
-                        @foreach ($groups as $group)
-                            <tr>
-
-                                <x-td>
-                                    <input type="checkbox" id="gp_{{ $group->id }}" value="{{ $group->id }}"
-                                        wire:model="action" class="" wire:input="check"
-                                        style="height:20px; width:20px">
-                                </x-td>
-                                <x-td>
-                                    {{-- use PATCH metho  --}}
-                                    <a href="#" class="link-primary text-decoration-none"
-                                        wire:click="viewGroup({{ $group }})">
-                                        {{ $group->name }}
-                                    </a>
-                                    <a wire:navigate
-                                        href="{{ route('vendorGroup.show', ['gpid' => $group->id, $group->name]) }}">{{ $group->name }}
-                                    </a>
-                                </x-td>
-                                <x-td>
-                                    <span
-                                        class="py-1 px-2 w-auto  me-2 bg-success rounded text-center mx-auto text-light">
-                                        active <i class="fas fa-caret-right ms-2"></i> </span>
-                                    <span class="py-1 px-2 bg-primary rounded text-center mx-auto text-light">
-                                        {{ $group->is_private ? 'Private' : '  Public' }} </span>
-                                </x-td>
-                                <td class="d-flex align-items-center ">
-                                    <p class="m-0"> {{ count($group->students) }} </p>
-
-                                    {{-- <input type="checkbox" hidden wire:model.live="memberGroup" value="{{ $group->id }}"> --}}
-                                </td>
-                                <x-td>{{ $group->description }}</x-td>
-                                <x-td>{{ $group->created_at }}</x-td>
-                                <x-td>{{ $group->updated_at }}</x-td>
-                                <td class="d-flex justify-content-center align-items-center">
-                                    <button class="btn btn-danger  btn-sm shadow"><i class="fas fa-trash"></i>
-                                    </button>
-                                    <button class="btn btn-primary  btn-sm shadow mx-2"><i class="fas fa-pen"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-
-            </div>
-            @foreach ($groups as $group)
-                <div class="col-md-6 col-lg-4 rounded overflow-hidden p-2" x-show="!tableView">
-                    <table class="table bg-none  my-3 px-3 bg-transparent shadow rounded">
-                        <tbody>
-                            <tr>
-                                <td style="width:100px">
-                                    <img src="{{ asset('media/awm.jpg') }}" alt="" class="rounded-full"
-                                        style="width:70px; height:70px">
-                                </td>
-                                <td style="text-align:start!important">
-                                    <div class="d-flex align-items-center">
-
-                                        <input type="checkbox" id="gp_{{ $group->id }}" value="{{ $group->id }}"
-                                            wire:model="action" class="" wire:input="check"
-                                            style="height:20px; width:20px; margin-right:15px">
-                                        <a wire:navigate
-                                            href="{{ route('vendorGroup.show', ['gpid' => $group->id, $group->name]) }}"
-                                            class="h5 m-0 font-semibold text-capitalize">
-                                            {{ $group->name }}
-                                        </a>
-                                    </div>
-
-                                    <div>
-                                        <div class="d-flex">
-
-                                            <div class="py-2 me-2 rounded w-auto">
-                                                <i class="fas fa-user me-2"></i> {{ count($group->students) }}
-                                            </div>
-                                            <div class="py-2 rounded w-auto">
-                                                <i class="fas fa-sync me-2"></i>
-                                            </div>
-
+        
+            <div class="grid md:grid-cols-2 xl:grid-cols-3">
+                @foreach ($groups as $group)
+                    {{-- <div class="col-md-6 col-lg-4 rounded overflow-hidden p-2">
+                        <table class="table bg-none  my-3 px-3 bg-transparent shadow rounded">
+                            <tbody>
+                                <tr>
+                                    <td style="width:100px">
+                                        <img src="{{ asset('media/awm.jpg') }}" alt="" class="rounded-full"
+                                            style="width:70px; height:70px">
+                                    </td>
+                                    <td style="text-align:start!important">
+                                        <div class="flex items-center">
+    
+                                            <input type="checkbox" id="gp_{{ $group->id }}" value="{{ $group->id }}"
+                                                wire:model="action" class="" wire:input="check"
+                                                style="height:20px; width:20px; margin-right:15px">
+                                            <a wire:navigate
+                                                href="{{ route('vendorGroup.show', ['gpid' => $group->id, $group->name]) }}"
+                                                class="h5 m-0 font-semibold text-capitalize">
+                                                {{ $group->name }}
+                                            </a>
                                         </div>
+    
+                                        <div>
+                                            <div class="d-flex">
+    
+                                                <div class="py-2 me-2 rounded w-auto">
+                                                    <i class="fas fa-user me-2"></i> {{ count($group->students) }}
+                                                </div>
+                                                <div class="py-2 rounded w-auto">
+                                                    <i class="fas fa-sync me-2"></i>
+                                                </div>
+    
+                                            </div>
+                                        </div>
+    
+                                        <button wire:click="showEditModal({{ $group->id }})"
+                                            class="btn btn-sm btn-info mt-1">
+                                            Edit
+                                        </button>
+    
+                                    </td>
+                                </tr>
+                                <tr class="">
+                                    <x-td>
+                                        <span
+                                            class="py-1 px-2 d-block w-auto  me-2 bg-success rounded text-center mx-auto text-light">
+                                            active <i class="fas fa-caret-right ms-2"></i> </span>
+                                    </x-td>
+                                    <x-td>
+                                        <span class="py-1 px-2 bg-primary rounded text-center mx-auto text-light">
+                                            {{ $group->is_private ? 'Private' : '  Public' }} </span>
+    
+                                    </x-td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div> --}}
+
+                    <div class="my-1 p-1 w-full">
+                        {{-- <div class="xl:px-3 xl:py-4 rounded flex items-center w-full bg-white">
+
+                        </div> --}}
+                        <div class="xl:px-3 xl:py-4 p-2 rounded flex items-start w-full bg-white">
+                            <div class="h-full px-2 font-bold block  border-r text-lg">
+                                {{ $loop->iteration }}
+                            </div>
+
+                            <div class="px-3 w-full">
+
+                                <div class="flex items-center justify-between w-full ">
+                                    <div class="md:flex  items-center justify-between lg:block">
+
+                                        <a title="{{$group->name}}" wire:navigate href="{{route('vendorGroup.show', ['gpid' => $group->id])}}" class="block text-start font-bold text-lg ">
+                                            <!-- exam name  -->
+                                            {{ Str::substr($group->name, 0, 15)  }}
+                                        </a>
+
+                                        <div class="flex justify-between items-start md:items-center text-sm">
+                                            <div class="mx-2 hidden md:block lg:hidden">|</div>
+                                            <div>{{ \Carbon\Carbon::parse($group->created_at)->diffForHumans() }}</div>
+                                            
+                                            <div class="mx-1 md:mx-2 ">|</div>
+                                            <div class="px-1 rounded bg-gray-300">
+                                                {{ $group->is_private ? 'Private' : '  Public' }}
+                                            </div>
+
+                                            <!-- <div class="rounded-full px-2 border  mx-2 bg-green-900 text-white "> Draft
+                                            </div> -->
+                                        </div>
+
                                     </div>
 
-                                    <button wire:click="showEditModal({{ $group->id }})"
-                                        class="btn btn-sm btn-info mt-1">
-                                        Edit
-                                    </button>
+                                    <div class="" style="align-self: flex-start">
 
-                                    {{-- <a wire:navigate href="{{ route('vendorGroup.edit', [$group->id]) }}"
-                                        class="btn btn-sm rounded btn-success my-2 my-sm-0"> <i class="fas fa-edit">
-                                        </i>
-                                        Edit</a> --}}
+                                        <x-dropdown align="right" width="24">
+                                            <x-slot name="trigger">
+                                                <button class="px-2 py-1 rounded border">
+                                                    More
+                                                </button>
+                                            </x-slot>
 
+                                            <x-slot name="content">
+                                                <div class="px-1 w-full text-md">
+                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Select</a>
+                                                </div>
+                                                <div class="px-1 w-full text-md">
+                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Bann</a>
+                                                </div>
+                                                <hr class="my-1">
+                                                <div class="px-1 w-full text-md">
+                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Edit </a>
+                                                </div>
+                                                <div class="px-1 w-full text-md">
+                                                    <button class="px-3 py-2 block rounded w-full text-md text-start" wire:click="destroySingle({{$group->id}})"> Delete </button>
+                                                </div>
+                                                <hr class="my-1">
+                                                <div class="px-1 w-full text-md">
+                                                    <button class="px-3 py-2 block rounded w-full text-md "> Schedule </button>
+                                                </div>
+                                            </x-slot>
+                                        </x-dropdown>
 
-                                </td>
-                            </tr>
-                            <tr class="">
-                                <x-td>
-                                    <span
-                                        class="py-1 px-2 d-block w-auto  me-2 bg-success rounded text-center mx-auto text-light">
-                                        active <i class="fas fa-caret-right ms-2"></i> </span>
-                                </x-td>
-                                <x-td>
-                                    <span class="py-1 px-2 bg-primary rounded text-center mx-auto text-light">
-                                        {{ $group->is_private ? 'Private' : '  Public' }} </span>
+                                    </div>
+                                </div>
 
-                                </x-td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            @endforeach
+                                <hr class="my-3">
+
+                                <div class="flex justify-start items-center">
+                                    
+                                    <div class=" bg-green-900 text-white inline-flex">
+                                        <div class="px-2">15 - E</div>
+                                    </div>
+                                    
+                                    <div class="mx-1 bg-gray-900 text-white inline-flex">
+                                        <div class="px-2">{{count($group->students)}} - S</div>
+                                    </div>
+                                
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
 
         </div>
         {{-- table  --}}
@@ -331,39 +404,42 @@
     </div>
 
     <!-- add instant group Modal -->
-    <x-dialog-modal wire:model.live="confirmingLogout">
-        <x-slot name="title">
-            {{ __('Add New Group') }}
-        </x-slot>
+    <x-modal wire:model.live="confirmingLogout" height="auto" maxWidth="sm">
+        <div class="px-3 py-2 text-lg font-bold">
+            Add New Group
+        </div>
+        <hr class="my-1">
 
-        <x-slot name="content">
-            {{ __('Please enter the require gorup information to create a valid group.') }}
+        <div class="px-3 py-5 content">
+            <div>
+                Please enter the require gorup information to create a valid group.
+            </div>
 
             <div class="mt-3" x-data="{}"
                 x-on:confirming-logout-other-browser-sessions.window="setTimeout(() => $refs.g_name.focus(), 250)">
-                <x-input type="text" class="mt-1 block w-100" autocomplete="current-password"
-                    placeholder="{{ __('Enter your group name') }}" x-ref="g_name" wire:model="g_name"
+                <x-input type="text" class="mt-1 block rounded-0 w-full p-2 border-b focus:border-green-900 focus:outline-0" autocomplete="false"
+                    placeholder="{{ __('Group Name') }}" x-ref="g_name" wire:model="g_name"
                     wire:keydown.enter="createInstantGroup" />
 
                 <x-input-error for="g_name" class="mt-2" />
             </div>
 
-            <div class="mt-2">
+            {{-- <div class="mt-2">
                 <input type="file" class="block w-1/4 file form-control form-file">
-            </div>
-        </x-slot>
-
-        <x-slot name="footer">
-            <button class="btn btn-outline-secondary btn-md" wire:click="$toggle('confirmingLogout')"
+            </div> --}}
+        </div>
+        <hr class="my-1">
+        <div class="px-3 py-2 text-end">
+            <button class="bg-gray-200 px-3 py-1 rounded" wire:click="$toggle('confirmingLogout')"
                 wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </button>
 
-            <button class="ms-3 btn btn-md btn-success" wire:click="createInstantGroup" wire:loading.attr="disabled">
-                {{ __('Create One') }}
+            <button class="ml-2 px-3 py-1 rounded bg-green-900 text-white" wire:click="createInstantGroup" wire:loading.attr="disabled">
+                {{ __('Create') }}
             </button>
-        </x-slot>
-    </x-dialog-modal>
+        </div>
+    </x-modal>
 
 
     {{-- edit instant gorup modal --}}
@@ -377,7 +453,7 @@
 
             <div class="mt-3" x-data="{}">
 
-                <x-input type="text" class="mt-1 block w-100" auto-focus="false" aria-autocomplete="false"
+                <input type="text" class=" w-100 p-2" auto-focus="false" aria-autocomplete="false"
                     wire:model="edit_group.name" wire:keydown.enter="updateInstantGroup" />
 
                 <x-input-error for="g_name" class="mt-2" />
@@ -387,13 +463,13 @@
         </x-slot>
 
         <x-slot name="footer">
-            <button class="btn btn-outline-secondary btn-md" wire:click="$toggle('confirmEditModal')"
+            <button class="px-2 py-1 rounded bg-gray-100" wire:click="$toggle('confirmEditModal')"
                 wire:loading.attr="disabled">
                 {{ __('Cancel') }}
             </button>
 
-            <button class="ms-3 btn btn-md btn-success" wire:click="updateInstantGroup" wire:loading.attr="disabled">
-                {{ __('Create One') }}
+            <button class="ms-3 px-2 py-1 bg-green-900 text-white rounded" wire:click="updateInstantGroup" wire:loading.attr="disabled">
+                {{ __('Create') }}
             </button>
         </x-slot>
     </x-dialog-modal>
@@ -408,7 +484,7 @@
         <x-slot name="content">
             <div x-data="{ get: 0, isShowSearch: true }">
 
-                <div class="p-2 d-flex align-items-center">
+                <div class="p-2 flex items-center">
                     <input type="radio" x-model="get" value="0" id="get_one"
                         style="width;25px; height:20px; margin-right:10px; ">
                     <label class="m-0 ms-2" for="get_one">Single Instance</label>
@@ -429,7 +505,7 @@
                                 @endforeach
                             </select>
 
-                            <div class="mt-2 p-2 d-flex align-items-center">
+                            <div class="mt-2 p-2 flex items-center">
                                 <input type="checkbox" name="" id="" value="1"
                                     style="width:20px; hieght:25px; margin-right:10px">
                                 <label class="m-0" for="">Made him as moderator</label>
@@ -451,7 +527,7 @@
                 <div x-show="get == 1" x-transition>
                     <div class="row m-0">
                         <div class="col-md-6">
-                            <div class="d-flex align-items-center justify-content-between mb-1">
+                            <div class="flex items-center justify-between mb-1">
                                 <label>Select Member from bellow </label>
                                 <button class="btn btn-outline-info btn-sm "
                                     x-on:click="isShowSearch = !isShowSearch"><i class="fas fa-search"></i></button>
@@ -464,7 +540,7 @@
 
                             {{-- member  --}}
                             @foreach ($members as $member)
-                                <div class="d-flex align-items-center rounded border mb-1 p-2">
+                                <div class="flex items-center rounded border mb-1 p-2">
                                     <input type="checkbox" wire:model="memberGroup" id="member_{{ $member->id }}"
                                         value="{{ $member->id }}"
                                         style="width:20px; height:20px; margin-right:10px">

@@ -29,7 +29,7 @@ class ScheduleForm extends Component
     public $exm_subject;
     public $exm_key_note;
     public $is_retake;
-    public $isLinkOpen;
+    public $isLinkOpen = 0;
     public $link_open_at;
     public $link_close_at;
     public $can_attend_until;
@@ -37,17 +37,17 @@ class ScheduleForm extends Component
     public $result_published_on;
     public $exm_date;
     public $exm_duration;
-    public $for_cr;
-    public $for_wr;
-    public $for_skp;
-    public $pass_mark;
-    public $status;
-    public $total_mark;
-    public $total_question;
-    public $Is_prevent_change_option;
-    public $ransomized_question;
-    public $mouse_track;
-    public $window_track;
+    public $for_cr = 1;
+    public $for_wr = .25;
+    public $for_skp = 0;
+    public $pass_mark = 000;
+    public $status = 0;
+    public $total_mark = 000;
+    public $total_question = 000;
+    public $Is_prevent_change_option = 1;
+    public $ransomized_question = 1;
+    public $mouse_track = 1;
+    public $window_track = 1;
     public $have_moderate;
     public $have_moderable_question;
     public $is_moderated;
@@ -55,7 +55,7 @@ class ScheduleForm extends Component
     public $exm_note;
     public $exm_end_at;
     public $exm_start;
-    public $is_published;
+    public $is_published = 0;
 
     public $groups, $showInstantGroupInput = false, $instantGroupName;
     protected $listeners = ['refresh' => '$refresh', 'updatedExmTypeOf'];
@@ -77,18 +77,18 @@ class ScheduleForm extends Component
         'can_attend_until' => 'nullable|date',
         'isResultPublished' => 'nullable|boolean',
         'result_published_on' => 'nullable|date',
-        'exm_start' => 'required|date_format:"H:i"',
+        // 'exm_start' => 'required|date_format:"H:i"',
         //valu of 'exm_end_at' consider as time, not a data
         // 'exm_end_at' => 'required|date_format:"H:i"|before:exm_start',
         // 'exm_end_at' => 'required|date_format:"H:i"|after:exm_start|after_or_equal:exm_start + exm_duration',
-        'exm_end_at' => 'required|date_format:"H:i"',
+        // 'exm_end_at' => 'required|date_format:"H:i"',
         'exm_date' => 'required|date',
         'exm_duration' => 'required|integer',
-        'for_cr' => 'nullable|string|max:255',
-        'for_wr' => 'nullable|string|max:255',
-        'for_skp' => 'nullable|string|max:255',
+        'for_cr' => 'nullable|integer|max:5',
+        'for_wr' => 'nullable|max:5',
+        'for_skp' => 'nullable|integer|max:5',
         'pass_mark' => 'nullable|integer',
-        'status' => 'nullable|string|max:255',
+        // 'status' => 'nullable|integer|max:255',
         'total_mark' => 'nullable|integer',
         'total_question' => 'nullable|integer',
         'Is_prevent_change_option' => 'nullable|boolean',
@@ -119,8 +119,7 @@ class ScheduleForm extends Component
     //get necesity data after mounting
     public function mount()
     {
-
-        $this->groups = Group::where("vendor", Auth::id())->orderBy("id", 'desc')->get();
+        $this->groups = Auth::user()->vendorGroups;
     }
 
 

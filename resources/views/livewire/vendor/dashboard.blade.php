@@ -1,4 +1,9 @@
 <div>
+
+    @section('title')
+        Vendor Dashboard
+    @endsection
+    
     <div>
 
         {{-- header  --}}

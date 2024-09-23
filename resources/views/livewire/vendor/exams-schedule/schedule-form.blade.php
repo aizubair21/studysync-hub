@@ -1,5 +1,34 @@
 <div>
 
+    <div class="">
+
+        @if (session('success'))
+            <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
+        @endif
+        @if ($errors->any())
+            <div class="">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li class="flex justify-between items-center text-red-900 text-red px-2 py-1 text-sm font-bold" >
+                            
+                            <div class="">
+                                {{ $error }}
+                            </div>
+
+                            <button onclick="this.parentElement.remove()" class="p-1 w-4 rounded bg-gray-200">
+                                X
+                            </button>
+                            
+                        </li>
+                       @if (!$loop->last)
+                        <hr>
+                       @endif
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+    </div>
+
     {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
@@ -139,17 +168,325 @@
     </nav> --}}
     <!-- /.navbar -->
 
-    {{-- Nothing in the world is as soft and yielding as water. --}}
-    <div>
+    <div class="mb-5 bg-white">
+        <div class="flex justify-between items-center p-4">
+
+            <div>
+                <div class="text-lg font-bold ">Schedule Create</div>
+                <div class="text-sm rounded-full bg-slate-300 px-3 py-1 inline-flex">Index</div>
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <button class="h-8 w-8 rounded-full bg-slate-200 hover:bg-slate-500 me-2 hover:text-slate-50">
+                    <img src="{{asset('media/settings-white.png')}}" alt="">
+                </button>
+                <a href="" class="px-3 py-1 rounded-full bg-green-900 text-white">Import</a>
+            </div>
+        </div>
+
+        <div class="mt-3 flex items-center justify-center">
+lo
+        </div>
+
+    </div>
+
+    <div  x-data="{type: 'mcq', type_of: 'standard', starndard: '',}" style="width: 100%; max-width:500px; margin: 0 auto">
+        {{-- {{count($groups)}} --}}
+        <form wire:submit="submitScheduleForm('mcq', 'standard')">
+
+            <div class="text-lg" >
+                <div class="bg-white rounded">
+                    <div class="px-4 py-3 my-2">
+                        <div class="text-lg font-bold my-2 px-2">Exam Name</div>
+                        @error('exm_name')
+                            <strong class="block text-red-200">{{$message}}</strong>
+                        @enderror
+                        <textarea placeholder="Ex: Annual Final Exam"
+                            class="w-full p-2 rounded p-1 border text-lg" id="" wire:model="exm_name"></textarea>
+                    </div>
+                </div>
+        
+                <div class="rounded">
+                        
+        
+                    <div class="bg-white rounded m-1">
+        
+                        <div class="py-3 px-4 my-2 ring-red-800">
+            
+                            <div class="my-2 px-2 flex items-center justify-between">
+            
+                                <div class=" font-bold text-lg">
+                                    Your Group
+                                </div>
+                                <div>
+                                    <select wire:model.live="group" class="w-48 rounded border p-2 @error('group') font-bold text-red-900 outline-red-900 @enderror" id="">
+                                        <option value=""> - Select a group -</option>
+                                        @foreach ($groups as $gp)
+                                            <option value="{{$gp->id}}">{{$gp->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+            
+                            <div>
+                                <div class="text-sm">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, minus?
+                                </div>
+                            </div>
+            
+                        </div>
+                        <hr class="my-1 h-1">
+            
+                        <div class="">
+                            <div class="w-full py-3 px-4 my-1 md:flex justify-between items-center">
+                                <div class="text-lg font-bold text-nowrap my-2 px-2">Exam Type</div>
+                                <select wire:model="exm_type" disabled class="w-full md:w-48 p-2 border rounded" id="">
+                                    <option value="" selected >Multiple Choise</option>
+                                    <option value="">-- Written --</option>
+                                </select>
+                            </div>
+                            <hr class="my-1">
+                            <div class="w-full py-3 px-4 my-1 md:flex justify-between items-center">
+                                <div class="text-lg font-bold text-nowrap my-2 px-2">Exam Type</div>
+                                <select wire:model="exm_type_of" disabled class="w-full md:w-48 p-2 border rounded " id="">
+                                    <option value="" selected >Standard</option>
+                                </select>
+                            </div>
+                            <hr class="my-1">
+                            <div class="w-full py-3 px-4 my-1">
+                                <div class="text-lg font-bold text-nowrap my-2 px-2">Exam Subject</div>
+                                <textarea wire:model="exm_subject" placeholder="Ex: English Grammer" class="w-full p-2 rounded border" rows="1"
+                                    id=""></textarea>
+                            </div>
+                        </div>
+            
+                    </div>
+
+                     <!-- pas mark, total mark  -->
+                     <div class="bg-white rounded m-1">
+                        <div class=" px-3 py-4 my-1 ">
+                            <div class="flex justify-between items-center">
+                                <div class="px-2 my-1 text-lg font-bold">Total Question</div>
+                                <input type="number" wire:model="total_question" class="w-24  border rounded p-2" id="" placeholder="100">
+                            </div>
+                            <div class="p-2 text-sm">
+                                How many question wanna add this schedule.
+                            </div>
+                        </div>
+                        <hr class="my-1">
+            
+                        <div class=" px-3 py-4 my-1 ">
+                            <div class="flex justify-between items-center">
+                                <div class="px-2 my-1 text-lg font-bold">Pass Mark</div>
+                                <input type="text" wire:model="pass_mark" class="w-24  border rounded p-2" id="" placeholder="40">
+                            </div>
+                            <div class="p-2 text-sm">
+                                A minimum number required to pass this exam
+                            </div>
+                        </div>
+                        <hr class="my-1">
+            
+                        <div class=" px-3 py-4 my-1 ">
+                            <div class="flex justify-between items-center">
+                                <div class="px-2 my-1 text-lg font-bold">Total Mark</div>
+                                <input type="number" wire:model="total_mark" class="w-24  border rounded p-2" id="" value="1">
+                            </div>
+                            <div class="p-2 text-sm">
+                                Get Number against a correct answer.
+                            </div>
+                        </div>
+            
+                    </div>
+        
+                    <!-- exam marking, date, time, duration  -->
+                    <div class="bg-white rounded m-1">
+            
+                        <div class="px-3 py-4 my-2">
+                            <div class="px-2 my-1 text-lg font-bold">Exam Marking</div>
+                            <div class="">
+            
+                                <div class=" p-2 my-1 ">
+                                    <div class="flex justify-between items-center">
+                                        <div class="px-2 my-1 text-lg font-bold">Correct</div>
+                                        <input type="number" wire:model="for_cr" class="w-24  border rounded p-2" id="" value="1">
+                                    </div>
+                                    <div class="p-2 text-sm">
+                                        Get Number against a correct answer.
+                                    </div>
+                                </div>
+                                <hr>
+            
+                                <div class="p-2 my-1">
+                                    <div class="flex justify-between items-center">
+                                        <div class="px-2 my-1 text-lg font-bold">Wrong</div>
+                                        <input type="text" wire:model="for_wr" class="w-24  border rounded p-2" id="" value="1">
+                                    </div>
+                                    <div class="p-2 text-sm">
+                                        Cut Number against a wrong answer.
+                                    </div>
+                                </div>
+                                <hr>
+            
+                                <div class="p-2 my-1">
+                                    <div class="flex justify-between items-center">
+                                        <div class="px-2 my-1 text-lg font-bold">Skip</div>
+                                        <input type="text" wire:model="for_skp" class="w-24  border rounded p-2" id="" value="0">
+                                    </div>
+                                    <div class="p-2 text-sm">
+                                        Cut Number against a skip question.
+                                    </div>
+                                </div>
+            
+                            </div>
+                        </div>
+                    </div>
+                    
+        
+                    <!-- date -->
+                    <div class="bg-white rounded m-1">
+                        <div class="px-3 py-4 my-2">
+                            <div class="md:flex md:justify-between md:items-start">
+                                <div class="text-lg font-bold text-nowrap my-1 px-2">Exam Date</div>
+                                <input type="date" wire:model="exm_date" class="w-full md:w-48 p-2 rounded border" id="">
+                            </div>
+                            <div class="p-2 text-sm">
+                                Exam start date.
+                            </div>
+                        </div>
+                        <hr class="my-1 h-1">
+            
+                        <div class="px-3 py-4 my-2">
+                            <div class="md:flex md:justify-between md:items-start">
+                                <div class="text-lg font-bold text-nowrap my-1 px-2">Start Time</div>
+                                <input type="date" wire:model="exm_start" class="w-full md:w-48 p-2 rounded border" id="">
+                            </div>
+                            <div class="text-sm p-2">
+                                Exam start time. On start time an student can access the exam.
+                            </div>
+                        </div>
+                        <hr class="my-1 h-1">
+            
+                        <div class="px-3 py-4 my-2">
+                            <div class="md:flex md:justify-between md:items-start">
+                                <div class="text-lg font-bold text-nowrap my-1 px-2">Duration </div>
+                                <input type="text" wire:model="exm_duration" placeholder="Ex: 60 minute" class="w-full md:w-48 p-2 rounded border"
+                                    id="">
+                            </div>
+                            <div class="text-sm p-2">
+                                Duration must be munite.
+                            </div>
+                        </div>
+                    </div>
+            
+        
+                    <!-- result published  -->
+                    <div class="bg-white rounded m-1">
+            
+                        <div class="px-3 py-4 my-2">
+                            <div class="md:flex md:justify-between md:items-start">
+                                <div class="text-lg font-bold text-nowrap my-1 px-2">Result Published </div>
+                                <input type="date" wire:model="result_published_on" placeholder="Ex: 60 minute" class="w-full md:w-48 p-2 rounded border"
+                                    id="">
+                            </div>
+                            <div class="text-sm p-2">
+                                Determined when result will be published. It represent that the user can review their exam after
+                                published the result.
+                            </div>
+                        </div>
+                        <hr class="my-1 h-1">
+            
+            
+                        <div class="px-3 py-4 my-2">
+                            <div class="md:flex md:justify-between md:items-start">
+                                <div class="text-lg font-bold text-nowrap my-1 px-2">Exam Close </div>
+                                <input type="date" wire:model="exm_end_at" disabled placeholder="Ex: 60 minute"
+                                    class="w-full md:w-48 p-2 rounded border" id="">
+                            </div>
+                            <div class="text-sm p-2">
+                                Determined when result will be published. It represent that the user can review their exam after
+                                published the result.
+                            </div>
+                        </div>
+                    </div>
+        
+                        
+                    <!-- settings  -->
+                    <div class="bg-white rounded m-1">
+                        <div class="px-3 py-4">
+                            <div class="p-2 my-1 text-lg font-bold">General Settings </div>
+                            <div class="p-2 my-1">
+                                <div class="">
+                                    <div class="flex justify-between items-center">
+                                        <div class="p-2 my-1 text-md">Unchangable Option</div>
+                                        <input type="checkbox" wire:model="Is_prevent_change_option" class="w-5 h-5" id="">
+                                    </div>
+                                    <div class="p-2 text-sm">
+                                        wanna prevent to change option if one is selected.
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-1">
+                
+                            <div class="p-2 my-1">
+                                <div class="flex justify-between items-center">
+                                    <div class="p-2 my-1 text-md">Randomized Question</div>
+                                    <input type="checkbox" wire:model="ransomized_question" class="w-5 h-5" id="">
+                                </div>
+                                <div class="p-2 text-sm">
+                                    wanna prevent to change option if one is selected.
+                                </div>
+                            </div>
+                            <hr class="my-1">
+                
+                            <div class="p-2 my-1">
+                                <div class="flex justify-between items-center">
+                                    <div class="p-2 my-1 text-md">Window Track</div>
+                                    <input type="checkbox" wire:model="window_track" class="w-5 h-5" id="">
+                                </div>
+                                <div class="p-2 text-sm">
+                                    wanna prevent to change option if one is selected.
+                                </div>
+                            </div>
+                            
+                            <hr class="my-1">
+                            <div class="p-2 my-1">
+                                <div class="flex justify-between items-center">
+                                    <div class="p-2 my-1 text-md">Window Track</div>
+                                    <input type="checkbox" wire:model="mouse_track" class="w-5 h-5" id="">
+                                </div>
+                                <div class="p-2 text-sm">
+                                    wanna prevent to change option if one is selected.
+                                </div>
+                            </div>
+        
+                        </div>
+            
+                    </div>
+                        
+        
+            
+                </div>
+            </div>
+
+            <div class="flex justify-end items-center my-2">
+                <button type="submit" class="px-4 py-3 text-lg font-bold bg-green-900 text-white rounded"> Save </button>
+            </div>
+        </form>
+
+    </div>
+
+
+
+    <div class="hidden"  x-data="{
+        type: 'mcq',
+        type_of: 'minimal',
+        starndard: '',
+    
+    }">
 
         <!-- main content -->
-        <div class="row justify-content-center" x-data="{
-            type: 'mcq',
-            type_of: 'minimal',
-            starndard: '',
-        
-        }">
-            <div class="col-12">
+        <div class="flex justify-center" >
+            <div class="w-full">
                 <div class="card mt-2 shadow-0">
                     <div class="card-header border-0">
 
@@ -193,12 +530,12 @@
                             <i class="fas fa-caret-right me-2"></i> Exam Type
                         </div>
 
-                        <div class="card-body py-1 bg-light py-2">
+                        <div class="card-body bg-light py-2">
 
                             @csrf
-                            <div class="row m-0 align-items-center">
+                            <div class="md:flex items-center justify-between">
 
-                                <div class="col-md-5 border border-primay p-3 shadow-sm">
+                                <div class="md:w-2/5 border border-primay p-3 shadow-sm">
                                     {{-- select info --}}
                                     <div class="mt-2">
                                         <div x-show="type_of == 'standard'" x-transition
@@ -236,7 +573,8 @@
                                         <div class="rounded py-3 px-3 relative m-2 " style="background-color:white">
                                             <div class=" d-flex align-items-center  justify-content-between">
                                                 <input type="radio" id="written" x-model="type"
-                                                    x-on:click="type_of = ''" value="written" class=" form-input me-2">
+                                                    x-on:click="type_of = ''" value="written"
+                                                    class=" form-input me-2">
                                                 <label class="d-block p-0 m-0" for="written">WRITTEN
                                                 </label>
                                             </div>
@@ -252,21 +590,24 @@
                                         <div class="d-flex align-items-center justify-content-start">
                                             <div
                                                 class="d-flex align-items-center bg-light border-primary justify-content-center m-2 py-2 px-2">
-                                                <input type="radio" x-model="type_of" id="standard" value="standard"
+                                                <input type="radio" x-model="type_of" id="standard"
+                                                    value="standard"
                                                     class="me-2 @error('exm_type_of') is-invalid @enderror"
                                                     wire:model="exm_type_of">
                                                 <label for="standard" class="m-0 p-0 fs-2 d-block">Stardard</label>
                                             </div>
                                             <div
                                                 class="d-flex align-items-center bg-light border-primary justify-content-center m-2 py-2 px-2">
-                                                <input type="radio" x-model="type_of" id="minimal" value="minimal"
+                                                <input type="radio" x-model="type_of" id="minimal"
+                                                    value="minimal"
                                                     class="me-2 @error('exm_type_of') is-invalid @enderror"
                                                     wire:model="exm_type_of">
                                                 <label for="minimal" class="m-0 p-0 fs-2 d-block">Minimal</label>
                                             </div>
                                             <div
                                                 class="d-flex align-items-center bg-light border-primary justify-content-center m-2 py-2 px-2">
-                                                <input type="radio" x-model="type_of" id="custom" value="custom"
+                                                <input type="radio" x-model="type_of" id="custom"
+                                                    value="custom"
                                                     class="me-2 @error('exm_type_of') is-invalid @enderror"
                                                     wire:model="exm_type_of">
                                                 <label for="custom" class="m-0 p-0 fs-2 d-block">Custom</label>
@@ -304,7 +645,7 @@
 
                                 </div>
 
-                                <div class="col-md-5 py-3 p-sm-3">
+                                <div class="md:w-2/5 py-3 p-sm-3">
                                     <label for="exm_note">Exm Note : </label>
                                     <textarea id="exm_note" wire:model="exm_note" class="form-control" rows="7"></textarea>
                                     <div class="form-text text-info">
@@ -314,7 +655,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-2">
+                                <div class="md:w-1/5">
                                     <div class="text-center border border-primary shadow-sm rounded p-3">
                                         <input type="checkbox" wire:model="is_retake" id="is_retake"
                                             class="form-control" style="width:50px; height:50px; margin: 5px auto;">
@@ -337,15 +678,18 @@
                             <i class="fas fa-caret-right me-2"></i> Basic Info
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="flex">
 
-                                <div class="col-12 my-2">
-                                    <label for="exm_name" class="from-label">Exam Name :</label>
-                                    <input type="text" wire:model="exm_name" autocomplete="true" id="exm_name"
-                                        placeholder="Monthly exam, weekly exam, class test "
-                                        @class(['form-control', 'is-invalid' => $errors->has('exm_name')])>
-                                    {{-- <x-error field="exm_name" /> --}}
-                                    @error('exm_name')
+                                <div class="w-full my-2">
+                                    <label for="exm_subject" class="from-label">Exam subject :</label>
+                                    <input type="text" wire:model="exm_subject" autocomplete="true"
+                                        id="exm_subject" placeholder="Monthly exam, weekly exam, class test "
+                                        @class([
+                                            'form-control',
+                                            'is-invalid' => $errors->has('exm_subject'),
+                                        ])>
+                                    {{-- <x-error field="exm_subject" /> --}}
+                                    @error('exm_subject')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                     <div class="form-text text-info">
@@ -353,7 +697,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-3 my-2">
+                                <div class="w-1/3 my-2">
                                     <label for="exm_subject" class="from-label">Subject :</label>
                                     <input type="text" wire:model="exm_subject"
                                         placeholder="Math, Bangoli, History " id="exm_subject"
@@ -363,7 +707,7 @@
                                     @enderror
                                 </div>
 
-                                <div class="col-md-3 my-2">
+                                <div class="w-1/3 my-2">
                                     <label for="exm_function" class="form-label">Functional :</label>
                                     <select disabled wire:model="exm_function" id="exm_functional"
                                         @class(['form-control form-select'])>
@@ -373,9 +717,9 @@
                                     </select>
                                 </div>
 
-                                <div class="col-md-3 my-2 my-2">
+                                <div class="w-1/3 my-2 my-2">
                                     <label for="exm_date" class="from-label">Exam Date :</label>
-                                    <input type="date" wire:model.live="exm_date" id="exm_date"
+                                    <input type="date" wire:model="exm_date" id="exm_date"
                                         @class(['form-control', 'is-invalid' => $errors->has('exm_date')])>
                                     @error('exm_date')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -386,7 +730,7 @@
                             <hr>
 
                             <div class="row my-2">
-                                <div class="col-md-4 my-2 my-2">
+                                <div class="col-md-4 my-2">
                                     <label for="exm_start" class="from-label">Start Time :</label>
                                     <input type="time" wire:model.live="exm_start" id="exm_start"
                                         class="form-control @error('exm_start') is-invalid @enderror">
@@ -394,7 +738,7 @@
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="col-md-4 my-2 my-2">
+                                <div class="col-md-4  my-2">
                                     <label for="exm_duration" class="from-label">Exam Duration (minute)
                                         :</label>
                                     <input type="number" wire:model="exm_duration" id="exm_duration"
@@ -413,7 +757,7 @@
                                             class="form-control @error('group') is-invalid @enderror">
                                             @if (count($groups) > 0)
                                                 @foreach ($groups as $gp)
-                                                    {{-- <option value="{{ $gp->id }}"> {{ $gp->gp_name }} </option> --}}
+                                                    {{-- <option value="{{ $gp->id }}"> {{ $gp->gp_wire:model }} </option> --}}
                                                     <option value="{{ $gp->id }}">
                                                         {{ $gp->name }} </option>
                                                 @endforeach
@@ -428,8 +772,8 @@
                                     </div>
 
                                     <div class="input-group my-2" x-show="isShow" x-transition>
-                                        <input type="text" class="form-control" placeholder="Name"
-                                            wire:model="instantGroupName" name="instantGroupName">
+                                        <input type="text" class="form-control" placeholder=""
+                                            >
                                         <button type="button" wire:click="createInstantGroup"
                                             class="input-group-text">
                                             <i class="fas fa-plus me-2"></i>
@@ -742,5 +1086,3 @@
     </div>
 
 </div>
-
-{{-- @include('components.assetsComponents') --}}

@@ -8,26 +8,36 @@ use Spatie\Permission\Models\Permission;
 use App\Http\Controllers\admin\adminController;
 use App\Http\Controllers\Exams\QuestionController;
 use App\Http\Controllers\Exams\ScheduleController;
+
 use App\Livewire\Admin\Dashboard;
 use App\Livewire\Admin\Role\PermissionIndex;
 use App\Livewire\Admin\Role\RoleIndex;
 use App\Livewire\Admin\Role\EditPermissionForm;
 use App\Livewire\Admin\User\Index;
 use App\Livewire\Admin\User\VendorForm;
+
 use App\Livewire\Login;
+use App\Livewire\count as counter_class;
 use App\Livewire\Register;
 use App\Livewire\Vendor\Dashboard as VendorDashboard;
+
 use App\Livewire\Vendor\ExamsSchedule\ScheduelPreview;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleEdit;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleIndex;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleForm;
+use App\Livewire\Vendor\ExamsSchedule\ScheduleResponse;
 use App\Livewire\Vendor\Group\Groupcreate;
 use App\Livewire\Vendor\Group\GroupIndex;
 use App\Livewire\Vendor\Group\GroupPreview;
 use App\Livewire\Vendor\Group\GroupUpdate;
+
 use App\Livewire\Vendor\Member\MemberCreateForm;
 use App\Livewire\Vendor\Member\MemberIndex;
 use App\Livewire\Vendor\Member\MemberToGroup;
+
+use App\Livewire\Vendor\Questions\Create as QuestionCreateForm;
+use App\Livewire\Vendor\Questions\Show as QuestionShow;
+
 use App\Livewire\Vendor\Supervisor\SupervisorCreateForm;
 use App\Livewire\Vendor\Supervisor\SupervisorIndex;
 use Illuminate\Support\Facades\DB;
@@ -48,12 +58,25 @@ Route::get('/', function () {
 });
 
 //get login
-Route::get("/login", Login::class)->name("login");
+Route::get("/login", function () {
+    echo Hash::make("password");
+    if (Auth::check()) {
+        return redirect()->route("dashboard");
+    } else {
+        return view("auth.login");
+    }
+})->name("login");
 Route::get("/regiser", Register::class)->name("register");
 
 
 Route::get("assign-admin-role", function () {
-    $user = User::find(11);
+    // Role::create(['name' => 'admin']);
+    // Role::create(['name' => 'vendor']);
+    // Role::create(['name' => 'member']);
+    // Permission::create(['name' => 'create_courses']);
+    // Permission::create(['name' => 'enroll_in_courses']);
+    // Permission::create(['name' => 'manage_users']);
+    $user = User::find(1);
     // Check if user has admin role
     $user->assignRole("admin");
     return back();
@@ -126,11 +149,11 @@ Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(functi
 
 
 //route assign with permission. to access bellow route user must be neede to loged in. then targeted permissio to to task
-Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we defile route prefix
+Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile route prefix
 
     // vendor dashboard
     Route::get("/", VendorDashboard::class)->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
-    
+
     // Route::get("/", function () {
     //     return view("livewire.vendor.vendor-section");
     // })->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
@@ -161,16 +184,27 @@ Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we 
 
 
     //is route authorized for scheduling exams
-    Route::get("/exam/index", ScheduleIndex::class)->name("vendorExamSchedule.index");
+    Route::get("/exams", ScheduleIndex::class)->name("vendorExamSchedule.index");
     Route::get("/exam/create", ScheduleForm::class)->name("vendorExamSchedule.create");
     Route::post("/exam/{id}/edit", ScheduleEdit::class)->name("vendorExamSchedule.edit");
-    Route::get("/exam/{pid}/{endpoint}/index", ScheduelPreview::class)->name("vendorExamSchedule.view");
-    Route::get("/exam/{pid}/{endpoint}/question", ScheduelPreview::class)->name("vendorExamSchedule.question");
-    Route::get("/exam/{pid}/{endpoint}/response", ScheduelPreview::class)->name("vendorExamSchedule.response");
+    Route::post("/exam/{id}/update", [ScheduleController::class, "update"])->name("vendorExamSchedule.update"); //common update method
+    Route::get("/exam/{pid}/index", ScheduelPreview::class)->name("vendorExamSchedule.view");
+    Route::get("/exam/{pid}/response", ScheduleResponse::class)->name("vendorExamSchedule.response");
+
+    // Route::get("/question/{qid}/response", [QuestionController::class, "response"])->name("vendorQuetions.response");
 
 
-    Route::middleware("can:create_group")->group(function () {
-    });
+    // is route authorize for create question 
+    // Route::post("/question/store", [QuestionController::class, "store"])->name("vendorQuestion.store");
+    // Route::get('/question/{qid}', QuestionShow::class)->name("vendorQuestion.show");\
+
+    Route::get("/exam/{pid}/question", [QuestionController::class, "index"])->name("vendorExamSchedule.question");
+    Route::get("/question/create", [QuestionController::class, "create"])->name("vendorQuestion.create");
+    Route::get('/question/{qid}', [QuestionController::class, 'show'])->name("vendorQuestion.show");
+    Route::get("/question/{quid}/update", [QuestionController::class, "edit"])->name("vendorQuestion.edit");
+    Route::get('/question/{quid}/destroy', [QuestionController::class, "destroy"])->name('vendorQuestion.destroy');
+
+    Route::middleware("can:create_group")->group(function () {});
 
     Route::get("/text/redirect", function () {
         return redirect()->back();
@@ -185,3 +219,4 @@ Route::prefix("/vendor/section")->middleware("auth")->group(function () { // we 
 });
 
 Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");
+Route::get("/test-coutner", counter_class::class);

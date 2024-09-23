@@ -1,8 +1,9 @@
-<aside class="main-sidebar  mt-1 bg-light shadow-none">
+<aside class="main-sidebar  mt-1 shadow-none bg-white">
     {{-- elevation-4 --}}
     <!-- Brand Logo -->
-    <a href="{{ route('dashboard') }}" wire:navigate class="brand-link" class="margin: 0 auto">
-        <img src="{{ asset('media/studysync-hub.jpg') }}" alt="Brand Logo" class="brand-image img-circle elevation-3"
+    <a href="{{ route('dashboard') }}" wire:navigate class="brand-link margin: 0 auto"
+        style="padding: 17x auto!important;">
+        <img src="{{ asset('media/studysync-hub.jpg') }}" alt="Brand Logo" class="brand-image img-circle "
             style="opacity: .8">
         <span class="brand-text font-weight-light">StudySync-hub</span>
     </a>
@@ -11,14 +12,14 @@
     <div class="sidebar">
 
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        {{-- <div class="user-panel mt-3 pb-3 mb-3 d-flex">
             <div class="image">
                 <img src="" class="img-circle elevation-2" alt="User Image">
             </div>
             <div class="info">
                 <a href="" wire:navigate ="" class="d-block">{{ Auth::user()->name }}</a>
             </div>
-        </div>
+        </div> --}}
 
 
         <!-- Sidebar Menu -->
@@ -52,7 +53,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ms-4">
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorGroup.index') }}" @class([
                                 'nav-link',
@@ -108,7 +109,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ms-4">
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorMember.index') }}" @class([
                                 'nav-link',
@@ -159,7 +160,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ms-4">
 
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorExamSchedule.index') }}"
@@ -220,7 +221,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ms-4">
                         <li class="nav-item">
                             <a href="public/back-end/index.html" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
@@ -251,7 +252,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ms-4">
                         <li class="nav-item">
                             <a wire:navigate href="{{ route('vendorSupervisor.index') }}"
                                 class="nav-link @if (request()->routeIs('vendorSupervisor.index')) active @endif">
@@ -284,7 +285,7 @@
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
-                    <ul class="nav nav-treeview">
+                    <ul class="nav nav-treeview ms-4">
                         <li class="nav-item">
                             <a href="{{ route('testMaster') }}" wire:navigate class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>

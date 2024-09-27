@@ -1,8 +1,8 @@
 @extends('layouts.vendor.app')
 @section('title')
-    Show Question
+    Vendor > Schedule > Question
 @endsection
 
 @section('content')
-    @livewire('vendor.questions.index', ['eid' => $id])
+    @livewire('vendor.exams-schedule.schedule-questions', ['eid' => $id])
 @endsection

@@ -23,7 +23,7 @@ class MemberIndex extends Component
      * public property to store the component data.
      * further send to client side
      */
-    public $members = [], $groups, $header = ["", "Name", "Email", "Phone", "Group", "Permit", "Added On"], $showMemberAside;
+    public $members = [], $groups, $showMemberAside, $memberForAside;
 
     /**
      * public property to store data from client side 
@@ -51,10 +51,14 @@ class MemberIndex extends Component
      */
     public function mount()
     {
+        $this->getData();
+    }
+
+    public function getData()
+    {
         $this->members = User::with("roles")->where("vendor", Auth::id())->orderBy("id", "desc")->get();
         $this->groups = $this->groups = Group::where("vendor", Auth::id())->get();
     }
-
 
     //cutom method 
     // public function doPushNotification()
@@ -68,10 +72,11 @@ class MemberIndex extends Component
      * @param Member
      * open side bar of member info
      */
-    public function showMemberSidebar()
+    public function memberAside($m)
     {
-        // $this->showMemberAside = $m;
-        
+        $this->showMemberAside = true;
+        $this->memberForAside = $this->members[$m - 1];
+        // dd($this->memberForAside->name);
     }
 
 
@@ -122,6 +127,7 @@ class MemberIndex extends Component
             // $userId->save();
             $this->members = User::with("roles")->where("vendor", Auth::id())->orderBy("id", "desc")->get();
             $this->dispatch("refresh");
+            $this->confirmMemberAddModal = !$this->confirmMemberAddModal;
         } catch (\Throwable $th) {
             //throw $th;
             dd($th);

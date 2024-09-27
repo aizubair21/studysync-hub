@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('media/studysync-hub.jpg') }}" type="image/x-icon">
-    <script src="https://cdn.tailwindcss.com"></script>
+    {{-- <script src="https://cdn.tailwindcss.com"></script> --}}
 
     <title>@yield('title')</title>
 
@@ -179,13 +179,13 @@
                 </div>
 
                 <!-- \end{code} -->
-                <a onmouseenter="showSideNav('')" href="#" class="my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg ">
+                <a wire:navigate onmouseenter="showSideNav('')" href="{{route('vendorQuestions.index')}}" class="block my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg ">
                     <img src="{{ asset('media/check-list-white.png') }}" class="mx-auto" width="30" alt="">
                     Questions
                 </a>
 
                 <!-- \end{code} -->
-                <a href="#" class="my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg ">
+                <a wire:navigate href="#" class="my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg ">
                     <img src="{{ asset('media/settings-white.png') }}" class="mx-auto" width="30" alt="">
                     Settings
                 </a>
@@ -257,22 +257,10 @@
 
                 <!-- question  -->
                 <div class="m_sidebarItem overflow-hidden cursor-pointer my-1 p-2 hover:bg-gray-300">
-                    <div class="font-normal flex items-center justify-start">
+                    <a href="{{route('vendorQuestions.index')}}" class="block font-normal flex items-center justify-start">
                         <img src="{{asset('media/exam-white.png')}}" class="p-1 me-3" alt="">
                         Questions
-                    </div>
-
-                    <div class="m_sidebarContent flex h-0" style="width: 200px;">
-                        <div class=" block " "></div>
-                        <div class=" block py-2">
-                            <a href="" class="block text-sm px-4 py-1 mb-1 border-s">
-                                My Schedule
-                            </a>
-                            <a href="" class="block text-sm px-4 py-1 mb-1 border-s">
-                                Create Schedule
-                            </a>
-                        </div>
-                    </div>
+                    </a>
 
                 </div>
 
@@ -284,7 +272,7 @@
         <div class="bg-gray-300 w-full text-md h-screen overflow-y-scroll" onmouseenter="hideSideNav()">
 
             <!-- main nav -->
-            <nav id="nav" class="bg-gray-300 scrolbar-none sticky top-0 border-b  w-full flex justify-between items-center px-3" style="z-index: 9999">
+            <nav id="nav" class="bg-white shadow-sm scrolbar-none sticky top-0 border-b  w-full flex justify-between items-center px-3" style="z-index: 9999">
                 <div class="flex items-center">
 
                     <div class="md:hidden" onclick="showMobileAside()">

@@ -1,4 +1,4 @@
-<div class="px-4 py-2">
+<di>
 
     {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
@@ -139,22 +139,54 @@
     </nav> --}}
 
     {{-- page header  --}}
-    <div class="flex items-center justify-between py-2">
-        <div class="text-lg font-bold ">Schedule Index</div>
+    <div class="bg-white mb-4">
 
-        <div class="flex items-center">
-            <button class="mx-1 rounded-full h-9 w-9 bg-slate-200 hover:bg-slate-400 transition"> <i
-                    class="fas fa-cog"></i>
-            </button>
-            <a wire:navigate href=""
-                class="hover:bg-green-800 hover:text-slate-50 rounded bg-green-900 text-slate-50 px-3 py-2 "> <i
-                    class="fas fa-plus-circle me-2"></i>
-                Create</a>
+        <div class="p-4">
+
+            <div class="flex items-center justify-between">
+                <div>
+                    <div class="text-xl font-bold ">My Schedule</div>
+                    <div class="text-sm"> {{ count($exams) ?? '0' }} items</div>
+
+                </div>
+
+                <div class="flex items-center">
+                
+                    <a wire:navigate href="{{route("vendorExamSchedule.create")}}"
+                    class="hover:bg-green-800 hover:text-slate-50 rounded bg-green-900 text-slate-50 px-3 py-2 ">
+                    Create</a>
+                </div>
+            </div>
         </div>
+
+        {{-- table data filter nav --}}
+        <div class="flex justify-center items-center">
+
+            
+           
+            <select name="" id="by_subject" class="p-2 mx-1 border-r" v-model="filters_by_group">
+                <option selected value="*">All Group</option>
+                @foreach ($groups as $item)
+                    <option value="{{ $item->id }}"> {{ $item->name }}</option>
+                @endforeach
+            </select>
+
+            <select name="filter_by_date" id="group_by" x-model="filter_by_date" class=" p-2">
+                <option selected value="*">All Time</option>
+                <option value="">Today</option>
+                <option value="tomorrow">Tomorrow</option>
+                <option value="weekly">This Week</option>
+                <option value="weekly">Next Week</option>
+                <option value="monthly">This Month</option>
+            </select>
+
+        </div>
+        {{-- table data filter nav end --}}
+
     </div>
     {{-- page header  --}}
 
-    <div x-data="{
+    <div style="margin: 0 auto; max-width:768px; width:100%" x-data="{
         activeNav: 'All',
         activeContent: 'all',
         isFilter: false,
@@ -203,130 +235,62 @@
         </div> --}}
 
         {{-- hidden action center  --}}
-        <div class=" d-inline-flex scrolbar-none p-0 m-0" style="width:100%; ;" x-data={}>
+        <div class=" d-inline-flex scrolbar-none p-0 m-0 hidden" style="width:100%; ;" x-data={}>
             {{-- <div class=" btn btn-lg m-2 mx-3 border-primary p-3" wire:click="$refresh"> <i class="fas fa-carret-down"></i> Draft --}}
 
             {{-- trash  --}}
             <button x-show="selectedId.length > 0" x-transition type="button" class="text-nowrap px-2 py-1 bg-red mx-1"
-                @click="$wire.distroy(selectedId)"> <i class="fas fa-trash me-2"></i> Trash
+                @click="$wire.distroy(selectedId)">Trash
             </button>
 
             {{-- draft --}}
             <button x-show="selectedId.length > 0" x-transition type="button"
-                class="text-nowrap px-2 py-1 border bg-light  mx-1" @click="$wire.draft(selectedId)"> <i
-                    class="fas fa-arrow-down me-2"></i> Draft</button>
+                class="text-nowrap px-2 py-1 border bg-light  mx-1" @click="$wire.draft(selectedId)"></i> Draft</button>
 
             {{-- published exam --}}
             <button x-show="selectedId.length > 0" x-transition type="button" href=""
                 class=" text-nowrap px-2 py-1  bg-green  mx-1" @click="$wire.doPublishedExam(selectedId)">
-                <i class="fas fa-sync me-2"></i> Publish
+                Publish
             </button>
 
             {{-- live exam  --}}
             <button x-show="selectedId.length > 0" x-transition type="button" href=""
                 class="text-nowrap px-2 py-1 border  mx-1" @click="$wire.doLiveExam(selectedId)">
-                <i class="fas fa-play me-2"></i> Live
+                Live
             </button>
 
 
         </div>
         {{-- hidden action center --}}
 
-        {{-- table data filter nav --}}
-        <div class="flex justify-start items-center mb-1">
 
 
-            {{-- <button x-show="!isFilter" @click="isFilter = !isFilter" x-transition
-                class="py-2 px-3 bg-info border-0 mx-1 cursor-pinter rounded text-nowrap sticky start-0">
-                <i class="fa fa-filter me-2"></i> filter
-            </button>
+        {{-- table --}}
+        <div class="w-full rounded text-md">
+            
+            <div class="p-1 m-2 bg-white rounded flex items-center justify-between">
 
-            <button x-show="isFilter" @click="isFilter = !isFilter" x-transition
-                class="py-2 px-3 bg-info border-0 mx-1 cursor-pinter rounded text-nowrap sticky start-0">
-                <i class="fa fa-align-justify me-2"></i> Tab
-            </button> --}}
+                <select name="" id="" class="p-2 border border-gray-900 rounded" wire:model="filter_by_status">
+                    <option value="">Active</option>
+                    <option value="">Live</option>
+                    <option value="">Draft</option>
+                    <option value="">Archive</option>
+                </select>
 
-            {{-- tab  --}}
-            <x-dropdown align="left">
 
-                <x-slot name="trigger">
-                    <button class="p-2  rounded border "> <span x-text="activeNav"></span> <i
-                            class="fas fa-caret-down ml-2"></i> </button>
-                </x-slot>
-
-                <x-slot name="content">
-
-                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'All' }" @click="activeNav = 'All'">All</div>
-
-                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'Drafted' }" @click="activeNav = 'Drafted'">Draft
-                    </div>
-
-                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'Published' }" @click="activeNav = 'Published'">Published
-                    </div>
-
-                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'Live' }" @click="activeNav = 'Live'">Live
-                    </div>
-
-                    <div class="p-2 text-nowrap cursor-pointer rounded  mx-1  border-bottom"
-                        :class="{ 'bg-success': activeNav == 'Resulted' }" @click="activeNav = 'Resulted'">Result out
-                    </div>
-
-                </x-slot>
-            </x-dropdown>
-            {{-- <div>
-                <div class="d-flex  m-0  w-100 my-2 py-1 ">
-                </div>
-            </div> --}}
-
-            {{-- flter and action section --}}
-            <div>
-
-                <div class="flex items-center m-0  w-full ">
-                    {{-- <x-dropdown align="left">
-                        <x-slot name="trigger">
-
-                        </x-slot>
-
-                    </x-dropdown> --}}
-
-                    <select name="" id="by_subject" class="p-2 border bg-white rounded mx-1" v-model="filters_by_group">
-                        <option selected value="*"> -- All Group --</option>
-                        @foreach ($groups as $item)
-                            <option value="{{ $item->id }}"> {{ $item->name }}</option>
-                        @endforeach
-                    </select>
-
-                    <select name="filter_by_date" id="group_by" x-model="filter_by_date" class=" p-2 border rounded">
-                        <option selected value="*">All Time</option>
-                        <option value="today">Today</option>
-                        <option value="tomorrow">Tomorrow</option>
-                        <option value="weekly">This Week</option>
-                        <option value="weekly">Next Week</option>
-                        <option value="monthly">This Month</option>
-                    </select>
+                <div>
 
                 </div>
             </div>
 
-        </div>
-        {{-- table data filter nav end --}}
-
-        {{-- table --}}
-        <div class="w-full rounded text-md ">
-            <div class="py-2 text-sm"> {{ count($exams) ?? '0' }} items found.</div>
-            <div class="">
-
-                <div class="">
-                    @foreach ($exams as $exm)
-                    <div class="my-1 p-1 w-full">
+            <div class="p-2">
+        
+                @foreach ($exams as $exm)
+                    <div class="my-1 w-full bg-white rounded">
                         {{-- <div class="xl:px-3 xl:py-4 rounded flex items-center w-full bg-white">
 
                         </div> --}}
-                        <div class="xl:px-3 xl:py-4 p-2 rounded flex items-start w-full bg-white">
+                        <div class="p-4 flex items-start w-full ">
                             <div class="h-full px-2 font-bold block  border-r text-lg">
                                 {{ $loop->iteration }}
                             </div>
@@ -345,25 +309,17 @@
                                             {{-- <img class="me-2" width="18" height="18" src="https://img.icons8.com/plumpy/24/people-skin-type-7.png" alt="people-skin-type-7"/> --}}
                                             {{-- <div>{{ \Carbon\Carbon::parse($exm->created_at)->diffForHumans() }}</div> --}}
                                             <div class="hidden md:block flex items-center"> {{ DB::table("groups")->where('id',$exm->group)->get("name")->value("name")}} </div>
-                                            <div class="mx-2 hidden md:block">|</div>
+                                            <div class="mx-2 md:my-1 hidden md:block">|</div>
                                             <div class="flex item-center"> <img class="me-2" width="18" height="18" src="https://img.icons8.com/material-outlined/24/books--v1.png" alt="books--v1"/> {{$exm->exm_subject}}</div>
-                                            <div class="mx-2 hidden md:block">|</div>
+                                            <div class="mx-2 md:my-1 hidden md:block">|</div>
 
                                             <!-- <div class="rounded-full px-2 border  mx-2 bg-green-900 text-white "> Draft
                                             </div> -->
 
-                                            @if ($exm->exm_date > today())
-                                                
-                                                <div class="flex items-center">
-                                                    <img class="me-2" width="18" height="18" src="https://img.icons8.com/forma-thin/18/baby-calendar.png" alt="baby-calendar"/>                                                    <div class="">Next Exam: {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
-                                                </div>
-                                            @else
-                                                <div class="flex items-center">
-                                                    <img class="me-2" width="18" height="18" src="https://img.icons8.com/ios/18/calendar--v1.png" alt="calendar--v1"/>
-                                                    <div class="">Last Exam: {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
-                                                </div>
-                                                
-                                            @endif
+                                            <div class="flex items-center">
+                                                <img class="me-2" width="18" height="18" src="https://img.icons8.com/ios/18/calendar--v1.png" alt="calendar--v1"/>
+                                                <div class="">Last Exam: {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
+                                            </div>
                                         </div>
                                         
                                     </div>
@@ -402,7 +358,7 @@
                                     </div>
                                 </div>
 
-                                <hr class="my-3">
+                                <hr class="my-1">
 
                                 <div class="flex justify-between items-center text-center">
                                     
@@ -422,8 +378,7 @@
                             </div>
                         </div>
                     </div>
-                    @endforeach
-                </div>
+                @endforeach
             
             </div>
         </div>

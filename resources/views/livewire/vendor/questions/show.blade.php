@@ -50,158 +50,197 @@
 
     {{-- Mode : {{ $isEdit }} --}}
 
-        @if ($isEdit == $questions["id"])
-            <div class="p-2 rounded my-3 bg-white border">
+    @if ($isEdit == $questions["id"])
+        <div class="p-2 rounded my-3 bg-white border">
 
-                @livewire('vendor.questions.edit', ['quid' => Crypt::encrypt($questions['id'])], key($questions['id']))
+            @livewire('vendor.questions.edit', ['quid' => Crypt::encrypt($questions['id'])], key($questions['id']))
 
-                <hr class="my-1">
-                <button class="px-2 py-1 rounded border" wire:click="isEdit = ''">Close</button>
+            <hr class="my-1">
+            <button class="px-2 py-1 rounded border" wire:click="isEdit = ''">Close</button>
+        </div>
+    @else
+        <div class=" rounded mb-3 bg-white">
+            <div class="w-full flex items-start justify-between">
+
+                {{-- question counter  --}}
+                <div class="p-3 text-lg font-bold">
+                    {{-- {{ $questions->id }} --}}
+                    {{ $index}}
+                </div>
+
+                <div class="flex items-center p-3">
+
+                    <button class="px-2">
+                        <img width="25" height="25" src="https://img.icons8.com/external-thin-kawalan-studio/25/external-sort-arrows-thin-kawalan-studio.png" alt="external-sort-arrows-thin-kawalan-studio"/>
+                    </button>
+
+                    <select name="" class="p-2 rounded border" id="">
+                        <option value="Short">Short Answer</option>
+                        <option value="Long">Long Answer</option>
+                        <option value="checkbox">Checkbox</option>
+                    </select>
+                </div>
+
             </div>
-        @else
-            <div class=" rounded mb-3  bg-white">
-                <div class="flex items-start justify-start border-b">
+            {{-- question body  --}}
+            <div class="w-full px-5">
+                {{-- question title  --}}
+                <div class="p-3 w-full ">
+                    <div class="font-semibold flex items-center justify-between">
 
-                    {{-- question counter  --}}
-                    <div class="p-3 text-md font-bold">
-                        {{-- {{ $questions->id }} --}}
-                        {{ $index}}
-                    </div>
+                            <input type="text" class="w-full p-1 text-md rounded focus:outline-0 focus:border-b" wire:model.lazy="questions.question" id="questions.id">
 
-                    {{-- question body  --}}
-                    <div class="w-full">
-                        {{-- question title  --}}
-                        <div class="px-2 py-2 w-full ">
-                            <div class="font-semibold flex items-top justify-between">
-                                {{-- <a href="{{ route('vendorQuestion.show', ['qid' => encrypt($questions->id)]) }}" wire:navigate
-                                    class="h5 m-0">
-                                    <i class="fas fa-share mx-1 text-sm"> </i>
-                                    {{ $questions->question }}
-                                </a> --}}
-                                <input type="text" class="w-full p-1 rounded focus:outline-0 focus:border-b" wire:model.lazy="questions.question" id="questions.id">
-                                <x-dropdown align="right" width="w-38">
-                                    <x-slot name="trigger">
-                                        <button class="rounded  p-2 mx-2 bg-white ">
-                                            <img width="18" src="{{asset('media/ellipsis-h.png')}}" alt="">
-                                        </button>
-                                    </x-slot>
+                        {{-- <x-dropdown align="right" width="w-38">
+                            <x-slot name="trigger">
+                                <button class="rounded  p-2 mx-2 bg-white ">
+                                    <img width="18" src="{{asset('media/ellipsis-h.png')}}" alt="">
+                                </button>
+                            </x-slot>
 
-                                    <x-slot name="content">
+                            <x-slot name="content">
 
-                                        <div class="px-1">
+                                <div class="px-1">
 
-                                            <button class="rounded text-left  w-full px-2 py-1  font-light "
-                                                wire:click="makeEdit({{ $questions['id'] }})">Select
-                                            </button>
-                                            <hr class="my-1">
-                                            <button class="rounded text-left  w-full px-2 py-1  font-light  "
-                                                wire:click="makeEdit({{ $questions['id'] }})">Share
-                                            </button>
+                                    <button class="rounded text-left  w-full px-2 py-1  font-light "
+                                        wire:click="makeEdit({{ $questions['id'] }})">Select
+                                    </button>
+                                    <hr class="my-1">
+                                    <button class="rounded text-left  w-full px-2 py-1  font-light  "
+                                        wire:click="makeEdit({{ $questions['id'] }})">Share
+                                    </button>
 
-                                            {{-- <a wire:navigate
-                                                href="{{ route('vendorQuestion.edit', ['quid' => encrypt($questions->id)]) }}"
-                                                class="btn rounded text-left  w-full px-2 py-1  font-light">
-                                                Edit
-                                            </a> --}}
-                                            <button class="px-2 text-left py-1 font-light rounded w-full "
-                                                wire:click="doEdit({{ $index ?? 0 }})">
-                                                Edit
-                                            </button>
-                                            <hr class="my-1">
-                                            <a wire:navigate
-                                                href="{{ route('vendorQuestion.destroy', ['quid' => encrypt($questions['id'])]) }}"
-                                                class="rounded text-left  w-full px-2 py-1 bg-red-200">
-                                                Delete
-                                            </a>
-                                            {{-- <form
-                                            action="{{ route('vendorQuestion.destroy', ['quid' => encrypt($questions->id)]) }}"
-                                            wire:navigate>
-                                        
-                                        </form> --}}
+                                    
+                                    <button class="px-2 text-left py-1 font-light rounded w-full "
+                                        wire:click="doEdit({{ $index ?? 0 }})">
+                                        Edit
+                                    </button>
+                                    <hr class="my-1">
+                                    <a wire:navigate
+                                        href="{{ route('vendorQuestion.destroy', ['quid' => encrypt($questions['id'])]) }}"
+                                        class="rounded text-left  w-full px-2 py-1 bg-red-200">
+                                        Delete
+                                    </a>
+                                    
 
-                                        </div>
-
-                                    </x-slot>
-                                </x-dropdown>
-
-                                {{-- <button class="rounded  px-2 py-1 bg-red text-white">
-                                <i class="fas fa-trash"> </i>
-                            </button> --}}
-                            </div>
-                        </div>
-
-                        {{-- question option  --}}
-                        <div>
-                            <div class="px-3 py-1">
-                                
-
-                                    @foreach ($options as $key => $item)
-                                        {{-- <div class="flex items-center justify-start w-1/2">
-
-                                            <h5
-                                                class="border rounded-lg px-2 py-1 @if ($item['is_correct'] == '1') font-bold text-green @endif">
-                                                {{ $loop->iteration }}
-                                            </h5>
-                                            
-                                            <h6
-                                                class="px-2 py-1 @if ($item['is_correct'] == '1') font-bold text-green @endif">
-                                                {{ $item['option'] ?? "" }}
-                                                @if ($item['is_correct'] == '1')
-                                                    <i class="fas fa-check text-sm"></i>
-                                                @endif
-                                            </h6>
-                                        </div> --}}
-
-                                        <div class="my-3">
-                                            <div class="flex items-center">
-                                                <input style="width: 25px; height:25px" type="checkbox" @checked($item["is_correct"]) name="" id="options.{{$key}}.is_correct"
-                                                    wire:model.lazy="options.{{$key}}.is_correct" value="0">
-                                                <div class="w-full ms-3"> 
-                                                                                            
-                                                    <input type="text" name=""  id="options.{{$key}}.option" class="w-full rounded my-2 p-1 focus:outline-0 focus:border-b"
-                                                    wire:model.lazy="options.{{$key}}.option" placeholder="Options">
-                                                </div>
-                                                <button wire:click="removeOption({{$key}})" class="mx-3 rounded-full shadow p-1 hover:shadow-sm">
-                                                    <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/minus.png" alt="minus"/>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    @endforeach
-
-                                <div class="ps-8"> 
-                                    <button wire:click="addMoreFild()" class="p-2 border-b focus:outline-0 w-full text-gray-500 text-start cursor-text">Add Field....</button>
                                 </div>
-                            </div>
 
-                            {{-- quextion tags  --}}
-                            <div class="p-2 inline-flex">
-                                @if ($questions['tags'])
-                                    @foreach ($questions['tags'] as $item)
-                                        <span class="me-1 p-1 rounded bg-white">[ {{ $item }} ]</span>
-                                    @endforeach
-                                @endif
-                                {{-- <span class="me-1 p-1 rounded bg-white">[first]</span>
-                                <span class="me-1 p-1 rounded bg-white">[first]</span>
-                                <span class="me-1 p-1 rounded bg-white">[first]</span> --}}
-                            </div>
+                            </x-slot>
+                        </x-dropdown> --}}
 
+
+                        <div class="relative mx-2">
+                            <label class="cursor-pointer" for="image">
+                                <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/picture.png" alt="picture"/>
+                            </label>
+                            <input type="file" name="" id="image" class="absolute top-0 left-0 w-0 h-0">
                         </div>
+                    </div>
+                    <textarea wire:model.lazy="questions.info" class="p-1 text-sm mb-2 w-full border-b focus:border-b focus:border-2 focus:outline-0" wrap="soft" id="" placeholder="Add Question Info ....."></textarea>
 
+                </div>
+
+                {{-- question option  --}}
+                <div>
+                    <div class="px-3 py-1">
+                        
+
+                            @foreach ($options as $key => $item)
+                                {{-- <div class="flex items-center justify-start w-1/2">
+
+                                    <h5
+                                        class="border rounded-lg px-2 py-1 @if ($item['is_correct'] == '1') font-bold text-green @endif">
+                                        {{ $loop->iteration }}
+                                    </h5>
+                                    
+                                    <h6
+                                        class="px-2 py-1 @if ($item['is_correct'] == '1') font-bold text-green @endif">
+                                        {{ $item['option'] ?? "" }}
+                                        @if ($item['is_correct'] == '1')
+                                            <i class="fas fa-check text-sm"></i>
+                                        @endif
+                                    </h6>
+                                </div> --}}
+
+                                <div class="my-1 text-sm px-2">
+                                    <div class="flex items-center">
+                                        <input style="width: 25px; height:25px" type="checkbox" @checked($item["is_correct"]) name="" id="options.{{$key}}.is_correct"
+                                            wire:model.lazy="options.{{$key}}.is_correct" value="0">
+                                        <div class="w-full mx-3">                                      
+                                            <input type="text" name=""  id="options.{{$key}}.option" class="w-full rounded my-2 p-1 focus:outline-0 focus:border-b"
+                                            wire:model.lazy="options.{{$key}}.option" placeholder="Options">
+                                        </div>
+                                        
+                                        <div class="relative xx-2">
+                                            <label class="cursor-pointer" for="image{{$key}}">
+                                                <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/picture.png" alt="picture"/>
+                                            </label>
+                                            <input type="file" name="" id="image{{$key}}" class="absolute top-0 left-0 w-0 h-0">
+                                        </div>
+
+                                        <button wire:click="removeOption({{$key}})" class="mx-3 rounded-full shadow p-1 hover:shadow-sm border-1 border-red-900">
+                                            <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/minus.png" alt="minus"/>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+
+                        <div class="ps-8"> 
+                            <button wire:click="addMoreFild()" class="p-2 border-b focus:outline-0 w-full text-gray-500 text-start cursor-text">Add Field....</button>
+                        </div>
+                    </div>
+
+                    {{-- quextion tags  --}}
+                    <div class="p-2 inline-flex">
+                        @if ($questions['tags'])
+                            @foreach ($questions['tags'] as $item)
+                                <span class="me-1 p-1 rounded bg-white">[ {{ $item }} ]</span>
+                            @endforeach
+                        @endif
+                        {{-- <span class="me-1 p-1 rounded bg-white">[first]</span>
+                        <span class="me-1 p-1 rounded bg-white">[first]</span>
+                        <span class="me-1 p-1 rounded bg-white">[first]</span> --}}
                     </div>
 
                 </div>
 
-                {{-- quextion footer  --}}
-                <div class="p-2 flex justify-between items-center">
-                    <button class="rounded  px-2 py-1 bg-green"> <i class="fas fa-check-circle me-1  "></i>
-                        Solution </button>
+            </div>
 
-                    <div class="flex justify-between items-center">
-                        <div class="bg-slate-400 p-2"> <i class="fas fa-eye me-1"></i> 250 </div>
-                    </div>
+            <hr class="my-1">
+            {{-- quextion footer  --}}
+            <div class="p-2 flex justify-between items-center">
+                <button class="rounded px-2 bg-green-900 text-white"> <i class="fas fa-check-circle me-1  "></i>
+                    Explanation
+                </button>
+
+                <div class="flex justify-end items-center">
+                    <button class="px-2">
+                        <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/trash--v1.png" alt="trash--v1"/>
+                    </button>
+                    
+                    <div class="px-2 mx-3 rounded-full border"> <i class="fas fa-eye me-1"></i> 250 </div>
+
+                    <x-dropdown align="right">
+                        <x-slot name="trigger">
+                            <button class="px-2">
+                                <img width="18" src="{{asset('media/ellipsis-h.png')}}" alt="">
+                            </button>
+                        </x-slot>
+
+                        <x-slot name="content">
+                            <div class="px-1">
+                                <button class="flex items-center w-full text-start px-3 py-1 mb-1 hover:bg-gray-100 rounded">
+                                    Add Explanation
+                                </button>
+                                <button class="flex items-center w-full text-start px-3 py-1 mb-1 hover:bg-gray-100 rounded">
+                                    Add Info
+                                </button>
+                            </div>
+                        </x-slot>
+                    </x-dropdown>
                 </div>
             </div>
-        @endif
+        </div>
+    @endif
 
 
     {{-- modal  --}}
@@ -303,6 +342,10 @@
                 </a>
             </div>
         </div>
+
+    </x-modal>
+
+    <x-modal wire:model.live="testModel">
 
     </x-modal>
 </div>

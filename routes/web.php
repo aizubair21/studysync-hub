@@ -26,6 +26,7 @@ use App\Livewire\Vendor\ExamsSchedule\ScheduleEdit;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleIndex;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleForm;
 use App\Livewire\Vendor\ExamsSchedule\ScheduleResponse;
+
 use App\Livewire\Vendor\Group\Groupcreate;
 use App\Livewire\Vendor\Group\GroupIndex;
 use App\Livewire\Vendor\Group\GroupPreview;
@@ -35,6 +36,7 @@ use App\Livewire\Vendor\Member\MemberCreateForm;
 use App\Livewire\Vendor\Member\MemberIndex;
 use App\Livewire\Vendor\Member\MemberToGroup;
 
+use App\Livewire\Vendor\Questions\Index as QuestionIndex;
 use App\Livewire\Vendor\Questions\Create as QuestionCreateForm;
 use App\Livewire\Vendor\Questions\Show as QuestionShow;
 
@@ -149,7 +151,8 @@ Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(functi
 
 
 //route assign with permission. to access bellow route user must be neede to loged in. then targeted permissio to to task
-Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile route prefix
+Route::prefix("/vendor")->middleware("auth")->group(function () {
+    // we defile route prefix
 
     // vendor dashboard
     Route::get("/", VendorDashboard::class)->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
@@ -160,10 +163,10 @@ Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile r
 
     //is route is authorized for group task
     Route::get("/group/create", Groupcreate::class)->name('vendorGroup.create');
-    Route::get("/groups/manage-groups", GroupIndex::class)->name('vendorGroup.index');
-    Route::get("/groups/udpate/{id}", GroupUpdate::class)->name('vendorGroup.edit');
-    Route::get("/groups/member/add", MemberToGroup::class)->name('vendorGroup.AddUser');
-    Route::get("/groups", GroupPreview::class)->name("vendorGroup.show");
+    Route::get("/groups", GroupIndex::class)->name('vendorGroup.index');
+    Route::get("/group/udpate/{id}", GroupUpdate::class)->name('vendorGroup.edit');
+    Route::get("/group/member/add", MemberToGroup::class)->name('vendorGroup.AddUser');
+    Route::get("/group/{gpid}", GroupPreview::class)->name("vendorGroup.show");
 
     // Route::post("/groups/save", [GroupsController::class, 'SaveMemberIntoGroup'])->name('vendorGroup.save');
     // Route::get("/groups/remove/member/{groupId}/{userId}", [GroupsController::class, 'RemoveMemberFromGroup']);
@@ -190,6 +193,7 @@ Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile r
     Route::post("/exam/{id}/update", [ScheduleController::class, "update"])->name("vendorExamSchedule.update"); //common update method
     Route::get("/exam/{pid}/index", ScheduelPreview::class)->name("vendorExamSchedule.view");
     Route::get("/exam/{pid}/response", ScheduleResponse::class)->name("vendorExamSchedule.response");
+    Route::get("/exam/{pid}/question", [QuestionController::class, "index"])->name("vendorExamSchedule.question");
 
     // Route::get("/question/{qid}/response", [QuestionController::class, "response"])->name("vendorQuetions.response");
 
@@ -198,7 +202,7 @@ Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile r
     // Route::post("/question/store", [QuestionController::class, "store"])->name("vendorQuestion.store");
     // Route::get('/question/{qid}', QuestionShow::class)->name("vendorQuestion.show");\
 
-    Route::get("/exam/{pid}/question", [QuestionController::class, "index"])->name("vendorExamSchedule.question");
+    Route::get("/questions", QuestionIndex::class)->name("vendorQuestions.index");
     Route::get("/question/create", [QuestionController::class, "create"])->name("vendorQuestion.create");
     Route::get('/question/{qid}', [QuestionController::class, 'show'])->name("vendorQuestion.show");
     Route::get("/question/{quid}/update", [QuestionController::class, "edit"])->name("vendorQuestion.edit");
@@ -209,6 +213,7 @@ Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile r
     Route::get("/text/redirect", function () {
         return redirect()->back();
     })->name("restRediraction");
+
     // Route::middleware(['auth', 'verified', 'can:accessInstructorPanel'])->group(function () {});
 
 
@@ -218,5 +223,5 @@ Route::prefix("/vendor")->middleware("auth")->group(function () { // we defile r
     })->name("testMaster");
 });
 
-Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");
-Route::get("/test-coutner", counter_class::class);
+// Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");
+// Route::get("/test-coutner", counter_class::class);

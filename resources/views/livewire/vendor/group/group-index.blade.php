@@ -141,7 +141,7 @@
 
     <div class="p-4 flex justify-between items-center bg-white">
         <div class="font-bold text-xl">
-            Your Group
+            My Groups
             <div class="text-sm font-normal">
                 {{count($groups) > 0 ? count($groups) . " Groups"  : "No group were found !" }}
             </div>

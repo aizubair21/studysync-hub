@@ -64,9 +64,9 @@
         </div>
 
         <div class="text-sm md:text-md flex justify-center items-center w-auto">
-            <a wire:navigate href="{{route("vendorExamSchedule.view", ["pid" => $schedule['id']])}}" class="px-3 py-1  font-bold text-md mx-1 bg-gray-300">Overview</a>
-            <a wire:navigate href="{{ route('vendorExamSchedule.question', ['pid' => $schedule['id']]) }}" class="px-3 py-1  font-bold text-md mx-1 ">Questions</a>
-            <a wire:navigate href="{{ route('vendorExamSchedule.response', ['pid' => $schedule['id']]) }}" class="px-3 py-1  font-bold text-md mx-1 ">Response</a>
+            <a wire:navigate href="{{route("vendorExamSchedule.view", ["pid" => $schedule['id']])}}" class="p-2 border-b border-green-700 text-green-900 font-bold text-md mx-1">Overview</a>
+            <a wire:navigate href="{{ route('vendorExamSchedule.question', ['pid' => $schedule['id']]) }}" class="p-2 text-md mx-1 ">Questions</a>
+            <a wire:navigate href="{{ route('vendorExamSchedule.response', ['pid' => $schedule['id']]) }}" class="p-2 text-md mx-1 ">Response</a>
         </div>
     </div>
     {{-- navigation  --}}

@@ -22,22 +22,23 @@ class Show extends Component
     public $id, $serverData, $questions, $options = [];
 
     // class property 
-    public $isSelectQuestionModal, $isSearchModal, $isEdit;
+    public $isSelectQuestionModal, $isSearchModal, $isEdit, $testModel;
 
     //mount 
-    public function mount($qid, $eid = null)
+    public function mount($qid)
     {
         $this->id = decrypt($qid);
         // $this->questions = exam_has_question::with('options')->where(['id' => $this->id, 'vendor' => Auth::id()])->get()->toArray();
-        $this->serverData = auth()->user()->schedules()->find(decrypt($eid));
+        // $this->serverData = auth()->user()->schedules()->find(decrypt($eid));
         $this->getQuestionAndOption();
+        // dd($this->questions);
     }
 
     // after mount method
 
     private function getQuestionAndOption()
     {
-        $this->questions = $this->serverData->questions()->with("options")->find($this->id)->toArray();
+        $this->questions = exam_has_question::where(["vendor" => Auth::id(), "id" => $this->id])->with("options")->get()->toArray()[0];
         // $this->options = $this->serverData['options'];
 
         if (!empty($this->questions['options'])) {
@@ -129,7 +130,7 @@ class Show extends Component
      */
     public function updateQuestion()
     {
-        $this->serverData->questions()->find($this->id)->update(['question' => $this->questions['question'], 'has_option' => $this->questions['has_option']]);
+        exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->update(['question' => $this->questions['question'], 'has_option' => $this->questions['has_option']]);
     }
 
 
@@ -158,7 +159,7 @@ class Show extends Component
      */
     public function destroy()
     {
-        $this->questions->delete();
+        exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->delete();
         // $this->dispatchBrowserEvent('closeModal');
     }
 

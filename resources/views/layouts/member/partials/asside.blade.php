@@ -1,230 +1,73 @@
-<aside class="main-sidebar sidebar-light-primary elevation-1 mt-1">
-    <!-- Sidebar -->
-    <div class="sidebar">
-        <!-- Sidebar Menu -->
-        <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                <li class="nav-item">
-                    <a wire:navigate href="{{ route('instructor-dashboard') }}"
-                        class="nav-link @if (Route::currentRouteName() == 'teacher_control') active @endif ">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-
-                        <p>
-                            Dashboard
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                </li>
-                <hr>
-
-                {{-- group management --}}
-                @if (request()->routeIs(['vendorGroup.*']))
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                Group Management
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorGroup.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>List all groups</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorGroup.create') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Create a group</p>
-                                </a>
-                            </li>
-                            {{-- <li class="nav-item">
-                            <a wire:navigate href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Add student to group</p>
-                            </a>
-                            </li>
-                            <li class="nav-item">
-                            <a wire:navigate href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Change student group</p>
-                            </a>
-                            </li> --}}
-                        </ul>
-                    </li>
-                @endif
-
-                {{-- member management  --}}
-                @if (request()->routeIs(['vendorMember.*']))
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-user"></i>
-                            <p>
-                                Members
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorMember.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All Member</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorMember.create') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Add Member</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-
-                {{-- supervisor management  --}}
-                @if (request()->routeIs(['vendorSupervisor.*']))
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-eye"></i>
-                            <p>
-                                Supervisor
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorSupervisor.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All supervisor</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorSupervisor.create') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Add supervisor</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Assign supervisor to a member</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-
-                {{-- exam schedule management  --}}
-                @if (request()->routeIs(['vendorExamSchedule.*']))
-                    <li class="nav-item  menu-is-opening menu-open">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-users"></i>
-                            <p>
-                                Question and Exams
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
-                        </a>
-                        <ul class="nav nav-treeview">
-
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorExamSchedule.index') }}"
-                                    class="nav-link @if (request()->routeIs(' vendorExamSchedule.index')) active @endif">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>List Schedule</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a wire:navigate href="{{ route('vendorExamSchedule.create') }}"
-                                    class="nav-link @if (Route::currentRouteName() == 'vendorExamSchedule.create') active @endif">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Create Schedule</p>
-                                </a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a wire:navigate href=""
-                                    class="nav-link @if (Route::currentRouteName() == ' teacherExamPublished.index') active @endif ">
-                                    <i class=" far fa-circle nav-icon"></i>
-                                    <p>All Live exams</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a wire:navigate href=""
-                                    class="nav-link @if (Route::currentRouteName() == 'teacherPendingExam.index') active @endif">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>All Pending exams</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a wire:navigate href=""
-                                    class="nav-link @if (Route::currentRouteName() == ' teacherExam.past') active @endif">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>View past exams</p>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                @endif
-
-
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Exam Result
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="public/back-end/index.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Result</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="public/back-end/index2.html" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>Excel Sheet</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>
-                            Notice
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>New Notice</p>
-                            </a>
-                        </li>
-
-                        <li class="nav-item">
-                            <a href="" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>All Notice</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-
-
-            </ul>
-        </nav>
-        <!-- /.sidebar-menu -->
+<div class="bg-gray-900 hidden text-white md:block h-screen z-50">
+    <!-- site logo  -->
+    <div class="flex justify-center font-bold w-full items-center mb-2 p-2">
+        <img src="{{ asset('/media/profile-white.png') }}" width="40"
+            class="me-2  p-1 border bg-green-900 rounded-full shadow-md" alt="">
+        SSH
     </div>
-    <!-- /.sidebar -->
-</aside>
+
+    <!--aside items -->
+    <div class="p-3 text-md relative">
+        <a href="{{ route('student-dashboard') }}" wire:navigate
+            class="my-2 block p-2 text-center text-md hover:bg-gray-700 mb-1 shadow-lg text-white rounded-lg @if(request()->routeIs("student-dashboard")) font-bold bg-green-900 @endif ">
+            <img class="mx-auto" width="30" src="{{ asset('media/home-white.png') }}" alt="home" />
+            Dashboard
+        </a>
+        <!-- \item  -->
+        <div class="my-2 block ">
+            <a href="{{ route('memberExam.live') }}" wire:navigate
+                class="my-2 block p-2 text-center text-md hover:bg-gray-700 mb-1 shadow-lg text-white rounded-lg @if(request()->routeIs("memberExam.live")) font-bold bg-green-900 @endif ">
+                <img class="mx-auto" width="30" src="{{ asset('media/home-white.png') }}" alt="home" />
+                Live Exams
+            </a>
+        </div>
+        
+        <div class="my-2 block ">
+            <a href="{{ route('memberArchieveExams.index') }}" wire:navigate
+                class="my-2 block p-2 text-center text-md hover:bg-gray-700 mb-1 shadow-lg text-white rounded-lg @if(request()->routeIs("memberArchieveExams.index")) font-bold bg-green-900 @endif ">
+                <img class="mx-auto" width="30" src="{{ asset('media/home-white.png') }}" alt="home" />
+                Archive Exams
+            </a>
+        </div>
+
+        <!-- \end{code} -->
+        {{-- <div  class="my-2 block">
+            <div onmouseenter="showSideNav('navMember')" data-aside="navMember" class="cursor-pointer my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg @if(request()->routeIs("vendorMember.*")) font-bold bg-green-900 @endif ">
+                <img src="{{ asset('media/profile-white.png') }}" class="mx-auto" width="30" alt="">
+                Member
+            </div>
+
+            <div id="navMember"
+                class="asideChild bg-gray-500 h-screen text-md absolute top-0 transition w-48 left-[-500%]">
+                <div class="text-lg px-4 py-2 mt-4 font-bold">Member</div>
+                <div class="block">
+                    <a class="px-4 block py-2 " href="{{ route('vendorMember.index') }}" wire:navigate>My
+                        Members </a>
+                    <a class="px-4 block py-2 " href="{{ route('vendorExamSchedule.create') }}"
+                        wire:navigate> Add Member </a>
+                </div>
+                <hr class="my-1">
+
+                <div class="text-lg px-4 py-2 mt-4 font-bold">Groups </div>
+                <div class="block">
+                    <a class="px-4 block py-2 " wire:navigate href="{{route("vendorGroup.index")}}" wire:navigate>My Groups</a>
+                    <a class="px-4 block py-2 transition" wire:navigate href="{{route("vendorGroup.create")}}" wire:navigate>Group Create </a>
+                </div>
+            </div>
+
+        </div> --}}
+
+        <!-- \end{code} -->
+        {{-- <a wire:navigate onmouseenter="showSideNav('')" href="{{route('vendorQuestions.index')}}" class="block my-2 p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg ">
+            <img src="{{ asset('media/check-list-white.png') }}" class="mx-auto" width="30" alt="">
+            Questions
+        </a> --}}
+
+        <!-- \end{code} -->
+        {{-- <a wire:navigate href="#" class="my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg ">
+            <img src="{{ asset('media/settings-white.png') }}" class="mx-auto" width="30" alt="">
+            Settings
+        </a> --}}
+
+    </div>
+</div>

@@ -32,7 +32,6 @@ class User extends Authenticatable
         'username', // username for vendor. can consider a academy, institute name
         'vendor', //vendor/teacher for their student account
         'email', //
-        'password', //
         'phone', //
         'profile_photo_path', // storage photo path
         'profile_photo_url', //profile faker photo
@@ -41,10 +40,7 @@ class User extends Authenticatable
         'subscription_till', //  date till which the user is subscribed to our service
         'privilage', //0-> nothing, 1 -> active, 3 -> temporary banned, 4->banned on data, 2 -> draft
         'banned_on', // date when the user was banned
-        "remember_token", // 
         'email_verified_at', //
-        'temp_access_token',
-        "is_verified_user", //custom varity user
     ];
 
     /**

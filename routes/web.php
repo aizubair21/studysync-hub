@@ -61,7 +61,7 @@ Route::get('/', function () {
 
 //get login
 Route::get("/login", function () {
-    echo Hash::make("password");
+    // echo Hash::make("password");
     if (Auth::check()) {
         return redirect()->route("dashboard");
     } else {
@@ -92,7 +92,7 @@ Route::get("/dashboard", function () {
     // if role has instructor, return to instructor dashboard
     if (Auth()->user()->hasRole("vendor")) {
         return redirect()->route("instructor-dashboard")->with(["success" => "Welcome back to Dashboard!"]);
-    } elseif (Auth()->user()->hasRole("student")) {
+    } elseif (Auth()->user()->hasRole("member")) {
         return redirect()->route("student-dashboard");
     } elseif (Auth()->user()->hasRole("parent")) {
         return redirect()->route("parent-dashboard");
@@ -101,11 +101,6 @@ Route::get("/dashboard", function () {
     }
 })->name('dashboard')->middleware("auth");
 // dd(Auth::id());
-
-// student dashboard
-Route::get('/student/panel', function () {
-    return view("auth.student.index");
-})->name("student-dashboard")->middleware(["auth", "role:student"]);
 
 //parent dashboard
 Route::get("parent/section", function () {
@@ -151,11 +146,11 @@ Route::prefix("administrator")->middleware(["auth", "role:admin"])->group(functi
 
 
 //route assign with permission. to access bellow route user must be neede to loged in. then targeted permissio to to task
-Route::prefix("/vendor")->middleware("auth")->group(function () {
+Route::prefix("/vendor")->middleware(["auth", 'role:vendor'])->group(function () {
     // we defile route prefix
 
     // vendor dashboard
-    Route::get("/", VendorDashboard::class)->middleware(["auth", 'role:vendor'])->name("instructor-dashboard");
+    Route::get("/", VendorDashboard::class)->name("instructor-dashboard");
 
     // Route::get("/", function () {
     //     return view("livewire.vendor.vendor-section");
@@ -222,6 +217,10 @@ Route::prefix("/vendor")->middleware("auth")->group(function () {
         return view("livewire.vendor.test.master");
     })->name("testMaster");
 });
+
+
+
+
 
 // Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");
 // Route::get("/test-coutner", counter_class::class);

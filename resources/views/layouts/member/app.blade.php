@@ -6,24 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="shortcut icon" href="{{ asset('media/studysync-hub.jpg') }}" type="image/x-icon">
-    <title>@yield('title')</title>
+    <title>@yield('title') || studysync-hub</title>
 
     <!-- Fonts -->
     {{-- <link rel="preconnect" href="https://fonts.bunny.ginet"> --}}
     {{-- <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" /> --}}
 
     <!-- vite Scripts and css-->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-    
-    {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
-    @include('components.style')
-
     {{-- livewire style  --}}
     @livewireStyles
 
+    
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    
+    {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
+    {{-- @include('components.style') --}}
+
+
     <style>
         .content-wrapper {
-            background-color: #fff !important;
+            background-color: #e5e5e5 !important;
             height: 90vh;
             overflow-y: auto;
         }
@@ -31,43 +33,16 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
-
-    {{-- alert messages --}}
-    @if (session('success'))
-        <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
-    @endif
-    @if ($errors->any())
-        <div class="text text-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <!-- Site wrapper -->
-    {{-- alert messages --}}
-
-    @include('components.spinner')
-    {{-- @include('layouts.vendor.partials.navigations') --}}
-    {{-- top navigation menue --}}
-
+<body class="">
     {{-- wrapper --}}
-    <div class="wrapper">
+    <div class="flex w-full justify-start items-start ">
 
-        @auth
-            @include('layouts.member.partials.asside')
+        @include('layouts.member.partials.asside')
 
-            {{-- main asside content  --}}
-            @include('layouts.member.partials.navigations')
-        @endauth
-
-        <div class="content-wrapper p-2">
-
+        <div class="p-2 w-full h-screen overflow-y-scroll">
+                
             {{-- @if (session('success'))
-                <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
+            <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
             @endif
             @if ($errors->any())
                 <div class="text text-danger">
@@ -78,7 +53,18 @@
                     </ul>
                 </div>
             @endif --}}
-            @yield('content')
+            {{-- main asside content  --}}
+
+            @include('layouts.member.partials.navigations')
+            <div class="">
+                @if (session('success'))
+                    <div class="flex items-center justify-between px-3 py-2 bg-green-900 text-white">
+                        <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
+                        <button onclick="this.parentElement.remove()" class="p-2">x</button>
+                    </div>
+                @endif
+                @yield('content')
+            </div>
         </div>
     </div>
 

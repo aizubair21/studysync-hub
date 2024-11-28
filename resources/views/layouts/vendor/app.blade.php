@@ -105,7 +105,7 @@
     {{-- wrapper --}}
 
     <!-- tailwind css admin layouts  -->
-    <div class="flex  w-full justify-start items-start h-screen mt-1">
+    <div class="flex w-full justify-start items-start h-screen mt-1">
 
         @include("layouts.vendor.partials.asside")
 

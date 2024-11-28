@@ -213,21 +213,21 @@ student panel
 <div >
 
     {{-- top bar --}}
-        <div class="row ">
-            <div class="col-12 d-flex justify-content-between ailgn-items-center">
-                <h2 style="font-weight: 600">
-                    Dashboard
-                </h2>
-                <div>
-                    <a href="" class="btn btn-outline-success btn-sm rounded rounded-pill px-3">Helpline</a>
-                </div>
+    <div class="row ">
+        <div class="col-12 d-flex justify-content-between ailgn-items-center">
+            <h2 style="font-weight: 600">
+                Dashboard
+            </h2>
+            <div>
+                <a href="" class="btn btn-outline-success btn-sm rounded rounded-pill px-3">Helpline</a>
             </div>
         </div>
+    </div>
 
 
         
         
-    @if($group != "")
+    @if(isset($group) && $group != "")
         
         {{-- main part --}}
         <div class="row mt-2">
@@ -243,7 +243,7 @@ student panel
                                 Welcome back! {{ Auth::user()->name }}
                             </h4>
                             <p>
-                                You currently have {{ $live_count }} live exam. We believe you can perform your best.
+                                You currently have live exam. We believe you can perform your best.
                             </p>
                             <a href="" class="btn px-3 fs-4 btn-sm rounded rounded-pill bg-light text-dark">Learn More</a>
                         </div>
@@ -415,10 +415,10 @@ student panel
 
 @push('script')
 <script>
-    let features = ['menubar=no, location=no,resizable=no,scrillbar=no,stutus=no'];
-    $('.liveExam').click(function (e) {
-        window.open("{{ route('showLiveExam') }}");
-    });
+    //let features = ['menubar=no, location=no,resizable=no,scrillbar=no,stutus=no'];
+    //$('.liveExam').click(function (e) {
+        //window.open("{{ route('showLiveExam') }}");
+    //});
 </script>
 @endpush
 @endsection

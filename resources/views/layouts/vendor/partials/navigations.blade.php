@@ -1,210 +1,137 @@
-<nav class="main-header navbar navbar-expand navbar-light mt-1">
-    <!-- Left navbar links -->
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a wire:navigate href="{{ route('dashboard') }}" class="nav-link">Home</a>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <button wire:click="$refresh" class="nav-link border border-info rounded" wire:click='$wire.$refresh'>
-                <i class="fas fa-sync me-2"></i>
-                Refresh</button>
-        </li>
-        <li class="nav-item d-none d-sm-inline-block">
-            <a wire:navigate href="{{ route('vendorExamSchedule.create') }}" class="nav-link"> <i
-                    class="fas fa-plus me-2"></i> Exams</a>
-        </li>
-    </ul>
+ <!-- main nav -->
+ <nav id="nav" class="bg-white shadow-sm scrolbar-none sticky top-0 border-b  w-full flex justify-between items-center px-3" style="z-index: 50">
+    <div class="flex items-center">
 
-    <!-- Right navbar links -->
-    <ul class="navbar-nav ml-auto">
-        <!-- Navbar Search -->
-        {{-- <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="fas fa-search"></i>
-            </a>
-            <div class="navbar-search-block">
-                <form class="form-inline">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            <button class="btn btn-navbar" type="button" data-widget="navbar-search">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </li> --}}
+        <div class="md:hidden" onclick="showMobileAside()">
+            <style>
+                /* From Uiverse.io by vinodjangid07 */
+                #checkbox {
+                    display: none;
+                }
 
-        <!-- Messages Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-comments"></i>
-                <span class="badge badge-danger navbar-badge">3</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                Brad Diesel
-                                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">Call me whenever you can...</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src="dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                John Pierce
-                                <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">I got your message bro</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <!-- Message Start -->
-                    <div class="media">
-                        <img src="dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">
-                                Nora Silvester
-                                <span class="float-right text-sm text-warning"><i class="fas fa-star"></i></span>
-                            </h3>
-                            <p class="text-sm">The subject goes here</p>
-                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-                        </div>
-                    </div>
-                    <!-- Message End -->
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-            </div>
-        </li>
-        <!-- Notifications Dropdown Menu -->
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-                <i class="far fa-bell"></i>
-                <span class="badge badge-warning navbar-badge">15</span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span class="dropdown-item dropdown-header">15 Notifications</span>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-envelope mr-2"></i> 4 new messages
-                    <span class="float-right text-muted text-sm">3 mins</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-users mr-2"></i> 8 friend requests
-                    <span class="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item">
-                    <i class="fas fa-file mr-2"></i> 3 new reports
-                    <span class="float-right text-muted text-sm">2 days</span>
-                </a>
-                <div class="dropdown-divider"></div>
-                <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-            </div>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                <i class="fas fa-expand-arrows-alt"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true" href="#"
-                role="button">
-                <i class="fas fa-th-large"></i>
-            </a>
-        </li>
-        <li class="nav-item">
-            {{-- <form action="{{ route('logout') }}" method="post" class="m-0">
-                <button class="btn" type="submit"> <i class="fas fa-arrow-right me-1"></i> Log Out
+                .toggle {
+                    position: relative;
+                    width: 35px;
+                    height: 40px;
+                    cursor: pointer;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 3px;
+                    transition-duration: .5s;
+                }
+
+                .bars {
+                    width: 100%;
+                    height: 4px;
+                    background-color: #000;
+                    border-radius: 4px;
+                }
+
+                #bar2 {
+                    transition-duration: .8s;
+                }
+
+                #bar1,
+                #bar3 {
+                    width: 70%;
+                }
+
+                #checkbox:checked+.toggle .bars {
+                    position: absolute;
+                    transition-duration: .5s;
+                }
+
+                #checkbox:checked+.toggle #bar2 {
+                    transform: scaleX(0);
+                    transition-duration: .5s;
+                }
+
+                #checkbox:checked+.toggle #bar1 {
+                    width: 70%;
+                    transform: rotate(45deg);
+                    transition-duration: .5s;
+                }
+
+                #checkbox:checked+.toggle #bar3 {
+                    width: 70%;
+                    transform: rotate(-45deg);
+                    transition-duration: .5s;
+                }
+
+                #checkbox:checked+.toggle {
+                    transition-duration: .5s;
+                    transform: rotate(180deg);
+                }
+            </style>
+            <input type="checkbox" id="checkbox" onclick="showMobileAside()">
+            <label for="checkbox" class="toggle">
+                <div class="bars" id="bar1"></div>
+                <div class="bars" id="bar2"></div>
+                <div class="bars" id="bar3"></div>
+            </label>
+        </div>
+
+        <a href="{{ route('dashboard') }}" wire:navigate class="p-2 hidden md:block">
+            <img src="{{ asset('media/home-white.png') }}" width="40" alt="logo"
+                class="p-2 bg-green-900 rounded-full">
+        </a>
+
+
+    </div>
+    <div class="flex items-center">
+
+        <button class="p-2">
+            <img src="{{ asset('media/settings-white.png') }}" width="40" alt="logo"
+                class="p-2 hover:bg-gray-400 transition rounded-full">
+        </button>
+
+        <x-dropdown>
+            <x-slot name="trigger">
+                <button class="p-2">
+                    <img src="{{ asset('media/profile-white.png') }}" width="40" alt="logo"
+                        class="p-2 bg-green-900 rounded-full">
                 </button>
-            </form> --}}
-            {{-- <a class="nav-link" data-widget="control-sidebar" data-controlsidebar-slide="true"
-                href="#" role="button">
-                <i class="fas fa-th-large"></i>
-            </a> --}}
+            </x-slot>
 
-            <div class="ms-3 relative">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                            <button
-                                class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition">
-                                <img class="h-8 w-8 rounded-full object-cover"
-                                    src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                            </button>
-                        @else
-                            <span class="inline-flex rounded-md">
-                                <button type="button"
-                                    class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                    {{ Str::substr(Auth::user()->name, 0, 10) }}
+            <x-slot name="content">
 
+                <div class="px-1 w-full">
+                    <a href="" wire:navigate class="hover:bg-gray-100 hover:text-gray-50 transition rounded px-3 py-2 w-full block text-start ">
+                        <div ></div> Profile 
+                    </a>
+                </div>
 
-                                    <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-                                    </svg>
-                                </button>
-                            </span>
-                        @endif
-                    </x-slot>
+                <hr class="my-1">
+                <div class="px-1 w-full">
+                    <a href="" wire:navigate class="hover:bg-gray-100 hover:text-gray-50 transition rounded px-3 py-2 w-full block text-start ">
+                        <div ></div> My Exam 
+                    </a>
+                </div>
+                <div class="px-1 w-full">
+                    <a href="" wire:navigate class="hover:bg-gray-100 hover:text-gray-50 transition rounded px-3 py-2 w-full block text-start ">
+                        <div ></div> Create Exam 
+                    </a>
+                </div>
+                <hr class="my-1">
+                
+                <div class="px-1 w-full">
+                    <a href="" wire:navigate class="hover:bg-gray-100 hover:text-gray-50 transition rounded px-3 py-2 w-full block text-start ">
+                        <div ></div> Reset Password 
+                    </a>
+                </div>
 
-                    <x-slot name="content">
-                        <!-- Account Management -->
-                        <div class="block px-4 py-2 text-xs text-gray-400">
-                            {{ __('Manage Account') }}
-                        </div>
+                <hr class="my-1">
+                <div class="px-2 py-1">
+                    <form action="{{ route('logout') }}"  method="POST">
+                        @csrf
+                        <button type="submit" class="w-full bg-gray-900 hover:bg-gray-700 transition text-white px-3 py-2 rounded ">Log Out</button>
+                    </form>
+                </div>
+            </x-slot>
+        </x-dropdown>
 
-                        <x-dropdown-link href="{{ route('profile.show') }}">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
-                            <x-dropdown-link href="{{ route('api-tokens.index') }}">
-                                {{ __('API Tokens') }}
-                            </x-dropdown-link>
-                        @endif
-
-                        <div class="border-t border-gray-200"></div>
-
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}" x-data>
-                            @csrf
-
-                            <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-        </li>
-    </ul>
+    </div>
 </nav>
-<!-- /.navbar -->
+<!-- main nav -->

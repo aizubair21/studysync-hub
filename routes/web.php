@@ -91,7 +91,7 @@ Route::get("/dashboard", function () {
     // dd($roles = Auth()->user()->hasRole("admin"));
     // if role has instructor, return to instructor dashboard
     if (Auth()->user()->hasRole("vendor")) {
-        return redirect()->route("instructor-dashboard");
+        return redirect()->route("instructor-dashboard")->with(["success" => "Welcome back to Dashboard!"]);
     } elseif (Auth()->user()->hasRole("student")) {
         return redirect()->route("student-dashboard");
     } elseif (Auth()->user()->hasRole("parent")) {

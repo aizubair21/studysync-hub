@@ -10,12 +10,12 @@ import './bootstrap';
 
 
 //when wire vavigating
-document.addEventListener('livewire:navigating', () => {
-    document.getElementsByClassName('spinner')[0].style.display = "block";
-    document.getElementsByTagName("body")[0].style.display = "none";
-})
+// document.addEventListener('livewire:navigating', () => {
+//     document.getElementsByClassName('spinner')[0].style.display = "block";
+//     document.getElementsByTagName("body")[0].style.display = "none";
+// })
 
-//when navigate finished
-document.addEventListener("livewire:navigated", () => {
-    document.getElementsByTagName("body")[0].style.display = "block";
-})
+// //when navigate finished
+// document.addEventListener("livewire:navigated", () => {
+//     document.getElementsByTagName("body")[0].style.display = "block";
+// })

@@ -1,5 +1,10 @@
 <div>
 
+    @section('title')
+        Vendor > Schedule Create
+    @endsection
+
+
     <div class="">
 
         @if (session('success'))
@@ -28,6 +33,7 @@
             </div>
         @endif
     </div>
+
 
     {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
         <!-- Left navbar links -->
@@ -168,6 +174,7 @@
     </nav> --}}
     <!-- /.navbar -->
 
+
     <div class="mb-5 bg-white">
         <div class="flex justify-between items-center p-4">
 
@@ -185,10 +192,10 @@
         </div>
 
         <div class="mt-3 flex items-center justify-center">
-lo
         </div>
 
     </div>
+
 
     <div  x-data="{type: 'mcq', type_of: 'standard', starndard: '',}" style="width: 100%; max-width:500px; margin: 0 auto">
         {{-- {{count($groups)}} --}}
@@ -358,7 +365,7 @@ lo
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
                                 <div class="text-lg font-bold text-nowrap my-1 px-2">Start Time</div>
-                                <input type="date" wire:model="exm_start" class="w-full md:w-48 p-2 rounded border" id="">
+                                <input type="time" wire:model="link_open_at" class="w-full md:w-48 p-2 rounded border" id="">
                             </div>
                             <div class="text-sm p-2">
                                 Exam start time. On start time an student can access the exam.
@@ -399,7 +406,7 @@ lo
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
                                 <div class="text-lg font-bold text-nowrap my-1 px-2">Exam Close </div>
-                                <input type="date" wire:model="exm_end_at" disabled placeholder="Ex: 60 minute"
+                                <input type="date" wire:model="link_close_at" placeholder="Ex: 60 minute"
                                     class="w-full md:w-48 p-2 rounded border" id="">
                             </div>
                             <div class="text-sm p-2">
@@ -476,13 +483,12 @@ lo
     </div>
 
 
-
     <div class="hidden"  x-data="{
         type: 'mcq',
         type_of: 'minimal',
         starndard: '',
     
-    }">
+    }"> 
 
         <!-- main content -->
         <div class="flex justify-center" >
@@ -1083,6 +1089,8 @@ lo
             </div>
 
         </div>
+        
     </div>
+
 
 </div>

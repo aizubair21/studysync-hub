@@ -75,6 +75,7 @@
                 <div class="my-2">
                     @foreach ($members as $key => $member)    
                         <div class="my-1 p-4 bg-white rounded flex items-center justify-between hover:bg-gray-100 hover:transition border-b">
+                            
                             <div class="flex items-center">
                                 <input type="checkbox" wier:model.live="action" style="width:20px; height:20px" id="member_{{$key}}">
                                 <div class="px-3">
@@ -84,7 +85,7 @@
                                     <a href="" class="block font-bold text-md">
                                         {{$member->name}}
                                     </a>
-                                    <div class="font-normal font-xs my-0">
+                                    <div class="hidden md:block font-normal text-xs my-0">
                                         {{$member->email}}
                                     </div>
                                 </div>
@@ -93,6 +94,7 @@
                             <button class="p-2" wire:click="memberAside({{$key+1}})">
                                 <img width="20" height="20" src="https://img.icons8.com/pastel-glyph/20/circled-chevron-right.png" alt="circled-chevron-right"/>
                             </button>
+
                         </div>
                     @endforeach
     

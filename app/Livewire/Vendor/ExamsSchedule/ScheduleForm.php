@@ -72,7 +72,7 @@ class ScheduleForm extends Component
         'exm_note' => 'nullable',
         'is_retake' => 'nullable|boolean',
         'isLinkOpen' => 'nullable|boolean',
-        'link_open_at' => 'nullable|date',
+        'link_open_at' => 'nullable|time',
         'link_close_at' => 'nullable|date',
         'can_attend_until' => 'nullable|date',
         'isResultPublished' => 'nullable|boolean',
@@ -112,7 +112,7 @@ class ScheduleForm extends Component
 
     public function render()
     {
-        return view('livewire.vendor.exams-schedule.schedule-form')->extends("layouts.vendor.app")->section("content");;
+        return view('livewire.vendor.exams-schedule.schedule-form')->extends("layouts.vendor.app");
     }
 
 

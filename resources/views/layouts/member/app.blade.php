@@ -66,7 +66,7 @@
 
         <div class="content-wrapper p-2">
 
-            @if (session('success'))
+            {{-- @if (session('success'))
                 <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
             @endif
             @if ($errors->any())
@@ -77,7 +77,7 @@
                         @endforeach
                     </ul>
                 </div>
-            @endif
+            @endif --}}
             @yield('content')
         </div>
     </div>

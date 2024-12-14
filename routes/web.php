@@ -35,6 +35,7 @@ use App\Livewire\Vendor\Group\GroupUpdate;
 use App\Livewire\Vendor\Member\MemberCreateForm;
 use App\Livewire\Vendor\Member\MemberIndex;
 use App\Livewire\Vendor\Member\MemberToGroup;
+use App\Livewire\Vendor\Member\MemberInfo;
 
 use App\Livewire\Vendor\Questions\Index as QuestionIndex;
 use App\Livewire\Vendor\Questions\Create as QuestionCreateForm;
@@ -175,7 +176,7 @@ Route::prefix("/vendor")->middleware("auth")->group(function () {
 
     //is route authorized for member task
     Route::get("/member", MemberIndex::class)->name("vendorMember.index");
-    Route::get("/member/update/{id}", MemberIndex::class)->name("vendorMember.edit");
+    Route::get("/member/{id}", MemberInfo::class)->name("vendorMember.edit");
     Route::get("/member/new/create", MemberCreateForm::class)->name("vendorMember.create");
     Route::get("/member/new/request", MemberCreateForm::class)->name("vendorMember.request");
 

@@ -41,7 +41,7 @@
     </div> --}}
     {{-- header --}}
 
-    <div class="flex justify-center items-start">
+    <div class="flex justify-between items-start">
         
         <div class="rounded p-2" style="width: 100%; max-width:570px; margin: 0 auto">
             {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
@@ -59,7 +59,9 @@
                
                     <x-dropdown aling="right">
                         <x-slot name="trigger">
-                            <button class="px-3 py-1 rounded ">more </button>
+                            <button class="px-3 py-1 rounded">
+                                <img width="20px" src="{{asset('media/ellipsis-h.png')}}" alt="">
+                            </button>
                         </x-slot>
             
                         <x-slot name="content">
@@ -79,10 +81,10 @@
                             <div class="flex items-center">
                                 <input type="checkbox" wier:model.live="action" style="width:20px; height:20px" id="member_{{$key}}">
                                 <div class="px-3">
-                                    <img class="rounded-full w-8 border border-green-700" src="{{asset("media/profile-white.png")}}" alt="">
+                                    <img class="rounded-full w-8 border border-green-700" src="{{$member->profile_photo_url}}" alt="">
                                 </div>
                                 <div class="">
-                                    <a href="" class="block font-bold text-md">
+                                    <a wire:navigate href="{{route('vendorMember.edit', ['id' => encrypt($member->id)])}}" class="block font-bold text-md">
                                         {{$member->name}}
                                     </a>
                                     <div class="hidden md:block font-normal text-xs my-0">
@@ -124,9 +126,7 @@
 
     </div>
 
-{{-- @foreach ($memberForAside as $item)
-    {{ $item }}
-@endforeach --}}
+
 
     <x-modal-aside wire:model.live="showMemberAside">
         <div class="p-4 border-b flex items-start">
@@ -201,8 +201,10 @@
     <x-modal wire:model.live="confirmMemberAddModal" maxWidth="md" height="auto">
         <div class="p-3 ">
             <div class="flex items-center">
-
-                <div class="text-lg">
+                <div>
+                    <img width="40px" src="{{asset('media/plus.png')}}" alt="">
+                </div>
+                <div class="text-lg font-bold ps-5">
                     Add Member to your space
                     <p class="font-normal text-sm">
                         to add an member to your space probide bellow information.
@@ -215,7 +217,7 @@
 
             <form wire:submit.prevent="addMemberToSpace">
                 <div class="p-1 mb-1">
-                    <input type="text" class="border-b focus:border-1 focus:outline rounded w-full p-2 @error('name') is-invalid @enderror"
+                    <input  type="text" class="border-b focus:border-1 focus:outline rounded w-full p-2 @error('name') is-invalid @enderror"
                         placeholder="Give a name...." id="name" wire:model="name">
                 </div>
 
@@ -237,9 +239,11 @@
                         placeholder="Protect with password" id="password" wire:model="instantPassword">
                 </div>
 
-                <div class="w-100 text-end">
-
-                    <button class="px-4 py-1 bg-green-900 text-white hover:bg-green-700 rounded font-normal mt-4" wire:loading.attr="disabled" type="submit">
+                <div class="w-100 py-3 text-end flex justify-end">
+                    <button class="px-4 py-1 text-md bg-gray-200 text-whtie hover:bg-gray-300 rounded mx-2" wire:click="$toggle('confirmMemberAddModal')">
+                        Close
+                    </button>
+                    <button class="px-4 py-1 text-md bg-green-900 text-white hover:bg-green-700 rounded font-normal" wire:loading.attr="disabled" type="submit">
                          Insert
                     </button>
                 </div>
@@ -282,5 +286,6 @@
         </x-slot>
     </x-dialog-modal>
     {{-- components new group with slected students modal  --}}
+
 </div>
  

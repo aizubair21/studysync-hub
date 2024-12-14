@@ -12,6 +12,8 @@ use Livewire\Attributes\Validate;
 
 class MemberToGroup extends Component
 {
+    public $user; #can send a user id to assign to a group
+
     /**
      * public property to store components data
      */
@@ -25,35 +27,70 @@ class MemberToGroup extends Component
 
     public function render()
     {
-        return view('livewire.vendor.member.member-to-group')->extends("layouts.vendor.app")->section('content');
+        return view('livewire.vendor.member.member-to-group', ['hasUser' => $this->user ? true : false]);
     }
     /**
      * mount method to get the initial data
      */
     public function mount()
     {
-        $this->groups = Group::where("vendor", Auth::id())->get();
         $this->members = User::where("vendor", Auth::id())->get();
+        $this->getData();
+    }
+
+    //gate data
+    public function getData()
+    {
+
+        if ($this->user) {
+            $this->members = User::where(['id' => decrypt($this->user), 'vendor' => Auth::id()])->get(['username', 'email', 'name']);
+        } else {
+
+            $this->members = User::where("vendor", Auth::id())->get();
+        }
+
+        $this->groups = Group::where("vendor", Auth::id())->get();
     }
 
     //save method to save the member to group
+    // public function save()
+    // {
+    //     $this->dispatch('member-attached');
+    // }
     public function save()
     {
-        /**
-         * validate the input fields
-         */
-        $validataData = $this->validate([
-            'memberGroup' => "required|integer",
-            'memberArray' => "required|array"
-        ]);
+        $this->dispatch('member-attached');
+
 
         /**
          * we use here try and catch metod.
          * to check if any specific task perfectly done or not.
          * if not, this gives us a error instead of breaking application. 
          */
+        // try {
 
-        try {
+        if (isset($this->user)) {
+            $data = [
+                'status' => 9,
+                'vendor' => Auth::id(),
+                'is_moderator' => 0,
+            ];
+            $alreadyExists = group_has_student::where(["user_id" => decrypt($this->user), "group_id" => $this->memberGroup])->count(); //chek is this student already attached with this group
+            if (!$alreadyExists) {
+                # code...
+                // group_has_student::create($data);
+                Group::addMember($this->memberGroup, decrypt($this->user), $data);
+            }
+            // $this->dispatch('refresh');
+        } else {
+            /**
+             * validate the input fields
+             */
+            $validataData = $this->validate([
+                'memberGroup' => "required|integer",
+                'memberArray' => "required|array"
+            ]);
+
             if ($validataData) {
                 /**
                  * foreach to all memberarray. 
@@ -67,19 +104,22 @@ class MemberToGroup extends Component
                          * if member not attached with group.
                          * then attached to group
                          */
-                        group_has_student::create(
+                        $data =
                             [
                                 "vendor" => Auth::id(),
-                                'user_id' => $member_id,
-                                "group_id" => $this->memberGroup,
-                            ]
-                        );
+                                "is_moderator" => 0,
+                            ];
+                        Group::addMember($this->memberGroup, $member_id, $data);
                     }
                 }
             }
-        } catch (\Throwable $th) {
-            //throw $th;
-            dd($th);
+            // dd($this->members);
         }
+        $this->getData();
+        $this->dispatch('refresh');
+        // } catch (\Throwable $th) {
+        //     //throw $th;
+        //     dd($th);
+        // }
     }
 }

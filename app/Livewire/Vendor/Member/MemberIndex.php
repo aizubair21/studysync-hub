@@ -16,7 +16,6 @@ use Livewire\Attributes\On;
 use PhpParser\Node\Expr\Cast\Array_;
 use Ramsey\Uuid\Type\Integer;
 
-#[Title('Members | Manage Member')]
 class MemberIndex extends Component
 {
     /**

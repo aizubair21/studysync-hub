@@ -11,7 +11,7 @@ class group_has_student extends Model
 
     protected $fillable =
     [
-        'veondor',
+        'vendor',
         'user_id',
         'group_id',
         'status', //0, 9->active, 1->Processing, 2->under considering, 3->temp_banned, 4->schedule for banned forever

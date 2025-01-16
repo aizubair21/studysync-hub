@@ -105,8 +105,8 @@
                 </select>
             </div> --}}
         </div>
-        {{-- @livewire('admin.user.usertable') --}}
+        @livewire('admin.user.user-table')
         {{-- @livewire('admin.user.usertable', ['search' => $search]) --}}
-        <livewire:admin.user.usertable />
+        {{-- <livewire:admin.user.usertable /> --}}
     </div>
 </div>

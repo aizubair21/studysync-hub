@@ -54,9 +54,10 @@ class GroupPreview extends Component
     public function  mount()
     {
 
-        $this->group = auth()->user()->vendorGroups()->find($this->gpid)->with("students")->first();
-
+        $this->group = auth()->user()->vendorGroups()->find($this->gpid);
+        
         // dd($this->group);
+
         $this->schedule = auth()->user()->vendorGroups()->find($this->gpid)->schedules;
     }
 

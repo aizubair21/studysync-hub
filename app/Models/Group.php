@@ -20,7 +20,7 @@ class Group extends Model
         'name',
         'vendor',
         'info',
-        'status',
+        'status', 
         'is_private',
         'banned_on',
         'image_url',

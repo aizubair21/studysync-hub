@@ -179,7 +179,7 @@
         <div class="flex justify-between items-center p-4">
 
             <div>
-                <div class="text-lg font-bold ">Schedule Create</div>
+                <div class="text-md font-bold ">Schedule Create</div>
                 <div class="text-sm rounded-full bg-slate-300 px-3 py-1 inline-flex">Index</div>
             </div>
             
@@ -201,15 +201,15 @@
         {{-- {{count($groups)}} --}}
         <form wire:submit="submitScheduleForm('mcq', 'standard')">
 
-            <div class="text-lg" >
+            <div class="text-sm" >
                 <div class="bg-white rounded">
                     <div class="px-4 py-3 my-2">
-                        <div class="text-lg font-bold my-2 px-2">Exam Name</div>
+                        <div class="text-md font-bold my-2 px-2">Exam Name</div>
                         @error('exm_name')
                             <strong class="block text-red-200">{{$message}}</strong>
                         @enderror
-                        <textarea placeholder="Ex: Annual Final Exam"
-                            class="w-full p-2 rounded p-1 border text-lg" id="" wire:model="exm_name"></textarea>
+                        <input type="text" placeholder="Ex: Annual Final Exam"
+                            class="w-full p-2 rounded p-1 border text-sm" id="" wire:model="exm_name">
                     </div>
                 </div>
         
@@ -222,11 +222,11 @@
             
                             <div class="my-2 px-2 flex items-center justify-between">
             
-                                <div class=" font-bold text-lg">
+                                <div class=" font-bold text-md">
                                     Your Group
                                 </div>
                                 <div>
-                                    <select wire:model.live="group" class="w-48 rounded border p-2 @error('group') font-bold text-red-900 outline-red-900 @enderror" id="">
+                                    <select wire:model.live="group" class="w-48 rounded border p-2 @error('group') font-bold text-sm text-red-900 outline-red-900 @enderror" id="">
                                         <option value=""> - Select a group -</option>
                                         @foreach ($groups as $gp)
                                             <option value="{{$gp->id}}">{{$gp->name }}</option>
@@ -246,7 +246,7 @@
             
                         <div class="">
                             <div class="w-full py-3 px-4 my-1 md:flex justify-between items-center">
-                                <div class="text-lg font-bold text-nowrap my-2 px-2">Exam Type</div>
+                                <div class="text-md font-bold text-nowrap my-2 px-2">Exam Type</div>
                                 <select wire:model="exm_type" disabled class="w-full md:w-48 p-2 border rounded" id="">
                                     <option value="" selected >Multiple Choise</option>
                                     <option value="">-- Written --</option>
@@ -254,14 +254,14 @@
                             </div>
                             <hr class="my-1">
                             <div class="w-full py-3 px-4 my-1 md:flex justify-between items-center">
-                                <div class="text-lg font-bold text-nowrap my-2 px-2">Exam Type</div>
+                                <div class="text-md font-bold text-nowrap my-2 px-2">Exam Type</div>
                                 <select wire:model="exm_type_of" disabled class="w-full md:w-48 p-2 border rounded " id="">
                                     <option value="" selected >Standard</option>
                                 </select>
                             </div>
                             <hr class="my-1">
                             <div class="w-full py-3 px-4 my-1">
-                                <div class="text-lg font-bold text-nowrap my-2 px-2">Exam Subject</div>
+                                <div class="text-md font-bold text-nowrap my-2 px-2">Exam Subject</div>
                                 <textarea wire:model="exm_subject" placeholder="Ex: English Grammer" class="w-full p-2 rounded border" rows="1"
                                     id=""></textarea>
                             </div>
@@ -273,7 +273,7 @@
                      <div class="bg-white rounded m-1">
                         <div class=" px-3 py-4 my-1 ">
                             <div class="flex justify-between items-center">
-                                <div class="px-2 my-1 text-lg font-bold">Total Question</div>
+                                <div class="px-2 my-1 text-md font-bold">Total Question</div>
                                 <input type="number" wire:model="total_question" class="w-24  border rounded p-2" id="" placeholder="100">
                             </div>
                             <div class="p-2 text-sm">
@@ -284,7 +284,7 @@
             
                         <div class=" px-3 py-4 my-1 ">
                             <div class="flex justify-between items-center">
-                                <div class="px-2 my-1 text-lg font-bold">Pass Mark</div>
+                                <div class="px-2 my-1 text-md font-bold">Pass Mark</div>
                                 <input type="text" wire:model="pass_mark" class="w-24  border rounded p-2" id="" placeholder="40">
                             </div>
                             <div class="p-2 text-sm">
@@ -295,7 +295,7 @@
             
                         <div class=" px-3 py-4 my-1 ">
                             <div class="flex justify-between items-center">
-                                <div class="px-2 my-1 text-lg font-bold">Total Mark</div>
+                                <div class="px-2 my-1 text-md font-bold">Total Mark</div>
                                 <input type="number" wire:model="total_mark" class="w-24  border rounded p-2" id="" value="1">
                             </div>
                             <div class="p-2 text-sm">
@@ -309,12 +309,12 @@
                     <div class="bg-white rounded m-1">
             
                         <div class="px-3 py-4 my-2">
-                            <div class="px-2 my-1 text-lg font-bold">Exam Marking</div>
+                            <div class="px-2 my-1 text-md font-bold">Exam Marking</div>
                             <div class="">
             
                                 <div class=" p-2 my-1 ">
                                     <div class="flex justify-between items-center">
-                                        <div class="px-2 my-1 text-lg font-bold">Correct</div>
+                                        <div class="px-2 my-1 text-md font-bold">Correct</div>
                                         <input type="number" wire:model="for_cr" class="w-24  border rounded p-2" id="" value="1">
                                     </div>
                                     <div class="p-2 text-sm">
@@ -325,7 +325,7 @@
             
                                 <div class="p-2 my-1">
                                     <div class="flex justify-between items-center">
-                                        <div class="px-2 my-1 text-lg font-bold">Wrong</div>
+                                        <div class="px-2 my-1 text-md font-bold">Wrong</div>
                                         <input type="text" wire:model="for_wr" class="w-24  border rounded p-2" id="" value="1">
                                     </div>
                                     <div class="p-2 text-sm">
@@ -336,7 +336,7 @@
             
                                 <div class="p-2 my-1">
                                     <div class="flex justify-between items-center">
-                                        <div class="px-2 my-1 text-lg font-bold">Skip</div>
+                                        <div class="px-2 my-1 text-md font-bold">Skip</div>
                                         <input type="text" wire:model="for_skp" class="w-24  border rounded p-2" id="" value="0">
                                     </div>
                                     <div class="p-2 text-sm">
@@ -353,7 +353,7 @@
                     <div class="bg-white rounded m-1">
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
-                                <div class="text-lg font-bold text-nowrap my-1 px-2">Exam Date</div>
+                                <div class="text-md font-bold text-nowrap my-1 px-2">Exam Date</div>
                                 <input type="date" wire:model="exm_date" class="w-full md:w-48 p-2 rounded border" id="">
                             </div>
                             <div class="p-2 text-sm">
@@ -364,7 +364,7 @@
             
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
-                                <div class="text-lg font-bold text-nowrap my-1 px-2">Start Time</div>
+                                <div class="text-md font-bold text-nowrap my-1 px-2">Start Time</div>
                                 <input type="time" wire:model="link_open_at" class="w-full md:w-48 p-2 rounded border" id="">
                             </div>
                             <div class="text-sm p-2">
@@ -375,7 +375,7 @@
             
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
-                                <div class="text-lg font-bold text-nowrap my-1 px-2">Duration </div>
+                                <div class="text-md font-bold text-nowrap my-1 px-2">Duration </div>
                                 <input type="text" wire:model="exm_duration" placeholder="Ex: 60 minute" class="w-full md:w-48 p-2 rounded border"
                                     id="">
                             </div>
@@ -391,7 +391,7 @@
             
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
-                                <div class="text-lg font-bold text-nowrap my-1 px-2">Result Published </div>
+                                <div class="text-md font-bold text-nowrap my-1 px-2">Result Published </div>
                                 <input type="date" wire:model="result_published_on" placeholder="Ex: 60 minute" class="w-full md:w-48 p-2 rounded border"
                                     id="">
                             </div>
@@ -405,7 +405,7 @@
             
                         <div class="px-3 py-4 my-2">
                             <div class="md:flex md:justify-between md:items-start">
-                                <div class="text-lg font-bold text-nowrap my-1 px-2">Exam Close </div>
+                                <div class="text-md font-bold text-nowrap my-1 px-2">Exam Close </div>
                                 <input type="date" wire:model="link_close_at" placeholder="Ex: 60 minute"
                                     class="w-full md:w-48 p-2 rounded border" id="">
                             </div>
@@ -420,7 +420,7 @@
                     <!-- settings  -->
                     <div class="bg-white rounded m-1">
                         <div class="px-3 py-4">
-                            <div class="p-2 my-1 text-lg font-bold">General Settings </div>
+                            <div class="p-2 my-1 text-md font-bold">General Settings </div>
                             <div class="p-2 my-1">
                                 <div class="">
                                     <div class="flex justify-between items-center">
@@ -476,7 +476,7 @@
             </div>
 
             <div class="flex justify-end items-center my-2">
-                <button type="submit" class="px-4 py-3 text-lg font-bold bg-green-900 text-white rounded"> Save </button>
+                <button type="submit" class="px-4 py-3 text-md font-bold bg-green-900 text-white rounded"> Save </button>
             </div>
         </form>
 

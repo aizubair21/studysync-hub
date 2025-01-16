@@ -1,36 +1,23 @@
 <div>
-    <div class="flex justify-center items-center w-full
-    " x-data="{ get: 0, isShowSearch: true, memberGroup: null, isTemp: false, isModerator: false, }">
+    <div class="w-full
+    " x-data="{ get: 1, isShowSearch: true, memberGroup: null, isTemp: false, isModerator: false, }">
 
-        <div style="max-width: 650px; width:100%; ">
+        <div style="" class=" md:flex w-full justify-bettween items-start">
 
              {{-- if select a gorup  --}}
-            <div class="shadow mb-2">
-                <div class="bg-white p-3">
+            <div>
+                <div class="bg-white">
                     
                     @if(!$hasUser)
-                        <div class="border-b p-2 bg-slate-200">
-                            Attached member
-                        </div>
+                  
                         <div>
-
-                            {{-- toggle single or multiple instance --}}
-                            <div class="p-2 d-flex align-items-center">
-                                <input type="radio" x-model="get" value="0" id="get_one"
-                                    style="width;25px; height:20px; margin-right:10px; ">
-                                <label class="m-0 ms-2" for="get_one">Single Instance</label>
-                                <input type="radio" x-model="get" value="1" id="get_two"
-                                    style="width;25px; height:20px; margin-left:20px; margin-right:10px ">
-                                <label class="m-0 ms-2" for="get_two">Multiple Instance</label>
-                            </div>
-                            <hr>
 
                             {{-- single instance --}}
                             <div x-show="get == 0" x-transition>
-                                <div class="row">
-                                    <div class="col-md-6">
+                                <div class="">
+                                    <div class="">
                                         <label for="memberId">Select A Member :</label>
-                                        <select wire:model="memberGroup" id="memberId" class="form-control">
+                                        <select wire:model="memberArray" id="memberId" class="form-control">
                                             @foreach ($members as $member)
                                                 <option value="{{ $member->id }}"> {{ $member->name }} </option>
                                             @endforeach
@@ -69,7 +56,7 @@
 
 
                                     </div>
-                                    <div class="col-md-6 text-center">
+                                    <div class=" text-center">
                                         <div class="rounded py-3 border border-primary">
                                             <img src="" class="rounded-circle"
                                                 style="width:70px; height:70px; margin: 5px auto;" alt="">
@@ -82,46 +69,37 @@
                             </div>
 
                             {{-- multiple instance --}}
-                            <div x-show="get == 1" x-transition>
-                                <div class="row m-0">
-                                    <div class="col-md-6">
-                                        <div class="d-flex align-items-center justify-content-between mb-1">
-                                            <label>Select Member from bellow </label>
-                                            <button class="btn btn-outline-info btn-sm "
-                                                x-on:click="isShowSearch = !isShowSearch"><i
-                                                    class="fas fa-search"></i></button>
+                            <div class="p-2">
+                                <div v-show="get == 1">
+                                    <div class="">
+                                        <div class="border-b p-3">
+                                            Select Member
                                         </div>
 
                                         {{-- search  --}}
-                                        <input x-show="isShowSearch" type="search" placeholder="search group"
+                                        <input x-show="isShowSearch" type="search" placeholder="search member"
                                             wire:model="groupSearchVal" wire:change="groupSearch" id="groupSearch"
-                                            class="form-control form-search mb-1">
+                                            class="p-2 mb-2 rounded w-full border-b focus:border-0 focus:shadow-0 focus:outline-0 focus:ring-0">
 
                                         {{-- member  --}}
                                         @foreach ($members as $member)
-                                            <div class="d-flex align-items-center rounded border mb-1 p-2">
-                                                <input type="checkbox" wire:model="memberGroup"
+                                            <div class="flex items-center rounded border mb-1 p-2">
+                                                <input type="checkbox" wire:model="memberArray"
                                                     id="member_{{ $member->id }}" value="{{ $member->id }}"
-                                                    style="width:20px; height:20px; margin-right:10px">
+                                                    style="width:20px; height:20px; margin-right:15px">
                                                 <div>
-                                                    {{ $member->name }}
-                                                </div>
-                                                <span> <i class="fas fa-caret-right mx-3"></i> </span>
-                                                <div>
-                                                    {{ $member->email }}
+                                                    <div >
+                                                        {{ $member->username ?? $member->name }}
+                                                    </div>
+                                                    
+                                                    <div class="text-sm">
+                                                        {{ $member->email }}
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach
                                     </div>
-                                    <div class="col-md-6 text-center">
-                                        <div class="rounded py-3 border border-primary">
-                                            <img src="" class="rounded-circle"
-                                                style="width:70px; height:70px; margin: 5px auto;" alt="">
 
-                                            <p>Name</p>
-                                            <p>Email </p>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -130,31 +108,52 @@
                 </div>
             </div>
             
-            {{-- select a group first --}}
-            <div class="shadow">
-                <div class="border-b p-2 bg-slate-200">
-                    Select a member group
-                </div>
+            <div class="p-2">
+                {{-- select a group first --}}
+                @if(!$hasGroup)
+                    <div class="">
+                        <div class="border-b p-3">
+                            Select Group
+                        </div>
 
-                <div class="bg-white p-3">
+                        <div class="bg-white p-3">
 
-                    <select wire:model="memberGroup" id="memberGroup" class="w-full p-2 border border-gray-300 rounded">
-                        x-model="memberGroup">
-                        <option value="">-- Select a group -- </option>
-                        @foreach ($groups as $gp)
-                        <option value="{{ $gp->id }}">{{ $gp->name }}</option>
-                        @endforeach
-                    </select>
-                    
-                </div>
+                            <select wire:model="memberGroup" id="memberGroup" class="w-full p-2 border border-gray-300 rounded">
+                                x-model="memberGroup">
+                                <option value="">-- Select a group -- </option>
+                                @foreach ($groups as $gp)
+                                <option value="{{ $gp->id }}">{{ $gp->name }}</option>
+                                @endforeach
+                            </select>
+                            
+                        </div>
+                    </div>
+                @else
+                    <div class="">
+                        <div class="p-3">
+                            Select Group
+                        </div>
+
+                        <div class="bg-white p-3">
+
+                            <select wire:model="memberGroup" id="memberGroup" class="w-full p-2 border border-gray-300 rounded">
+                                {{-- <option value="">-- Select a group -- </option> --}}
+                                @foreach ($groups as $gp)
+                                    <option @if($hasGroup == $gp->id) selected='true' @endif value="{{ $gp->id }}">{{ $gp->name }}</option>
+                                @endforeach
+                            </select>
+                            
+                        </div>
+                    </div>
+                @endif
             </div>
             
             
-            <div class="p-2 text-right">
-                <button class="px-4 py-2 rounded bg-green-900 text-white" wire:click="save()" type="button" wire:navigate.attr="disabled"
-                    wire:click="save">Save </button>
-            </div>
-
+        </div>
+        <hr>
+        <div class="p-2 text-right">
+            <button class="px-4 py-2 rounded bg-green-900 text-white" wire:click="save()" type="button" wire:navigate.attr="disabled"
+                wire:click="save">Save </button>
         </div>
     </div>
 </div>

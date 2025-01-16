@@ -23,7 +23,7 @@ return new class extends Migration
             $table->text('exm_key_note')->nullable();
             $table->timestamp('is_retake')->nullable();
             $table->boolean('isLinkOpen')->nullable()->default(false);
-            $table->dateTime('link_open_at')->nullable();
+            $table->datstrieTime('link_open_at')->nullable();
             $table->dateTime('link_close_at')->nullable();
             $table->dateTime('can_attend_until')->nullable();
             $table->boolean('isResultPublished')->nullable()->default(false);

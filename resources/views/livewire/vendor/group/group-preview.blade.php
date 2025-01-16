@@ -6,6 +6,9 @@
     @endsection
 
     <div>
+        @php
+            $groupMemberCount = count($group->students);
+        @endphp
         @if (session('success'))
             <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
         @endif
@@ -18,27 +21,33 @@
         </div> --}}
         {{-- header  --}}
         
-        <div class="bg-white mb-4">
 
-            <div class="flex justify-between items-start w-full  p-4 rounded">
+
+        <x-page-header>
+            <x-slot name="header">
                 <div class="p-1">
                     <div class="text-sm">Group</div>
-                    <strong class="rounded font-bold text-xl"> {{ $group->name }}
+                    <strong class="rounded font-bold text-lg"> {{ $group->name }}
                     </strong>
-                    <div>
-                        Create - {{ \Carbon\Carbon::parse($group->created_at)->diffForHumans() }}
+                    <div class="text-sm">
+                        Create - {{ $group->created_at->diffForHumans() }}
                     </div>
                 </div>
-    
-                <button class="px-3 py-1 mt-1 border">More</button>
-            </div>
+            </x-slot>
+            <x-slot name='link'>
 
-            <div class="mt-3 flex items-center justify-center">
-                <button class="px-5 py-1 @if($active == "home") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('home')">General</button>
-                <button class="px-5 py-1 @if($active == "schedule") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('schedule')"> Schedule ({{count($schedule)}})</button>
-                <button class="px-5 py-1 @if($active == "member") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('member')"> Member ({{ count($group->students) }})</button>
-            </div>
-        </div>
+                <button class="px-3 py-1 mt-1 border">More</button>
+            </x-slot>
+
+            <x-slot name='nav'>
+                <div class=" flex items-center justify-center text-sm">
+                    <button class="px-5 py-1 @if($active == "home") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('home')">General</button>
+                    <button class="px-5 py-1 @if($active == "schedule") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('schedule')"> Schedule ({{count($schedule)}})</button>
+                    <button class="px-5 py-1 @if($active == "member") border-b border-green-700 text-green-900 font-bold @endif" wire:click="activeNav('member')"> Member ({{$groupMemberCount}})</button>
+                </div>            
+            </x-slot>
+        </x-page-header>
+
         
         {{-- {{$active}} --}}
 
@@ -64,6 +73,7 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="p-4 bg-white border-b hover:bg-gray-100">
                     <div class="flex items-center justify-between">
                         <div>
@@ -179,40 +189,35 @@
         @if ($active == "member")
                 <div wire:show="active == member" id="member" class="my-3 rounded p-3" style="width: 100%; max-width:570px; margin:0 auto"> 
                 
-                <div class="p-4 flex items-center justify-between bg-white text-lg font-bold text-start border-b">
+                <div class="px-4 py-2 flex items-center justify-between bg-white text-md font-bold text-start border-b">
+                    <button wire:click="$toggle('confirmAddNewMember')" class="px-2 py-1 rounded text-start my-2 font-normal border text-sm flex items-center" > <img class="w-5 me-2" src="{{asset('media/plus.png')}}" alt=""> Member</button>
+                    
                     <div>
-                        60 Members
+                        <x-dropdown>
+                            <x-slot name="trigger">
+                                <button class="">
+                                    <img class="w-5" src="{{asset("media/ellipsis-h.png")}}" alt="">
+                                </button>
+                            </x-slot>
+                            <x-slot name="content">
+                                <div class="text-sm">
+                                    <button class="w-full text-start py-1 px-2">Delete</button>
+                                </div>
+                            </x-slot>
+                        </x-dropdown>
                     </div>
-                    <button class="px-2 rounded text-start my-2 font-normal text-sm" >Add</button>
                 </div>
-
-                <div class="py-3 px-5 bg-white border-b hover:bg-gray-100">
-                    <div class="flex items-center justify-start">
-                        
-                        <input type="checkbox" name="" style="width: 20px; height:20px" id="">
-                        <div class="ps-5">
-                            lorem ipsum colors door
+                @foreach ($group->students as $groupStudent)     
+                    <div class="py-3 px-5 bg-white border-b hover:bg-gray-100" id="{{$groupStudent->id}}"> 
+                        <div class="flex items-center justify-start">
+                            
+                            <input type="checkbox" class="border-1 outline-0" value="{{$groupStudent->id}}" name="" style="width: 20px; height:20px" id="">
+                            <div class="ps-5">
+                                {{$groupStudent->username ?? $groupStudent->name ?? "Undefined"}}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="py-3 px-5 bg-white border-b hover:bg-gray-100">
-                    <div class="flex items-center justify-start">
-                        
-                        <input type="checkbox" name="" style="width: 20px; height:20px" id="">
-                        <div class="ps-5">
-                            lorem ipsum colors door
-                        </div>
-                    </div>
-                </div>
-                <div class="py-3 px-5 bg-white border-b hover:bg-gray-100">
-                    <div class="flex items-center justify-start">
-                        
-                        <input type="checkbox" name="" style="width: 20px; height:20px" id="">
-                        <div class="ps-5">
-                            lorem ipsum colors door
-                        </div>
-                    </div>
-                </div>
+                @endforeach
 
             </div>
         @endif
@@ -223,83 +228,10 @@
 
 
     {{-- add member  modals start --}}
-    <x-modal wire:model.live="confirmAddNewMember">
-        <x-slot name="title">
-            {{ __('Attached member to this group') }}
-            {{-- {{ $memberGroup }} --}}
-        </x-slot>
+    <x-modal wire:model.live="confirmAddNewMember" height='auto' maxWidth="xl">
+       
+            @livewire('vendor.member.member-to-group', ['group' => $group->id])
 
-        <x-slot name="content">
-
-            <div x-data="{ name: null, selecteMemdId: [] }" x-init="() => { $wire.on('clearValue', () => { selecteMemdId = [] }) }">
-                <label for="new_group_name">Select Member form your existance space : </label>
-
-                <div class="row m-0">
-                    <div class="col-md-5 bg-info p-3 rounded mb-3">
-                        <div style="max-width:300px">
-
-                            <strong class="p-1 h4" x-html="selecteMemdId.length"> </strong> selected member
-                            will
-                            be added..
-                            <button x-show="selecteMemdId.length > 0" x-on:click="selecteMemdId = []"
-                                class="d-block btn btn-sm btn-warning my-1">Clear
-                                selection</button>
-
-                        </div>
-                    </div>
-                    <div class="col-md-7">
-                        <div class="mb-2 input-group">
-                            <input type="search" name="" id="search" class="form-control form-search"
-                                placeholder="Type and hit enter">
-                            <button type="button" class="input-group-text"> <i class="fas fa-search "></i> find
-                            </button>
-                        </div>
-
-
-                        @foreach ($member as $id => $item)
-                            <div class="d-flex justify-content-between align-items-center  my-1 py-1 px-2 rounded border border-bottom"
-                                style="max-width:360px">
-
-                                <input type="checkbox" x-model="selecteMemdId" value="{{ $item->id }}"
-                                    id="spaceMember_{{ $item->id }}"
-                                    style="width:20px; height:20px margin-right:10px">
-
-                                <div>
-                                    {{ $item->name }}
-                                </div>
-
-                                <div>
-                                    <i x-show="{{ $item->privilage }} == 1"
-                                        class="fas fa-check-circle bg-success rounded-circle"> </i>
-                                    <i x-show="{{ $item->privilage }} != 1"
-                                        class="fas fa-close bg-danger rounded-circle"> </i>
-                                </div>
-
-                            </div>
-                        @endforeach
-
-                    </div>
-                </div>
-
-                <button class="btn btn-success btn-md mx-2" @click="$wire.attachedMemberToGroup(selecteMemdId)">
-                    Submit
-                </button>
-
-            </div>
-
-
-            {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
-        </x-slot>
-
-        <x-slot name="footer">
-
-            <button class="btn btn-outline-secondary btn-md" wire:click="$toggle('confirmAddNewMember')"
-                wire:loading.attr="disabled">
-                {{ __('Cancel') }}
-            </button>
-
-
-        </x-slot>
     </x-modal>
     {{-- add member  modals end --}}
 </div>

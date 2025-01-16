@@ -16,7 +16,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
     {{-- <link rel="stylesheet" href="{{ asset('asset/css/bootstrap.min.css') }}"> --}}
-    @include('components.style')
+    {{-- @include('components.style') --}}
 
     {{-- livewire style  --}}
     @livewireStyles
@@ -31,7 +31,7 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini layout-fixed text-sm">
+<body class="hold-transition sidebar-mini layout-fixed text-sm overflow-hidden">
 
     {{-- alert messages --}}
     @if (session('success'))
@@ -50,35 +50,38 @@
     <!-- Site wrapper -->
     {{-- alert messages --}}
 
-    @include('components.spinner')
+    {{-- @include('components.spinner') --}}
     {{-- @include('layouts.vendor.partials.navigations') --}}
     {{-- top navigation menue --}}
 
     {{-- wrapper --}}
-    <div class="wrapper">
+    <div class="wrapper p-1">
 
         @auth
-            @include('layouts.member.partials.asside')
-
             {{-- main asside content  --}}
             @include('layouts.member.partials.navigations')
         @endauth
+        @if (session('success'))
+            <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
+        @endif
+        @if ($errors->any())
+            <div class="text text-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <div class="content-wrapper p-2">
+        <div class="content-wrapper p-2 h-screen overflow-hidden flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border">
+            <div class="xl:hide border h-screen overflow-y-scroll" style="max-width: 200px; width:100%" >
+                @include('layouts.member.partials.asside')
+            </div>
 
-            {{-- @if (session('success'))
-                <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
-            @endif
-            @if ($errors->any())
-                <div class="text text-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif --}}
-            @yield('content')
+            <div class="w-full h-screen overflow-y-scroll border">
+                @yield('content')
+            </div>
         </div>
     </div>
 

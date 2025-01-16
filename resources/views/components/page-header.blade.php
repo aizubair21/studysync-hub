@@ -5,13 +5,13 @@
     <div class="flex items-center justify-between px-4 py-3">
 
         {{-- left  --}}
-        <div class="font-bold text-xl">
+        <div class="text-sm">
             {{$header}}
         </div>
         {{-- left  --}}
         
         {{-- right   --}}
-        <div class="text-md font-normal">
+        <div class="text-sm font-normal">
             {{$link}}
         </div>
         {{-- right   --}}

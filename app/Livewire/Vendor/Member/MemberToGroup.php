@@ -10,9 +10,11 @@ use Livewire\Component;
 use Livewire\Attributes\Title;
 use Livewire\Attributes\Validate;
 
+
 class MemberToGroup extends Component
 {
     public $user; #can send a user id to assign to a group
+    public $group; #can send a group is to assing user
 
     /**
      * public property to store components data
@@ -27,7 +29,7 @@ class MemberToGroup extends Component
 
     public function render()
     {
-        return view('livewire.vendor.member.member-to-group', ['hasUser' => $this->user ? true : false]);
+        return view('livewire.vendor.member.member-to-group', ['hasUser' => $this->user ? true : false, 'hasGroup' => $this->group]);
     }
     /**
      * mount method to get the initial data
@@ -36,6 +38,7 @@ class MemberToGroup extends Component
     {
         $this->members = User::where("vendor", Auth::id())->get();
         $this->getData();
+        // dd($this->group);
     }
 
     //gate data
@@ -49,6 +52,10 @@ class MemberToGroup extends Component
             $this->members = User::where("vendor", Auth::id())->get();
         }
 
+        // if ($this->group) {
+        //     $this->groups = Group::where(['id' => $this->group, 'vendor' => Auth::id()])->get();
+        // }else{
+        // }
         $this->groups = Group::where("vendor", Auth::id())->get();
     }
 
@@ -59,7 +66,10 @@ class MemberToGroup extends Component
     // }
     public function save()
     {
-        $this->dispatch('member-attached');
+
+        // dd($this->memberArray);
+        // $this->dispatch('member-attached');
+        // $this->dispatch('refresh');
 
 
         /**
@@ -73,15 +83,8 @@ class MemberToGroup extends Component
             $data = [
                 'status' => 9,
                 'vendor' => Auth::id(),
-                'is_moderator' => 0,
             ];
-            $alreadyExists = group_has_student::where(["user_id" => decrypt($this->user), "group_id" => $this->memberGroup])->count(); //chek is this student already attached with this group
-            if (!$alreadyExists) {
-                # code...
-                // group_has_student::create($data);
-                Group::addMember($this->memberGroup, decrypt($this->user), $data);
-            }
-            // $this->dispatch('refresh');
+            Group::addMember($this->memberGroup, decrypt($this->user), $data);
         } else {
             /**
              * validate the input fields
@@ -90,33 +93,27 @@ class MemberToGroup extends Component
                 'memberGroup' => "required|integer",
                 'memberArray' => "required|array"
             ]);
-
             if ($validataData) {
                 /**
                  * foreach to all memberarray. 
                  * if vendor select one or multiple member instance, it makes an array
                  * so we loop through memberArray and get one by one
                  */
-                foreach ($this->memberArray as $key => $member_id) {
-                    $alreadyExists = group_has_student::where(["user_id" => $member_id, "group_id" => $this->memberGroup])->count(); //chek is this student already attached with this group
-                    if (!$alreadyExists) {
-                        /**
-                         * if member not attached with group.
-                         * then attached to group
-                         */
-                        $data =
-                            [
-                                "vendor" => Auth::id(),
-                                "is_moderator" => 0,
-                            ];
-                        Group::addMember($this->memberGroup, $member_id, $data);
-                    }
+                foreach ($this->memberArray as $key => $member_id) {                    
+                    $data =
+                        [
+                            "vendor" => Auth::id(),
+                            "status" => 9,
+                        ];
+                    Group::addMember($this->memberGroup, $member_id, $data);
+                    
                 }
             }
             // dd($this->members);
         }
         $this->getData();
         $this->dispatch('refresh');
+        
         // } catch (\Throwable $th) {
         //     //throw $th;
         //     dd($th);

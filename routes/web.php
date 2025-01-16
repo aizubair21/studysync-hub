@@ -41,9 +41,15 @@ use App\Livewire\Vendor\Questions\Index as QuestionIndex;
 use App\Livewire\Vendor\Questions\Create as QuestionCreateForm;
 use App\Livewire\Vendor\Questions\Show as QuestionShow;
 
+
+// member 
+use App\Livewire\Member\Dashboard\Dashboard as MemberDashboard;
+
+
 use App\Livewire\Vendor\Supervisor\SupervisorCreateForm;
 use App\Livewire\Vendor\Supervisor\SupervisorIndex;
 use Illuminate\Support\Facades\DB;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -73,12 +79,21 @@ Route::get("/regiser", Register::class)->name("register");
 
 
 Route::get("assign-admin-role", function () {
-    // Role::create(['name' => 'admin']);
-    // Role::create(['name' => 'vendor']);
-    // Role::create(['name' => 'member']);
-    // Permission::create(['name' => 'create_courses']);
-    // Permission::create(['name' => 'enroll_in_courses']);
-    // Permission::create(['name' => 'manage_users']);
+
+    //make db seeder here
+    DB::table('users')->insert([
+        'name' => 'admin',
+        'username' => 'administrator',
+        'email' => 'admin@gmail.com',
+        'password' => bcrypt('password'),
+    ]);
+
+    Role::create(['name' => 'admin']);
+    Role::create(['name' => 'vendor']);
+    Role::create(['name' => 'member']);
+    Permission::create(['name' => 'create_courses']);
+    Permission::create(['name' => 'enroll_in_courses']);
+    Permission::create(['name' => 'manage_users']);
     $user = User::find(1);
     // Check if user has admin role
     $user->assignRole("admin");
@@ -93,7 +108,7 @@ Route::get("/dashboard", function () {
     // if role has instructor, return to instructor dashboard
     if (Auth()->user()->hasRole("vendor")) {
         return redirect()->route("instructor-dashboard")->with(["success" => "Welcome back to Dashboard!"]);
-    } elseif (Auth()->user()->hasRole("student")) {
+    } elseif (Auth()->user()->hasRole("member")) {
         return redirect()->route("student-dashboard");
     } elseif (Auth()->user()->hasRole("parent")) {
         return redirect()->route("parent-dashboard");
@@ -103,10 +118,8 @@ Route::get("/dashboard", function () {
 })->name('dashboard')->middleware("auth");
 // dd(Auth::id());
 
-// student dashboard
-Route::get('/student/panel', function () {
-    return view("auth.student.index");
-})->name("student-dashboard")->middleware(["auth", "role:student"]);
+// $authUserName = auth()->user()->username ?? auth()->user()->name;
+
 
 //parent dashboard
 Route::get("parent/section", function () {
@@ -222,6 +235,14 @@ Route::prefix("/vendor")->middleware("auth")->group(function () {
     Route::get("pages/section/test-master", function () {
         return view("livewire.vendor.test.master");
     })->name("testMaster");
+});
+
+
+
+// member route with their role and permissions 
+Route::prefix("u/panel")->middleware(['auth', "role:member"])->group(function () {
+    // student dashboard
+    Route::get('/', MemberDashboard::class)->name("student-dashboard");
 });
 
 // Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");

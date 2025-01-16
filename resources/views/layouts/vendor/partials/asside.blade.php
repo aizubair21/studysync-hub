@@ -10,7 +10,7 @@
             <!--aside items -->
             <div class="p-3 text-md relative">
                 <a href="{{ route('dashboard') }}" wire:navigate
-                    class="my-2 block p-2 text-center text-md hover:bg-gray-700 mb-1 shadow-lg text-white rounded-lg @if(request()->routeIs("dashboard")) font-bold bg-green-900 @endif ">
+                    class="my-2 block p-2 text-center text-md hover:bg-gray-700 mb-1 shadow-lg text-white rounded-lg @if(request()->routeIs("instructor-dashboard")) font-bold bg-green-900 @endif ">
                     <img class="mx-auto" width="30" src="{{ asset('media/home-white.png') }}" alt="home" />
                     Home
                 </a>

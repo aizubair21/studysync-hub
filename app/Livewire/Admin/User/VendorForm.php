@@ -34,13 +34,14 @@ class VendorForm extends Component
      * public property to store client side data
      * further work in component
      */
-    #[Validate('required')]
+
+    // #[Validate('required')]
     public $name, $username, $email, $password, $is_role, $pack;
     public $phone;
 
     public function storeVendor()
     {
-        $this->validate();
+        // $this->validate();
         $userId = DB::table("users")->insertGetId([
             "name" => $this->name,
             'email' => $this->email,

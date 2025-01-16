@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\Attributes\Title;
 use Illuminate\Support\Facades\DB;
-
+use Livewire\Attributes\On;
 
 #[Title('Groups | Manage Groups')]
 // #[Layout('auth.teacher.app')]
@@ -27,7 +27,7 @@ class GroupIndex extends Component
     /**
      * toggoling modal
      */
-    public $isShowModal = false, $confirmingLogout, $confirmEditModal, $confirmMemberAddModal;
+    public $isShowModal = false, $confirmAddModal, $confirmEditModal, $confirmMemberAddModal;
 
 
     /**
@@ -62,9 +62,9 @@ class GroupIndex extends Component
     }
 
 
+    #[On('refresh')]
     public function getdata()
     {
-
         // $this->groups = Group::where("vendor", Auth::id())->with('students')->get();
         $this->groups = Auth::user()->vendoreGroupsWithMembersCount;
         $this->members = Auth::user()->students;
@@ -133,7 +133,7 @@ class GroupIndex extends Component
             $this->getdata();
             // $this->dispatch("notifySuccess", message: ["title" => "Group Created !"]);
             // $this->dispatch("refresh");
-            $this->confirmingLogout = !$this->confirmingLogout;;
+            $this->confirmAddModal = !$this->confirmAddModal;;
         } catch (\Throwable $th) {
             //if gorup won't created
             throw $th;

@@ -97,7 +97,7 @@
                                 <span class="inline-flex rounded-md">
                                     <button type="button"
                                         class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none focus:bg-gray-50 active:bg-gray-50 transition ease-in-out duration-150">
-                                        {{ Auth::user()->name }}
+                                        {{ Str::upper(Auth::user()->name) }}
 
                                         <svg class="ms-2 -me-0.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                             fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -118,6 +118,23 @@
                             <x-dropdown-link href="{{ route('profile.show') }}">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('settings') }}
+                            </x-dropdown-link>
+                            {{-- <x-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Institution') }}
+                            </x-dropdown-link> --}}
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Notice') }}
+                            </x-dropdown-link>
+                            <div class="border-t border-gray-200"></div>
+
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Groups') }}
+                            </x-dropdown-link>
+                            <x-dropdown-link href="{{ route('profile.show') }}">
+                                {{ __('Discover') }}
+                            </x-dropdown-link>
 
                             @if (Laravel\Jetstream\Jetstream::hasApiFeatures())
                                 <x-dropdown-link href="{{ route('api-tokens.index') }}">
@@ -126,7 +143,7 @@
                             @endif
 
                             <div class="border-t border-gray-200"></div>
-
+                            
                             <!-- Authentication -->
                             <form method="POST" action="{{ route('logout') }}" x-data>
                                 @csrf

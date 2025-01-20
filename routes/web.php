@@ -243,6 +243,7 @@ Route::prefix("/vendor")->middleware("auth")->group(function () {
 Route::prefix("u/panel")->middleware(['auth', "role:member"])->group(function () {
     // student dashboard
     Route::get('/', MemberDashboard::class)->name("student-dashboard");
+    // Route::get('/exams/live', )->name('member.exams.live');
 });
 
 // Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");

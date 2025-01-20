@@ -31,7 +31,7 @@
 </head>
 
 
-<body class="hold-transition sidebar-mini layout-fixed text-sm overflow-hidden">
+<body class="text-sm h-screen overflow-hidden">
 
     {{-- alert messages --}}
     @if (session('success'))
@@ -55,7 +55,7 @@
     {{-- top navigation menue --}}
 
     {{-- wrapper --}}
-    <div class="wrapper p-1">
+    <div class="">
 
         @auth
             {{-- main asside content  --}}
@@ -74,12 +74,10 @@
             </div>
         @endif
 
-        <div class="content-wrapper p-2 h-screen overflow-hidden flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border">
-            <div class="xl:hide border h-screen overflow-y-scroll" style="max-width: 200px; width:100%" >
-                @include('layouts.member.partials.asside')
-            </div>
+        <div class=" p-2 h-full overflow-hidden block md:flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+            @include('layouts.member.partials.asside')
 
-            <div class="w-full h-screen overflow-y-scroll border">
+            <div class="w-full h-screen overflow-y-scroll p-2">
                 @yield('content')
             </div>
         </div>

@@ -31,60 +31,103 @@
 </head>
 
 
-<body class="text-sm h-screen overflow-hidden">
+<body class="overflow-hidden">
 
-    {{-- alert messages --}}
-    @if (session('success'))
-        <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
-    @endif
-    @if ($errors->any())
-        <div class="text text-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+    <div class="flex w-full justify-start items-start h-screen mt-1">
 
-    <!-- Site wrapper -->
-    {{-- alert messages --}}
+        @include("layouts.member.partials.asside-old")
 
-    {{-- @include('components.spinner') --}}
-    {{-- @include('layouts.vendor.partials.navigations') --}}
-    {{-- top navigation menue --}}
+        <!-- content  -->
+        <div class="bg-gray-300 w-full text-md h-screen overflow-y-scroll" onmouseenter="hideSideNav()">
 
-    {{-- wrapper --}}
-    <div class="">
+            @include("layouts.member.partials.navigations")
+           
 
-        @auth
-            {{-- main asside content  --}}
-            @include('layouts.member.partials.navigations')
-        @endauth
-        @if (session('success'))
-            <div class="alert alert-success" role="alert"><strong>{{ session('success') }}</strong></div>
-        @endif
-        @if ($errors->any())
-            <div class="text text-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
-        <div class=" p-2 h-full overflow-hidden block md:flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
-            @include('layouts.member.partials.asside')
-
-            <div class="w-full h-screen overflow-y-scroll p-2">
+            <!-- main content  -->
+            <div class="text-md p-2">
+                @if (session('success'))
+                    <div class="flex justify-between items-center bg-green-900 text-white px-2 py-1 text-sm font-bold">
+                        <div>{{ session("success") }}</div>
+                        
+                        <button onclick="this.parentElement.remove()" class="p-1 w4 rounded ">
+                            x
+                        </button>
+        
+                    </div>
+                @endif
                 @yield('content')
             </div>
+
         </div>
+
     </div>
 
     {{-- livewire script --}}
     @livewireScripts
+    <script>
+        function hideSideNav() {
+            let sideNavChild = document.querySelectorAll(".asideChild");
+            sideNavChild.forEach(element => {
+                element.style.transition = "opacity linear .4s";
+                // element.style.transition = "ease-in-out";
+                element.style.opacity = 0;
+                element.style.left = -700 + "%";
+            })
+        }
+        function showSideNav(sideNav) {
+            hideSideNav();
+            // console.log("sideNav");
+            document.getElementById(sideNav).style.left = 100 + "%";
+            document.getElementById(sideNav).style.transition = "opacity linear .4s";
+            // document.getElementById(sideNav).style.transition = "ease-in-out";
+            document.getElementById(sideNav).style.opacity = 1;
+            
+        }
+
+        document.body.addEventListener("click", () => {
+            hideSideNav();
+        })
+
+
+
+        // mobile device aside control 
+        function showMobileAside() {
+            let mobileAside = document.getElementById('mobileAside');
+            if (mobileAside.classList.contains("w-1/2")) {
+                mobileAside.style.transition = 'ease-in-out';
+                mobileAside.classList.remove("w-1/2");
+                mobileAside.classList.add("w-0");
+            } else {
+                mobileAside.style.transition = 'ease-in-out';
+                mobileAside.classList.remove("w-0");
+                mobileAside.classList.add("w-1/2");
+
+            }
+        }
+
+        // mobile device aside items show/hide control 
+        // let mSidebarItem = document.querySelectorAll(".m_sidebarItem");
+        document.querySelectorAll(".m_sidebarItem").forEach((item, index) => {
+            // console.log(index);
+            
+            item.addEventListener("click", () => {
+
+                let mSiderbarContent = item.getElementsByClassName('m_sidebarContent')[0];
+                // console.log(mSiderbarContent);
+                if (mSiderbarContent.classList.contains('h-0')) {
+                    console.log('contains and removed');
+                    mSiderbarContent.classList.remove('h-0');
+                    mSiderbarContent.style.transition = "ease-in-out .3s";
+                } else {
+                    console.log('added');
+                    
+                    mSiderbarContent.classList.add('h-0');
+                    mSiderbarContent.style.transition = "ease-in-out .3s";
+
+                }
+            })
+        });
+    </script>
 
 </body>
 

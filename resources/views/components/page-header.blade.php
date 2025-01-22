@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between px-4 py-3">
 
         {{-- left  --}}
-        <div class="text-sm">
+        <div class="">
             {{$header}}
         </div>
         {{-- left  --}}

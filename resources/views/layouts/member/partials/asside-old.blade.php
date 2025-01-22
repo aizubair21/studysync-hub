@@ -17,7 +17,7 @@
         <!-- \item  -->
         <div class="my-2 block ">
             <div onmouseenter="showSideNav('navSchedule')" data-aside="navSchedule"
-                class="cursor-pointer my-2 block p-2 text-center text-md shadow-sm  hover:bg-gray-700 rounded-lg  @if(request()->routeIs("vendorExamSchedule.*")) font-bold bg-green-900 @endif">
+                class="cursor-pointer my-2 block p-2 text-center text-md shadow-sm hover:bg-gray-700 rounded-lg  @if(request()->routeIs("member.exams.*")) font-bold bg-green-900 @endif">
                 <img src="{{ asset('media/exam-white.png') }}" class="mx-auto" width="30" alt="">
                 Exams
             </div>
@@ -25,7 +25,7 @@
                 class="asideChild bg-gray-500 h-screen text-md absolute top-0 transition w-48 left-[-500%]">
                 <div class="text-lg px-4 py-2 mt-4 font-bold">Schedule </div>
                 <div class="block">
-                    <a class="px-4 block py-2 " href="{{ route('vendorExamSchedule.index') }}" wire:navigate>
+                    <a class="px-4 block py-2" href="{{ route('member.exams.index') }}" wire:navigate>
                         My Exam 
                     </a>
                     

@@ -44,6 +44,7 @@ use App\Livewire\Vendor\Questions\Show as QuestionShow;
 
 // member 
 use App\Livewire\Member\Dashboard\Dashboard as MemberDashboard;
+use App\Livewire\Member\Exams\Index as MemberExamsIndex;
 
 
 use App\Livewire\Vendor\Supervisor\SupervisorCreateForm;
@@ -244,6 +245,7 @@ Route::prefix("u/panel")->middleware(['auth', "role:member"])->group(function ()
     // student dashboard
     Route::get('/', MemberDashboard::class)->name("student-dashboard");
     // Route::get('/exams/live', )->name('member.exams.live');
+    Route::get('/exams', MemberExamsIndex::class)->name('member.exams.index');
 });
 
 // Route::post("/schedule/delete/{id}/forever", [ScheduleController::class, "destroy"])->name("schedule.destroy");

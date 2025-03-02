@@ -29,7 +29,8 @@ class ScheduleIndex extends Component
     public  $selectedId = [], $question, $options = [], $correct  = [], $q_type, $selectedExamToAddQuestion, $a_type;
 
     #[URL()]
-    public $filters_by_group;
+    public $filters_by_group, $filter_by_status, $created, $search, $result_date, $exam_date, $exam_date_start, $exam_date_end, $result_date_start, $result_date_end;
+
 
     /**
      * public property to store filter data
@@ -39,7 +40,7 @@ class ScheduleIndex extends Component
     /**
      * property to toggle the modal
      */
-    public $confirmQuickAddQuestion, $isShowSelectExamModal, $isShowQuestionViewModal, $confrmInfoModal;
+    public $confirmQuickAddQuestion, $isShowSelectExamModal, $isShowQuestionViewModal, $confrmInfoModal, $isShowFilterModal;
 
     //listend the refresh event and refresh the components states
     protected $listeners = ['refresh' => '$refresh'];
@@ -57,8 +58,9 @@ class ScheduleIndex extends Component
     /**
      * update method
      */
-    public function update()
+    public function updated()
     {
+        // dd($this->exam_date);
         $this->getExams();
     }
 
@@ -81,15 +83,123 @@ class ScheduleIndex extends Component
      */
     public function getExams()
     {
+        // dd($this->filters_by_group);
+        $exams = exams::query()->where(['vendor' => Auth::id()])->orderBy('id', 'desc');
+
         if ($this->filters_by_group > 0) {
-            $this->exams = exams::where(['vendor' => Auth::id(), 'group' => $this->filters_by_group])->orderBy('id', 'desc')->get();
-        } else {
-            $this->exams = Auth::user()->schedules->orderBy('id', 'desc');
+            $exams->where(['group' => $this->filters_by_group]);
         }
+
+        /**
+         * if filter_by_status found
+         */
+        if ($this->filter_by_status > 0) {
+            $exams->where(['status' => $this->filter_by_status]);
+        }
+
+        /**
+         * if created found
+         * filter by created
+         */
+        switch ($this->created) {
+            case 'Today':
+                $exams->whereDate('created_at', now());
+                break;
+            case 'Tomorrow':
+                $exams->whereDate('created_at', now()->addDay());
+                break;
+
+            case 'Yestarday':
+                $exams->whereDate('created_at', now()->subDay());
+                break;
+
+            case 'Week':
+                //takes the exam created in the last 7 days
+                $exams->whereDate('created_at', '<=', now()->endOfWeek());
+                break;
+
+            case 'Monty':
+                //takes the exam created in the last 30 days
+                $exams->whereDate('created_at', '>=', now()->endOfMonth());
+                break;
+
+            default:
+                $exams->whereDate('created_at', '<', now()->endOfMonth());
+                break;
+        }
+
+        /**
+         * has search
+         */
+        if ($this->search) {
+            $exams->where('exm_name', 'like', '%' . $this->search . '% ');
+        }
+
+
+        /**
+         * exam advanced filter
+         * filter by result published date
+         */
+        if ($this->result_date) {
+            switch ($this->result_date) {
+                case 'Today':
+                    $exams->whereDate('result_published_on', now());
+                    break;
+
+                case 'Tomorrow':
+                    $exams->whereDate('result_published_on', now()->addDay());
+                    break;
+
+                case 'Weak':
+                    $exams->whereBetween('result_published_on', [now(), now()->endOfWeek()]);
+                    break;
+
+                case 'Month':
+                    $exams->whereBetween('result_published_on', [now(), now()->endOfMonth()]);
+                    break;
+
+                case 'Between':
+                    $exams->whereBetween('result_published_on', [$this->result_date_start, $this->result_date_end]);
+                    break;
+                    
+            }
+        }
+
+
+        /**
+         * exam advanced filter
+         * filter by exam date
+         */
+        if ($this->exam_date) {
+            switch ($this->exam_date) {
+                case 'Today':
+                    $exams->whereDate('exm_date', now());
+                    break;
+
+                case 'Tomorrow':
+                    $exams->whereDate('exm_date', now()->addDay());
+                    break;
+
+                case 'Weak':
+                    $exams->whereBetween('exm_date', [today(), now()->endOfWeek()]);
+                    break;
+
+                case 'Month':
+                    $exams->whereBetween('exm_date', [today(), now()->endOfMonth()]);
+                    break;
+
+                case 'Between':
+                    $exams->whereBetween('exm_date', [$this->exam_date_start, $this->exam_date_end]);
+                    break;
+            }
+        }
+
+
+        $this->exams = $exams->get();
     }
 
-    // watch method that always check any update happend in property 
-    // if yes then call the showModal method
+
+
     // public function updatedConfirmQuickAddQuestion()
     public function confirmSelectedExamToQuickAddQuestion()
     {
@@ -182,7 +292,7 @@ class ScheduleIndex extends Component
         } else {
             // $this->toggle("confirmQuickAddQuestion");
             // $this->selectedExamToAddQuestion  = $selectedId[0];
-            $se = group_has_exam::where(["id" => $selectedId[0], "vendor" => Auth::id()])->first();
+            $se = exams::where(["id" => $selectedId[0], "vendor" => Auth::id()])->first();
             $this->redirectIntended(route("vendorExamSchedule.question", ["pid" => $se->id, "endpoint" => $se->attend_endpoint]), true);
             // $this->confirmQuickAddQuestion = !$this->confirmQuickAddQuestion;
         }

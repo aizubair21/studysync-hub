@@ -164,21 +164,27 @@
 
             
            
-            <select name="" id="by_subject" class="p-2 mx-1 border-r" wire:model.live="filters_by_group">
+            <select name="" id="by_subject" class="p-2 mx-1 bg-white" wire:model.live="filters_by_group">
                 <option selected value="*">All Group</option>
                 @foreach ($groups as $item)
                     <option value="{{ $item->id }}"> {{ $item->name }}</option>
                 @endforeach
             </select>
 
-            <select name="filter_by_date" id="group_by" x-model="filter_by_date" class=" p-2">
-                <option selected value="*">All Time</option>
-                <option value="">Today</option>
-                <option value="tomorrow">Tomorrow</option>
-                <option value="weekly">This Week</option>
-                <option value="weekly">Next Week</option>
-                <option value="monthly">This Month</option>
-            </select>
+            {{-- <?php
+                $today = now()->format('Y-m-d'); // Format the date as 'YYYY-MM-DD'
+                $tomorrow = now()->addDay()->format('Y-m-d');
+                $thisWeekStart = now()->startOfWeek()->format('Y-m-d');
+                $thisWeekEnd = now()->endOfWeek()->format('Y-m-d');
+                $nextWeekStart = now()->addWeek()->startOfWeek()->format('Y-m-d');
+                $nextWeekEnd = now()->addWeek()->endOfWeek()->format('Y-m-d');
+                $thisMonthStart = now()->startOfMonth()->format('Y-m-d');
+                $thisMonthEnd = now()->endOfMonth()->format('Y-m-d');
+            ?> --}}
+             <div>
+                <button wire:click="$toggle('isShowFilterModal')" @class(['p-2 text-green-900 border-l bolder', 'bg-green-900 text-white' => $exam_date != "*" || $result_date != "*"])>Filter</button>
+            </div>
+          
 
         </div>
         {{-- table data filter nav end --}}
@@ -270,17 +276,25 @@
             
             <div class="p-1 m-2 bg-white rounded flex items-center justify-between">
 
-                <select name="" id="" class="p-2 border border-gray-900 rounded" wire:model="filter_by_status">
-                    <option value="">Active</option>
-                    <option value="">Live</option>
-                    <option value="">Draft</option>
-                    <option value="">Archive</option>
+                <select wire:model.live="filter_by_status" id="" class="p-2 border border-gray-900 rounded" wire:model="filter_by_status">
+                    <option value="*">Uncondition</option>
+                    <option value="5">Active</option>
+                    <option value="9">Live</option>
+                    <option value="0">Draft</option>
+                    <option value="1">Archive</option>
                 </select>
 
 
-                <div>
+               
 
-                </div>
+                <select wire:model.live="created" id="group_by" class="p-2 rounded bg-white border">
+                    <option value="*">All Time</option>
+                    <option selected value="Today">Today</option>
+                    <option value="Yestarday">Yestarday</option>
+                    <option value="Week">This Week</option>
+                    <option value="Month">This Month</option>
+                    <option value="Custom">Custom</option>
+                </select>
             </div>
 
             <div class="p-2">
@@ -318,7 +332,7 @@
 
                                             <div class="flex items-center">
                                                 <img class="me-2" width="18" height="18" src="https://img.icons8.com/ios/18/calendar--v1.png" alt="calendar--v1"/>
-                                                <div class="">Last Exam: {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
+                                                <div class=""> {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
                                             </div>
                                         </div>
                                         
@@ -379,11 +393,140 @@
                         </div>
                     </div>
                 @endforeach
+
+                <div @class(['p-2 text-center', 'block' => count($exams)])>
+                    No More Schedule Found !
+                </div>
             
             </div>
         </div>
     </div>
 
+
+    {{-- filter modal  --}}
+    <x-modal wire:model="isShowFilterModal" maxWidth="lg">
+
+        <div class="flex justify-between items-center  p-3">
+            <h5 class="m-0 text-lg">
+                Filter Your Own
+            </h5>
+
+            <button class="rounded p-2 text-sm text-gray-700" wire:click="$toggle('isShowFilterModal')">Close</button>
+        </div>
+        <hr class="my-1">
+
+        <div class="px-3 py-2">
+            <h3>Exam Date</h3>
+            
+            <div class="px-3 py-2">
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="exam_date" value="*" id="exam_none">
+                    <label for="exam_none" class="ml-2">None -  </label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="exam_date" value="Today" id="filter_advanced_exm_date">
+                    <label for="filter_advanced_exm_date" class="ml-2">Today - {{now()->toFormattedDateString()}} </label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="exam_date" value="Tomorrow" id="filter_advanced_exm_date_2">
+                    <label for="filter_advanced_exm_date_2" class="ml-2">Tomorrow</label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="exam_date" value="Weak" id="filter_advanced_exm_date_3">
+                    <label for="filter_advanced_exm_date_3" class="ml-2">Weak</label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="exam_date" value="Month" id="filter_advanced_exm_date_4">
+                    <label for="filter_advanced_exm_date_4" class="ml-2">This Monty  </label>
+                </div>
+
+                <div class="my-3 flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="exam_date" value="Between" id="filter_advanced_exm_date_5">
+                    <label for="filter_advanced_exm_date_5" class="ml-2">Date Between</label>
+                </div>
+                <div class="flex justify-between items-center">
+                    <div class="">
+                        
+                        <input type="date" wire:model.live="exam_date_start" class="w-full p- 2 rounded border border-gray-300">    
+                        <div >
+                            {{Carbon\Carbon::parse($exam_date_start)->toFormattedDateString()}}
+                        </div>
+                    </div>
+                    <div class="">
+                        
+                        <input type="date" wire:model.live="exam_date_end" class="w-full p- 2 rounded border border-gray-300">    
+                        <div >
+                            {{Carbon\Carbon::parse($exam_date_end)->toFormattedDateString()}}
+                        </div>
+                    </div>
+
+
+                    {{-- <input type="date" wire:model="exam_date_end" class="w-full p- 2 rounded border border-gray-300"> --}}
+                </div>
+    
+            </div>
+        </div>
+        
+        
+        <hr class="my-1">
+        <div class="px-3 py-2">
+            <h3>Result</h3>
+            
+            
+            <div class="px-3 py-2">
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="result_date" value="*" id="result_none">
+                    <label for="result_none" class="ml-2">None</label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="result_date" value="Today" id="result">
+                    <label for="result" class="ml-2">Today - {{now()->toFormattedDateString()}}</label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="result_date" value="Tomorrow" id="result_2">
+                    <label for="result_2" class="ml-2">Tomorrow</label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="result_date" value="Weak" id="result_3">
+                    <label for="result_3" class="ml-2">Weak</label>
+                </div>
+                <div class="flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="result_date" value="Month" id="result_4">
+                    <label for="result_4" class="ml-2">This Monty</label>
+                </div>
+
+                <div class="my-3 flex items-center justify-start">
+                    <input type="radio" style="width: 20px; height: 20px" wire:model.live="result_date" value="Between" id="result_5">
+                    <label for="result_5" class="ml-2">Date Between</label>
+                </div>
+                <div class="flex justify-between items-center">
+                        <div>
+                            <input type="date" wire:model.live='result_date_start' class="w-full p- 2 rounded border border-gray-300">    
+                            <div >
+                                {{Carbon\Carbon::parse($result_date_start)->toFormattedDateString()}}
+                            </div>
+                        </div>
+                        <div>
+                            
+                            <input type="date" wire:model.live="result_date_end" class="w-full p- 2 rounded border border-gray-300">
+                            <div >
+                                {{Carbon\Carbon::parse($result_date_end)->toFormattedDateString()}}
+                            </div>
+                        </div>
+                </div>
+    
+            </div>
+        </div>
+
+        <hr class="my-1">
+        <div class="px-3 py-2">
+
+            {{-- <button class="py-2 px-4 bg-green-900 text-white rounded" wire:click="$toggle('isShowFilterModal')">Filter</button> --}}
+        </div>
+    </x-modal>
+    
+
+    {{-- filter modal  --}}
 
 
     {{-- quick add question modals --}}

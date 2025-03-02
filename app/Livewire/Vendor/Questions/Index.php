@@ -27,6 +27,13 @@ class Index extends Component
 
     public  $groups, $questions, $schedules;
 
+
+    /**
+     * refresh listeners
+     */
+    protected $listeners = ['refresh' => 'refresh'];
+
+
     /**
      * mount function
      */

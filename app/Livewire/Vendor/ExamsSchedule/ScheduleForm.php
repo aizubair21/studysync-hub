@@ -13,10 +13,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Livewire\Attribute\URL;
 
 #[title(" | Exam schedule create")]
 class ScheduleForm extends Component
 {
+    #[URL()]
+    public $gpid = '0';
     // #[validate("required")]
     // public $exm_type, $exm_type_of, $exm_name, $exm_subject, $group, $exm_date, $exm_start, $exm_duration, $for_cr, $for_wr, $for_skp, $pass_mark, $exm_end_at;
     // public $total_mark, $total_question, $exm_note, $is_retake, $exm_function, $exm_key_note;

@@ -14,21 +14,40 @@
 
         <x-slot name="link">
             <div class="flex items-center">
-                <a class="px-3 py-1 bg-green-900 text-white hover:bg-green-700 transition hover:transition rounded" href="{{route("vendorQuestion.create")}}">
-                     Add
-                </a>
-            </div>
+                @if($for > 0)
+                    <a class="mx-2 px-3 py-1 border hover:text-green-700 transition hover:border hover:border-green-700 hover:transition rounded" href="{{route("vendorExamSchedule.create", ['gpid' => $for])}}">
+                        Add Scehdule
+                    </a>
+                @endif
+                @if($schedule > 0)
+                    <a class="px-3 py-1 bg-green-900 text-white hover:bg-green-700 transition hover:transition rounded" href="{{route("vendorExamSchedule.question", ['pid' => $schedule])}}">
+                        Add Question
+                    </a>
+                @endif
+                </div>
         </x-slot>
 
         <x-slot name="nav">
             <div class="flex justify-center items-center w-auto pt-3 text-md md:text-md">
-                <img class="pr-5" width="24" height="24" src="https://img.icons8.com/plumpy/24/user-group-woman-woman.png" alt="user-group-woman-woman"/>
-                <select wire:model.live="for" class="px-3 py-2 rounded border-3">
-                    <option value="*">All</option>
-                    @foreach ($groups as $gp)
-                        <option title="{{$gp->name}}" value="{{encrypt($gp->id)}}">{{ Str::substr($gp->name, 0, 20)}}</option>
-                    @endforeach
-                </select>
+                {{-- <img class="pr-5" width="24" height="24" src="https://img.icons8.com/plumpy/24/user-group-woman-woman.png" alt="user-group-woman-woman"/> --}}
+                <form action="" method="get">   
+                    <select wire:model.live="for" class="px-3 mx-1 py-2 rounded border-3">
+                        <option value="*">All</option>
+                        @foreach ($groups as $gp)
+                        <option @selected($for == $gp->id) title="{{$gp->name}}" value="{{$gp->id}}">{{ Str::substr($gp->name, 0, 20)}}</option>
+                        @endforeach
+                    </select>
+
+                    @if ($schedules)
+                            
+                        <select wire:model.live="schedule" class="px-3 mx-1 py-2 rounded border-3">
+                            <option value="*">All</option>
+                            @foreach ($schedules as $gp)
+                            <option @selected($schedule == $gp->id) title="{{$gp->exm_name}}" value="{{$gp->id}}">{{ Str::substr($gp->exm_name, 0, 20)}}</option>
+                            @endforeach
+                        </select>
+                    @endif
+                </form>
             </div>
         </x-slot>
     </x-page-header>
@@ -57,18 +76,18 @@
 
         <div class="p-2" >
             @if($questions != "" && $questions == !null && count($questions) > 0 )
-            @foreach ($questions as $qs)
-                @livewire('vendor.questions.show', ['qid' => Crypt::encrypt($qs->id), "index" => $loop->iteration], key($qs->id))
-            @endforeach
+                @foreach ($questions as $qs)
+                    @livewire('vendor.questions.show', ['qid' => Crypt::encrypt($qs->id), "index" => $loop->iteration], key($qs->id))
+                @endforeach
             @else 
                 <div class="p-2 rounded w-full text-center font-bold  ">
                     <div class="text-md">
                         No Data found !
                     </div>
 
-                    <div class="text-sm font-normal">
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque, soluta?
-                    </div>
+                        <div class="text-sm font-normal">
+                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque, soluta?
+                        </div>
                 </div>
             @endif
         </div>

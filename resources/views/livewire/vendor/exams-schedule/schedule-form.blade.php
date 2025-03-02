@@ -229,7 +229,7 @@
                                     <select wire:model.live="group" class="w-48 rounded border p-2 @error('group') font-bold text-sm text-red-900 outline-red-900 @enderror" id="">
                                         <option value=""> - Select a group -</option>
                                         @foreach ($groups as $gp)
-                                            <option value="{{$gp->id}}">{{$gp->name }}</option>
+                                            <option @selected($gpid == $gp->id) value="{{$gp->id}}">{{$gp->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -237,7 +237,7 @@
             
                             <div>
                                 <div class="text-sm">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, minus?
+                                    Define your targeted group to create an exam schedule.
                                 </div>
                             </div>
             

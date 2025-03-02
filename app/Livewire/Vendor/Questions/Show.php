@@ -11,9 +11,12 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Str;
+use Livewire\WithFileUploads;
 
 class Show extends Component
 {
+
+    use WithFileUploads;
 
     //URL Property
     #[URL]
@@ -34,8 +37,7 @@ class Show extends Component
         // dd($this->questions);
     }
 
-    // after mount method
-
+    // after mount method get the question and option belongs to
     private function getQuestionAndOption()
     {
         $this->questions = exam_has_question::where(["vendor" => Auth::id(), "id" => $this->id])->with("options")->get()->toArray()[0];
@@ -130,7 +132,16 @@ class Show extends Component
      */
     public function updateQuestion()
     {
-        exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->update(['question' => $this->questions['question'], 'has_option' => $this->questions['has_option']]);
+        // dd($this->questions);
+        exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->update(
+            [
+                'question' => $this->questions['question'],
+                'has_option' => $this->questions['has_option'],
+                'answer_type' => $this->questions['answer_type'],
+                'info' => $this->questions['info'],
+                'tags' => $this->questions['tags'],
+            ]
+        );
     }
 
 
@@ -161,6 +172,7 @@ class Show extends Component
     {
         exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->delete();
         // $this->dispatchBrowserEvent('closeModal');
+        $this->dispatch('refresh');
     }
 
     /**

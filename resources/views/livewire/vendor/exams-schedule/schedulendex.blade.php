@@ -164,7 +164,7 @@
 
             
            
-            <select name="" id="by_subject" class="p-2 mx-1 border-r" v-model="filters_by_group">
+            <select name="" id="by_subject" class="p-2 mx-1 border-r" wire:model.live="filters_by_group">
                 <option selected value="*">All Group</option>
                 @foreach ($groups as $item)
                     <option value="{{ $item->id }}"> {{ $item->name }}</option>

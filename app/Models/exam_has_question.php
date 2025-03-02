@@ -11,6 +11,7 @@ class exam_has_question extends Model
 
     protected $fillable =
     [
+        'group_id',
         "exam_id",
         "vendor",
         "type", //textOnly, written, voice, attach, withImage, withVideo, imageOnly, videoOnly

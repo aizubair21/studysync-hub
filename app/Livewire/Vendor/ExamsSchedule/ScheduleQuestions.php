@@ -11,6 +11,7 @@ use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Exams\QuestionController;
 use App\Models\question_has_option;
+use Livewire\Attributes\On;
 
 class ScheduleQuestions extends Component
 {
@@ -25,7 +26,7 @@ class ScheduleQuestions extends Component
      * client side data
      */
     public $CS;
-    public $question, $options = [], $correct  = [], $q_type = 'textOnly', $a_type = 'multipleChoise', $status = 1, $file, $tags, $info, $isInfoTagShow;
+    public $question, $options = [], $correct  = [], $q_type = 'textOnly', $a_type = 'Multiple', $status = 1, $file, $tags, $info, $isInfoTagShow;
 
 
     /**
@@ -59,14 +60,16 @@ class ScheduleQuestions extends Component
         $questionData  = array(
             "question" => $this->question,
             "vendor" => Auth::id(),
+            'gruop_id' => $this->exams->group['id'],
             "exam_id" => $this->id,
             "type" => $this->q_type,
             "answer_type" => $this->a_type,
             "has_option" => count($this->options),
             "status" => $this->status,
         );
+        // dd($this->exams->);
         // $this->exams->questions()->create($questionData);
-        $questionId = exam_has_question::insertGetId($questionData);
+        // $questionId = exam_has_question::insertGetId($questionData);
 
         foreach ($this->options as $key => $value) {
             $is_correct = 0;
@@ -100,6 +103,27 @@ class ScheduleQuestions extends Component
         // }
     }
 
+    /**
+     * add black question to question list
+     */
+    public function addBlackQuestion()
+    {
+        $questionData  = array(
+            "question" => 'Untitled Question',
+            "vendor" => Auth::id(),
+            "exam_id" => $this->id,
+            "group_id" => $this->exams->group['id'],
+            "type" => $this->q_type,
+            "answer_type" => $this->a_type,
+            "has_option" => 0,
+            "status" => $this->status,
+        );
+        // dd($questionData);
+        exam_has_question::create($questionData);
+        // array_push($this->question, $questionId);
+        // $this->question;
+        $this->getQuestions();
+    }
 
 
     public function render()
@@ -111,8 +135,22 @@ class ScheduleQuestions extends Component
     {
         $this->schedule = $this->exams->toArray();
     }
+
+    #[on('refresh')]
     public function getQuestions()
     {
         $this->questions = $this->exams->questions()->with("options")->get()->toArray();
+    }
+
+
+    /**
+     * destroy question
+     */
+    public function destroy()
+    {
+        $questionId = $this->questionId;
+        $question = exam_has_question::find($questionId);
+        $question->delete();
+        // $this->getQuestions();
     }
 }

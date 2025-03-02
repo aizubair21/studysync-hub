@@ -1,6 +1,6 @@
 <div>
 
-
+    
     @if ($isHeader)
         {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
         @section('title')
@@ -59,13 +59,14 @@
             <button class="px-2 py-1 rounded border" wire:click="isEdit = ''">Close</button>
         </div>
     @else
-        <div class=" rounded mb-3 bg-white">
+        {{-- <div class=" rounded mb-3 bg-white" wire:click="$toggle('isEdit')"> --}}
+        <div class=" rounded mb-3 bg-white" x-data="{info:false, tags:false}">
             <div class="w-full flex items-start justify-between">
 
                 {{-- question counter  --}}
                 <div class="p-3 text-lg font-bold">
                     {{-- {{ $questions->id }} --}}
-                    {{ $index}}
+                    ( {{ $index}} )
                 </div>
 
                 <div class="flex items-center p-3">
@@ -74,20 +75,24 @@
                         <img width="25" height="25" src="https://img.icons8.com/external-thin-kawalan-studio/25/external-sort-arrows-thin-kawalan-studio.png" alt="external-sort-arrows-thin-kawalan-studio"/>
                     </button>
 
-                    <select name="" class="p-2 rounded border" id="">
-                        <option value="Short">Short Answer</option>
-                        <option value="Long">Long Answer</option>
-                        <option value="checkbox">Checkbox</option>
+                    <select wire:model.lazy="questions.answer_type" class="p-2 rounded border" id="">
+                        {{-- <option value="Short">Short Answer</option>
+                        <option value="Long">Long Answer</option> --}}
+                        <option selected value="Multiple">Multiple</option>
                     </select>
                 </div>
 
             </div>
+            {{-- {{$questions['answer_type']}} --}}
             {{-- question body  --}}
             <div class="w-full px-5">
                 {{-- question title  --}}
                 <div class="p-3 w-full ">
                     <div class="font-semibold flex items-center justify-between">
+                            <div @class(['hidden','block' => $questions['file']])>
+                                <img src="" alt="">
 
+                            </div>
                             <input type="text" class="w-full p-1 text-md rounded focus:outline-0 focus:border-b" wire:model.lazy="questions.question" id="questions.id">
 
                         {{-- <x-dropdown align="right" width="w-38">
@@ -129,20 +134,21 @@
 
 
                         <div class="relative mx-2">
-                            <label class="cursor-pointer" for="image">
+                            <label class="cursor-pointer" for="questionImage">
                                 <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/picture.png" alt="picture"/>
                             </label>
-                            <input type="file" name="" id="image" class="absolute top-0 left-0 w-0 h-0">
+                            <input type="file" wire:model.lazy="questions.file" id="questionImage" class="absolute top-0 left-0 w-0 h-0">
                         </div>
                     </div>
-                    <textarea wire:model.lazy="questions.info" class="p-1 text-sm mb-2 w-full border-b focus:border-b focus:border-2 focus:outline-0" wrap="soft" id="" placeholder="Add Question Info ....."></textarea>
+                    <textarea x-show="info" wire:model.lazy="questions.info" class="p-1 text-sm mb-2 w-full border-b focus:border-b focus:border-2 focus:outline-0" wrap="soft" id="" placeholder="Add Question Info ....."></textarea>
 
                 </div>
 
                 {{-- question option  --}}
                 <div>
-                    <div class="px-3 py-1">
-                        
+                    
+                    {{-- multiple choise question  --}}
+                    <div @class(["px-3 py-1", 'block' => $questions['answer_type'] == 'Multiple'])>
 
                             @foreach ($options as $key => $item)
                                 {{-- <div class="flex items-center justify-start w-1/2">
@@ -189,7 +195,13 @@
                         </div>
                     </div>
 
+                    {{-- short answer  --}}
+                    <div @class(['ps-8 hidden', 'block' => $questions['answer_type'] == 'Short'])> 
+                        <button class="p-2 border-b focus:outline-0 w-full text-gray-500 text-start cursor-text"> Long answer .... </button>
+                    </div>
+
                     {{-- quextion tags  --}}
+
                     <div class="p-2 inline-flex">
                         @if ($questions['tags'])
                             @foreach ($questions['tags'] as $item)
@@ -213,11 +225,11 @@
                 </button>
 
                 <div class="flex justify-end items-center">
-                    <button class="px-2">
+                    <button class="px-2" wire:click="destroy()">
                         <img width="20" height="20" src="https://img.icons8.com/fluency-systems-regular/20/trash--v1.png" alt="trash--v1"/>
                     </button>
                     
-                    <div class="px-2 mx-3 rounded-full border"> <i class="fas fa-eye me-1"></i> 250 </div>
+                    {{-- <div class="px-2 mx-3 rounded-full border"> <i class="fas fa-eye me-1"></i> 250 </div> --}}
 
                     <x-dropdown align="right">
                         <x-slot name="trigger">
@@ -231,8 +243,8 @@
                                 <button class="flex items-center w-full text-start px-3 py-1 mb-1 hover:bg-gray-100 rounded">
                                     Add Explanation
                                 </button>
-                                <button class="flex items-center w-full text-start px-3 py-1 mb-1 hover:bg-gray-100 rounded">
-                                    Add Info
+                                <button @click="info = !info" class="flex items-center w-full text-start px-3 py-1 mb-1 hover:bg-gray-100 rounded">
+                                     Add Info
                                 </button>
                             </div>
                         </x-slot>

@@ -82,7 +82,7 @@
 
         <div class="flex justify-center items-center w-auto pt-3 text-sm md:text-md">
             <a wire:navigate href="{{route("vendorExamSchedule.view", ["pid" => $schedule['id']])}}" class="p-2 text-md mx-1 ">Overview</a>
-            <a wire:navigate href="{{ route('vendorExamSchedule.question', ['pid' => $schedule['id']]) }}" class="p-2 border-b border-green-700 text-green-900 font-bold text-md mx-1">Questions</a>
+            <a wire:navigate href="{{ route('vendorExamSchedule.question', ['pid' => $schedule['id']]) }}" class="p-2 border-b border-green-700 text-green-900 font-bold text-md mx-1">Questions ({{count($questions) ?? "0"}}) </a>
             <a wire:navigate href="{{ route("vendorExamSchedule.response", ['pid' => $schedule["id"]]) }}" class="p-2 text-md mx-1 ">Response (15)</a>
         </div>
         
@@ -149,7 +149,8 @@
     </div> --}}
 
     <div class="p-3" style="width:100%; max-width:570px; margin: 0 auto">
-        <button wire:click="$toggle('confirmQuickAddQuestion')" class="p-2 rounded-lg shadow-lg absolute bottom-[10px] right-[50px] bg-white hover:scale-"> <img width="30" height="30" src="https://img.icons8.com/ios/30/plus-2-math.png" alt="plus-2-math"/> </button>
+        {{-- <button wire:click="$toggle('confirmQuickAddQuestion')" class="p-2 rounded-lg shadow-lg absolute bottom-[10px] right-[50px] bg-white hover:scale-"> <img width="30" height="30" src="https://img.icons8.com/ios/30/plus-2-math.png" alt="plus-2-math"/> </button> --}}
+        <button wire:click="addBlackQuestion()" class="p-2 rounded-lg shadow-lg absolute bottom-[10px] right-[50px] bg-white hover:scale-"> <img width="30" height="30" src="https://img.icons8.com/ios/30/plus-2-math.png" alt="plus-2-math"/> </button>
         <div class="mx-w-3xl" >
 
             <div class="flex justify-between items-center mb-1">
@@ -157,7 +158,7 @@
                     @if (count($questions) > 0)
                         <p class="m-0">{{ count($questions) }} Question has been found.</p>
                     @else
-                        <div class="]flex items-center">
+                        <div class="text-center w-full flex items-center">
                             <div class="w-4 h-4 bg-red-950 me-3"></div>
                             <p>No Question were found !</p>
                         </div>
@@ -250,7 +251,7 @@
                                     <span class="me-1 p-1 rounded bg-slate-300">[first]</span>
                                     <span class="me-1 p-1 rounded bg-slate-300">[first]</span>
                                     <span class="me-1 p-1 rounded bg-slate-300">[first]</span>
-                                </div>
+                                </div>confirmQuickAddQuestion
         
                             </div>
         
@@ -268,10 +269,8 @@
                     </div>
                 </div> --}}
         
-                @livewire('vendor.questions.show', ['qid' => encrypt($qs['id']), 'eid' => Crypt::encrypt($exams['id']), 'index' => $loop->iteration], key($qs['id']))
-                {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
-        
-                {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
+                @livewire('vendor.questions.show', ['qid' => encrypt($qs['id']), 'eid' => Crypt::encrypt($exams['id']), 'index' => $loop->iteration], key($qs['id']) )
+                    {{-- @livewire('component', ['user' => $user], key($user->id)) --}}
             @endforeach
             {{-- show question  --}}
             

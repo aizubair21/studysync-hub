@@ -64,18 +64,19 @@
             <div class="w-full flex items-start justify-between">
 
                 {{-- question counter  --}}
-                <div class="p-3 text-lg font-bold">
-                    {{-- {{ $questions->id }} --}}
-                    ( {{ $index}} )
+                <div class="px-3 pt-2 text-md">
+                    {{-- {{ $questions['id'] }} --}}
+                    ( {{ $index }} )
+                    {{ Carbon\Carbon::parse($questions['created_at'])->toDayDateTimeString() }}
                 </div>
 
-                <div class="flex items-center p-3">
+                <div class="flex items-center px-3 pt-2">
 
                     <button class="px-2">
-                        <img width="25" height="25" src="https://img.icons8.com/external-thin-kawalan-studio/25/external-sort-arrows-thin-kawalan-studio.png" alt="external-sort-arrows-thin-kawalan-studio"/>
+                        <img width="25" height="20" src="https://img.icons8.com/external-thin-kawalan-studio/25/external-sort-arrows-thin-kawalan-studio.png" alt="external-sort-arrows-thin-kawalan-studio"/>
                     </button>
 
-                    <select wire:model.lazy="questions.answer_type" class="p-2 rounded border" id="">
+                    <select wire:model.lazy="questions.answer_type" class="px-2 rounded border" id="">
                         {{-- <option value="Short">Short Answer</option>
                         <option value="Long">Long Answer</option> --}}
                         <option selected value="Multiple">Multiple</option>

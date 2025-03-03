@@ -332,7 +332,7 @@
 
                                             <div class="flex items-center">
                                                 <img class="me-2" width="18" height="18" src="https://img.icons8.com/ios/18/calendar--v1.png" alt="calendar--v1"/>
-                                                <div class=""> {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
+                                                <div class=""> {{\Carbon\Carbon::parse($exm->exm_date)->toFormattedDateString()}} - {{ \Carbon\Carbon::parse($exm->exm_date)->diffForHumans() }}</div>
                                             </div>
                                         </div>
                                         
@@ -341,7 +341,7 @@
 
                                     <div class="" style="align-self: flex-start">
 
-                                        <x-dropdown align="right" width="24">
+                                        <x-dropdown align="right" width="48">
                                             <x-slot name="trigger">
                                                 <button class="px-2 py-1 rounded border">
                                                     <img width="18" src="{{asset("media/ellipsis-h.png")}}" alt="">
@@ -353,18 +353,31 @@
                                                     <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Select</a>
                                                 </div>
                                                 <div class="px-1 w-full text-md">
-                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Bann</a>
+                                                    <a href="" wire:navigate class="px-3 flex items-center py-2 block rounded w-full text-md ">
+                                                        <img class="me-2 hidden md:block" width="18" height="18" src="https://img.icons8.com/?size=100&id=yzgnvoGvB5Tt&format=png&color=000000" alt="time--v1"/> 
+                                                        Bann
+                                                    </a>
                                                 </div>
                                                 <hr class="my-1">
                                                 <div class="px-1 w-full text-md">
-                                                    <a href="" wire:navigate class="px-3 py-2 block rounded w-full text-md "> Edit </a>
+                                                    <a href="" wire:navigate class="px-3 flex py-2 block rounded w-full text-md "> 
+                                                        <img class="me-2 hidden md:block" width="18" height="18" src="https://img.icons8.com/?size=100&id=8GIRvZKh33Aj&format=png&color=000000" alt="time--v1"/> 
+                                                        Edit 
+                                                    </a>
                                                 </div>
                                                 <div class="px-1 w-full text-md">
-                                                    <button class="px-3 py-2 block rounded w-full text-md text-start" wire:click="destroySingle({{$exm->id}})"> Delete </button>
+                                                    <button class="px-3 py-2 flex rounded w-full text-md text-start" wire:click="destroySingle({{$exm->id}})">
+                                                        
+                                                        <img class="me-2 hidden md:block" width="18" height="18" src="https://img.icons8.com/?size=100&id=yzgnvoGvB5Tt&format=png&color=000000" alt="time--v1"/> 
+                                                        Delete 
+                                                    </button>
                                                 </div>
                                                 <hr class="my-1">
                                                 <div class="px-1 w-full text-md">
-                                                    <button class="px-3 py-2 block rounded w-full text-md "> Schedule </button>
+                                                    <button class="px-3 py-2 flex block rounded w-full text-md "> 
+                                                        <img class="me-2 hidden md:block" width="18" height="18" src="https://img.icons8.com/ios-glyphs/18/task--v1.png" alt="time--v1"/>
+                                                        Schedule
+                                                     </button>
                                                 </div>
                                             </x-slot>
                                         </x-dropdown>
@@ -384,7 +397,7 @@
                                     </div>
                                     
                                     <div class="mx-1 border rounded-full p-1 inline-flex cursor-pointer" wire:click="$toggle('isShowQuestionViewModal')">
-                                        <div class="px-2 flex items-center"> <img class="me-2" width="18" height="18" src="https://img.icons8.com/windows/18/maybe.png" alt="maybe"/> 50 </div>
+                                        <div class="px-2 flex items-center"> {{count($exm->questions ?? [])}} Questions </div>
                                     </div>
                                 
                                 </div>

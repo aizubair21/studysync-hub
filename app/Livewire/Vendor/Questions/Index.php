@@ -9,6 +9,8 @@ use Livewire\Component;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Locked;
 use Livewire\WithPagination;
+use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\On;
 
 
 class Index extends Component
@@ -31,7 +33,7 @@ class Index extends Component
     /**
      * refresh listeners
      */
-    protected $listeners = ['refresh' => 'refresh'];
+    protected $listeners = ['refresh' => '$refresh'];
 
 
     /**
@@ -78,7 +80,45 @@ class Index extends Component
         // dd($this->questions);
     }
 
-    private function getRelatedQuestions()
+    public function computed()
+    {
+        $this->groups = auth()->user()->vendorGroups->get('id', 'name');
+    }
+
+    /**
+     * add question to a targeted schedules
+     */
+    public function addQuestion($eid)
+    {
+        $examSchedules = $this->schedules->find($eid);
+
+        DB::transaction(function () use ($examSchedules) {
+
+            $questionData  = array(
+                "question" => 'Untitled Question',
+                "vendor" => Auth::id(),
+                "exam_id" => $examSchedules->id,
+                "group_id" => $examSchedules->group['id'],
+                "type" => 'textOnly',
+                "answer_type" => 'Multiple',
+                "has_option" => 0,
+                "status" => '1',
+            );
+            exam_has_question::create($questionData);
+            // $this->questions = array_merge($this->questions, $getQuestions);
+        });
+
+        $this->getRelatedQuestions();
+        $this->dispatch('question-added'); // Add this line to emit event
+        // push the new question to the questions array
+        $this->dispatch('refresh');
+    }
+
+    /**
+     * get related question
+     * based on filter
+     */
+    public function getRelatedQuestions()
     {
         $questions = exam_has_question::query()->where(["vendor" => Auth::id()]);
         // whereIn('exam_id', $this->schedules->pluck('id'))->get();
@@ -95,41 +135,12 @@ class Index extends Component
             $this->questions = $questions;
         }
 
-        $this->questions = $questions->orderBy('id', 'desc')->get();
-
-        // if ($this->schedule > 0) {
-        //     // have a exam schedule id 
-        //     /**schedule
-        //      * have a schedule id
-        //      * then get the question related schedule
-        //      */
-        //     // $this->schedules = auth()->user()->schedules;
-        //     $this->questions = exam_has_question::where(["vendor" => Auth::id(), 'exam_id' => $this->schedule])->get();
-        // } else {
-
-        //     if ($this->for > 0) {
-        //         /**
-        //          * have an group id, but exam not defined
-        //          */
-        //         // $schedules = group_has_exam::where(['id' => $this->for, 'vendor' => Auth::id()]);
-        //         // $this->questions = $schedules->count() > 0 ? exam_has_question::where(["vendor" => Auth::id(), 'exam_id' => $this->schedule])->get() : [];
-        //     } else {
-        //         // no group id, no exam id
-        //         // $this->questions = [];
-        //         $this->questions = exam_has_question::where(["vendor" => Auth::id()])->limit(50)->get();
-        //     }
-        //     $this->questions = exam_has_question::where(["vendor" => Auth::id()])->limit(50)->get();
-        //     // dd($this->questions);
-        // }
-    }
-
-    public function computed()
-    {
-        $this->groups = auth()->user()->vendorGroups;
+        $this->questions = $questions->orderBy('id', 'desc')->get('id');
+        $this->dispatch('refresh');
     }
 
     public function render()
     {
-        return view('livewire.vendor.questions.index')->extends("layouts.vendor.app");
+        return view('livewire.vendor.questions.index', ["qs" => $this->questions])->extends("layouts.vendor.app");
     }
 }

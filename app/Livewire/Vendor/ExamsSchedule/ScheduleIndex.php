@@ -29,7 +29,9 @@ class ScheduleIndex extends Component
     public  $selectedId = [], $question, $options = [], $correct  = [], $q_type, $selectedExamToAddQuestion, $a_type;
 
     #[URL()]
-    public $filters_by_group, $filter_by_status, $created, $search, $result_date, $exam_date, $exam_date_start, $exam_date_end, $result_date_start, $result_date_end;
+    public $filters_by_group, $filter_by_status, $created, $search;
+
+    public $result_date, $exam_date, $exam_date_start, $exam_date_end, $result_date_start, $result_date_end;
 
 
     /**
@@ -161,7 +163,6 @@ class ScheduleIndex extends Component
                 case 'Between':
                     $exams->whereBetween('result_published_on', [$this->result_date_start, $this->result_date_end]);
                     break;
-                    
             }
         }
 

@@ -12,6 +12,7 @@ use Livewire\Attributes\Layout;
 use Livewire\Attributes\Url;
 use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
+use Livewire\Attributes\Reactive;
 
 class Show extends Component
 {
@@ -19,32 +20,30 @@ class Show extends Component
     use WithFileUploads;
 
     //URL Property
-    #[URL]
-    public $isHeader = false, $index = 1;
+    #[Reactive]
+    public $isHeader = false, $index;
 
     public $id, $serverData, $questions, $options = [];
 
     // class property 
     public $isSelectQuestionModal, $isSearchModal, $isEdit, $testModel;
 
+    // refresh listeners 
+    protected $listeners = ['refresh' => '$refresh', 'question-removed' => '$refresh', 'question-added' => '$refresh'];
+
     //mount 
     public function mount($qid)
     {
         $this->id = decrypt($qid);
-        // $this->questions = exam_has_question::with('options')->where(['id' => $this->id, 'vendor' => Auth::id()])->get()->toArray();
-        // $this->serverData = auth()->user()->schedules()->find(decrypt($eid));
         $this->getQuestionAndOption();
-        // dd($this->questions);
     }
 
     // after mount method get the question and option belongs to
     private function getQuestionAndOption()
     {
         $this->questions = exam_has_question::where(["vendor" => Auth::id(), "id" => $this->id])->with("options")->get()->toArray()[0];
-        // $this->options = $this->serverData['options'];
 
         if (!empty($this->questions['options'])) {
-
             foreach ($this->questions["options"] as $key => $value) {
                 $this->options[$key]['id'] = $value['id'];
                 $this->options[$key]['question'] = $value['question'];
@@ -58,7 +57,7 @@ class Show extends Component
     //render 
     public function render()
     {
-        return view('livewire.vendor.questions.show')->extends("layouts.vendor.app");
+        return view('livewire.vendor.questions.show',)->extends("layouts.vendor.app");
     }
 
     /**
@@ -69,7 +68,6 @@ class Show extends Component
      */
     public function updated($property)
     {
-        // dd($property);
         if (Str::startsWith($property, 'options')) {
             $this->updateOptions($property);
         }
@@ -78,7 +76,6 @@ class Show extends Component
             $this->updateQuestion();
         }
     }
-
 
     /**
      * Delete an option from question
@@ -100,7 +97,6 @@ class Show extends Component
         }
     }
 
-
     /**
      * option update as soon as update to client side
      * 
@@ -110,15 +106,9 @@ class Show extends Component
         if (!empty($this->options)) {
             foreach ($this->options as $key => $value) {
                 if ($updateProperty == "options.$key.option" || $updateProperty == "options.$key.is_correct") {
-                    # code...
                     if ($value['id'] != "") {
-                        //if id exists, then update
-                        // dd("updat");
-                        // dd($this->options[$key]);
                         question_has_option::find($value['id'])->update($this->options[$key]);
                     } else {
-                        //id not exists, insert as new
-                        // dd($this->options[$key]);
                         question_has_option::create($this->options[$key]);
                     }
                 }
@@ -126,13 +116,11 @@ class Show extends Component
         }
     }
 
-
     /**
      * question update
      */
     public function updateQuestion()
     {
-        // dd($this->questions);
         exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->update(
             [
                 'question' => $this->questions['question'],
@@ -143,8 +131,6 @@ class Show extends Component
             ]
         );
     }
-
-
 
     /**
      * add more field to question option
@@ -159,10 +145,7 @@ class Show extends Component
         $this->options[$opInd]['question'] = $this->id;
         $this->questions['has_option'] = count($this->options);
         $this->updateQuestion();
-        // dd($opInd);
     }
-
-
 
     /**
      * destroy method
@@ -171,7 +154,6 @@ class Show extends Component
     public function destroy()
     {
         exam_has_question::where(['vendor' => Auth::id(), 'id' => $this->id])->delete();
-        // $this->dispatchBrowserEvent('closeModal');
         $this->dispatch('refresh');
     }
 

@@ -20,9 +20,9 @@
                     </a>
                 @endif
                 @if($schedule > 0)
-                    <a class="px-3 py-1 bg-green-900 text-white hover:bg-green-700 transition hover:transition rounded" href="{{route("vendorExamSchedule.question", ['pid' => $schedule])}}">
+                    <button type="button" wire:click="addQuestion({{$schedule}})" class="px-3 py-1 bg-green-900 text-white hover:bg-green-700 transition hover:transition rounded">
                         Add Question
-                    </a>
+                    </button>
                 @endif
                 </div>
         </x-slot>
@@ -55,7 +55,7 @@
     <div style="max-width: 668px; margin:0 auto;">
 
         
-        <div class="my-1 p-2">
+        <div class="my-1 p-2 sticky z-50 top-0">
             <div class="bg-white text-sm rounded p-1 flex items-center justify-between">
                 <select name="" id="" class="p-2 border rounded "> 
                     <option value="">All</option>
@@ -76,8 +76,10 @@
 
         <div class="p-2" >
             @if($questions != "" && $questions == !null && count($questions) > 0 )
-                @foreach ($questions as $qs)
-                    @livewire('vendor.questions.show', ['qid' => Crypt::encrypt($qs->id), "index" => $loop->iteration], key($qs->id))
+                @foreach ($qs as $qsi)
+                    {{-- @livewire('vendor.questions.show', ['qid' => Crypt::encrypt($qsi->id), "index" => $loop->iteration], key($qsi->id)) --}}
+                    <livewire:vendor.questions.show :qid="Crypt::encrypt($qsi->id)" :index="$loop->iteration" :key="$qsi->id" />
+                    {{-- <div class="bg-white rounded p-2 my-2"> {{$loop->iteration}} </div> --}}
                 @endforeach
             @else 
                 <div class="p-2 rounded w-full text-center font-bold  ">
